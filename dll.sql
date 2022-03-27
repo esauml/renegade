@@ -33,12 +33,14 @@ CREATE TABLE producto_materia_prima
 CREATE TABLE usuario
 (
     id        INT PRIMARY KEY AUTO_INCREMENT,
-    nombre    VARCHAR(250) NOT NULL,
-    apellidos VARCHAR(250) NOT NULL,
-    email     VARCHAR(250) NOT NULL,
+    name    VARCHAR(250) NOT NULL,
+    lastname VARCHAR(250) NOT NULL,
+    email     VARCHAR(250) NOT NULL UNIQUE,
     password  VARCHAR(250) NOT NULL,
-    activo    BOOLEAN DEFAULT 1
+    activo    BOOLEAN DEFAULT 1,
+    username VARCHAR(250) DEFAULT 'username'
 );
+
 
 CREATE TABLE rol
 (
@@ -69,7 +71,7 @@ VALUES (1, 1, 2),
        (2, 2, 1);
 
 
-INSERT INTO usuario(nombre, apellidos, email, password, activo)
+INSERT INTO usuario(name, lastname, email, password, activo)
 VALUES ('Cliente', 'cliente', 'cliente@gmail.com', 'password', 1),
        ('Administrador', 'administrador', 'administrador@gmail.com', 'password', 1),
        ('Administrativo', 'administrativo', 'administrativo@gmail.com', 'password', 1);
@@ -89,3 +91,6 @@ FROM producto prod
          INNER JOIN producto_materia_prima pmp ON prod.id = pmp.producto_id
          INNER JOIN materia_prima mp on pmp.mataria_prima_id = mp.id
 WHERE prod.id = 1;
+
+
+SELECT * FROM usuario;
