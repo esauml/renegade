@@ -1,4 +1,4 @@
-from ..bd import obtener_conexion, obtener_conexion_administrador
+from ..bd import obtener_conexion
 
 
 class Producto():

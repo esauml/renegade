@@ -6,3 +6,5 @@ flask-marshmallow
 autopep8
 flask_wtf
 pymysql
+email_validator
+flask_security
