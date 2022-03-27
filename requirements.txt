@@ -1,7 +1,8 @@
 flask
-flask-sqlalchemy
+flask-mysqldb
 flask-login
 mysqlclient
 flask-marshmallow
 autopep8
 flask_wtf
+pymysql

@@ -1,12 +1,11 @@
 
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint
 
 administrativo = Blueprint('administrativo', __name__)
 
 @administrativo.route("/consultar-ventas", methods=['GET'])
 #@roles_required('administrativo')
 def consultar_ventas_get():
-    # consulta de ventas en BD
     return 0
 
 @administrativo.route("/consultar-rendimiento", methods=['GET'])
