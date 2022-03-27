@@ -33,12 +33,11 @@ CREATE TABLE producto_materia_prima
 CREATE TABLE usuario
 (
     id        INT PRIMARY KEY AUTO_INCREMENT,
-    name    VARCHAR(250) NOT NULL,
-    lastname VARCHAR(250) NOT NULL,
+    nombre    VARCHAR(250) NOT NULL,
+    apellidos VARCHAR(250) NOT NULL,
     email     VARCHAR(250) NOT NULL UNIQUE,
     password  VARCHAR(250) NOT NULL,
-    activo    BOOLEAN DEFAULT 1,
-    username VARCHAR(250) DEFAULT 'username'
+    activo    BOOLEAN DEFAULT 1
 );
 
 
@@ -71,7 +70,7 @@ VALUES (1, 1, 2),
        (2, 2, 1);
 
 
-INSERT INTO usuario(name, lastname, email, password, activo)
+INSERT INTO usuario(nombre, apellidos, email, password, activo)
 VALUES ('Cliente', 'cliente', 'cliente@gmail.com', 'password', 1),
        ('Administrador', 'administrador', 'administrador@gmail.com', 'password', 1),
        ('Administrativo', 'administrativo', 'administrativo@gmail.com', 'password', 1);

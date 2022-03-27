@@ -1,4 +1,4 @@
-from . import User
+from . import Usuario
 from ..bd import obtener_conexion
 from ..config import USUARIO_ADMIN
 from werkzeug.security import generate_password_hash
@@ -15,11 +15,11 @@ class ModelUser():
 
     def registro_usuario(self, tipo_usuario, nombre, apellidos, email, password):
         try:
-            query = 'INSERT INTO usuario(username, password, email, name, lastname) VALUES (%s, %s, %s, %s, %s)'
+            query = 'INSERT INTO usuario(nombre, apellidos, email, password, activo) VALUES (%s, %s, %s, %s, 1)'
 
             conexion = obtener_conexion(tipo_usuario)
             with conexion.cursor() as cursor:
-                cursor.execute(query, (email, generate_password_hash(password, method='sha256'),email, nombre, apellidos))
+                cursor.execute(query, (nombre, apellidos, email, generate_password_hash(password, method='sha256')))
 
             conexion.commit()
             cursor.close()
@@ -61,7 +61,7 @@ class ModelUser():
 
     def consultar_por_email(self, tipo_usuario, email):
         try:
-            query = "SELECT id, username, password, email, name, lastname FROM usuario WHERE email = %s"
+            query = "SELECT id, nombre, apellidos, email, password, activo FROM usuario WHERE email = %s"
             conexion = obtener_conexion(tipo_usuario)
 
             with conexion.cursor() as cursor:
@@ -70,7 +70,7 @@ class ModelUser():
                 cursor.close()
 
             if consulta != None:
-                return User(consulta[0], consulta[1], consulta[2], consulta[3], consulta[4], consulta[5])
+                return Usuario(consulta[0], consulta[1], consulta[2], consulta[3], consulta[4], consulta[5])
 
             return None
         except Exception as ex:

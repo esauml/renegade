@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash
 from flask_security.utils import login_user, logout_user
 from flask_security import login_required
 
-from .usuario import User
+from .usuario import Usuario
 from .model_user import ModelUser
 from .rol import Rol
 from ..config import USUARIO_ADMIN
