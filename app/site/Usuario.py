@@ -1,48 +1,16 @@
-from ..bd import obtener_conexion
-from werkzeug.security import generate_password_hash
-from flask_security import UserMixin
+from werkzeug.security import check_password_hash
+from flask_login import UserMixin
 
+class User(UserMixin):
 
-class Usuario(UserMixin):
+    def __init__(self, id, username, password, email, name, lastname) -> None:
+        self.id = id
+        self.username = username
+        self.password = password
+        self.email = email
+        self.name = name
+        self.lastname = lastname
 
-    # TODO Problema con autenticación flask.
-    # def __init__(self, is_authenticated, is_active, is_anonymous):
-    #    self.is_authenticated = is_authenticated
-    #    self.is_active = is_active
-    #    self.is_anonymous = is_anonymous
-
-    def registro_usuario(self, tipo_usuario, nombre, apellidos, email, password):
-        query = 'INSERT INTO usuario(nombre, apellidos, email, password, activo) \
-        VALUES (%s, %s, %s, %s, 1)'
-
-        conexion = obtener_conexion(tipo_usuario)
-        with conexion.cursor() as cursor:
-            cursor.execute(query, (nombre, apellidos, email,
-                           generate_password_hash(password, method='sha256')))
-
-        conexion.commit()
-        cursor.close()
-
-    def consultar_cliente_por_email(self, tipo_usuario, email):
-        query = 'SELECT id FROM usuario WHERE email = %s'
-        conexion = obtener_conexion(tipo_usuario)
-        usuario = None
-
-        with conexion.cursor() as cursor:
-            cursor.execute(query, (id,))
-            usuario = cursor.fetchone()
-
-        cursor.close()
-        return usuario
-
-    def consultar_por_email(self, tipo_usuario, email):
-        query = "SELECT * FROM usuario WHERE email = %s"
-        conexion = obtener_conexion(tipo_usuario)
-        usuario = None
-
-        with conexion.cursor() as cursor:
-            cursor.execute(query, (email,))
-            usuario = cursor.fetchone()
-
-        cursor.close()
-        return usuario
+    @classmethod
+    def check_password(self, hashed_password, password):
+        return check_password_hash(hashed_password, password)
