@@ -30,11 +30,13 @@ def login_post():
         flash('El usuario y/o la contraseña son incorrectos')
         return redirect(url_for('auth.login_get'))
 
-
-    session['loggedin'] = True
-    session['id'] = usuario.id
-    session['email'] = usuario.email
-    # TODO Hacer un if para verificar el tipo de usuario y redirigirlo a su pagina respectiva o separar los login. 
+    print(usuario.apellidos)
+    usuario.username = 'username'
+    login_user(usuario)
+    # session['loggedin'] = True
+    # session['id'] = usuario.id
+    # session['email'] = usuario.email
+    # TODO Hacer un if para verificar el tipo de usuario y redirigirlo a su pagina respectiva o separar los login.
     return render_template('/index.html')
 
 
@@ -57,7 +59,7 @@ def signup_post():
     if usuario_email:
         flash('Ese correo electrónico ya existe')
         return redirect(url_for('auth.signup_get'))
-    
+
     model.registro_usuario(USUARIO_ADMIN, nombre, apellidos, email, password)
     usuario = model.consultar_por_email(USUARIO_ADMIN, email)
 

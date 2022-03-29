@@ -15,7 +15,7 @@ class ModelUser():
 
     def registro_usuario(self, tipo_usuario, nombre, apellidos, email, password):
         try:
-            query = 'INSERT INTO usuario(nombre, apellidos, email, password, activo) VALUES (%s, %s, %s, %s, 1)'
+            query = 'INSERT INTO Usuario(nombre, apellidos, email, password, activo) VALUES (%s, %s, %s, %s, 1)'
 
             conexion = obtener_conexion(tipo_usuario)
             with conexion.cursor() as cursor:
@@ -28,7 +28,7 @@ class ModelUser():
 
     def consultar_cliente_por_email(self, tipo_usuario, email):
         try:
-            query = 'SELECT id FROM usuario WHERE email = %s'
+            query = 'SELECT id FROM Usuario WHERE email = %s'
             conexion = obtener_conexion(tipo_usuario)
             usuario = None
 
@@ -43,7 +43,7 @@ class ModelUser():
 
     def consultar_cliente_por_id(tipo_usuario, id):
         try:
-            query = 'SELECT * FROM usuario WHERE id = %s'
+            query = 'SELECT * FROM Usuario WHERE id = %s'
             conexion = obtener_conexion(tipo_usuario)
             usuario = None
 
@@ -61,11 +61,11 @@ class ModelUser():
 
     def consultar_por_email(self, tipo_usuario, email):
         try:
-            query = "SELECT id, nombre, apellidos, email, password, activo FROM usuario WHERE email = %s"
+            query = "SELECT id, nombre, apellidos, email, password, activo FROM Usuario WHERE email = %s"
             conexion = obtener_conexion(tipo_usuario)
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (email,))
+                cursor.execute(query, (email))
                 consulta = cursor.fetchone()
                 cursor.close()
 
