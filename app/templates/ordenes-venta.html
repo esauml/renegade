@@ -59,16 +59,16 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
-            <div class="sidebar-heading">Módulos</div>
+            <div class="sidebar-heading">Recurrente</div>
             <!-- Productos -->
             <li class="nav-item">
-                <a class="nav-link" href="/productos">
+                <a class="nav-link" href="productos.html">
                     <i class="fa-solid fa-shirt"></i>
                     <span>Productos</span></a>
             </li>
             <!-- Materia Prima -->
             <li class="nav-item">
-                <a class="nav-link" href="stoack-materia-prima.html">
+                <a class="nav-link" href="materia-prima.html">
                     <i class="fa-solid fa-box"></i>
                     <span>Insumos</span></a>
             </li>
@@ -208,25 +208,20 @@
                                             Hi there! I am wondering if you can help me with a
                                             problem I've been having.
                                         </div>
-                                        <div class="small text-gray-500">
-                                            Emily Fowler · 58m
-                                        </div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="../static/img/undraw_profile_2.svg" alt="...">
-                                        <div class="status-indicator">
-                                        </div>
+                                        <div class="status-indicator"></div>
                                     </div>
                                     <div>
                                         <div class="text-truncate">
                                             I have the photos that you ordered last month, how
                                             would you like them sent to you?
                                         </div>
-                                        <div class="small text-gray-500">
-                                            Jae Chun · 1d
-                                        </div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -302,74 +297,148 @@
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    {% block content %}{% endblock content %}
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">
+                        Ordenes de Vento (SO)
+                    </h1>
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                Listado SO
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Comprador
+                                            </th>
+                                            <th>
+                                                Unidades
+                                            </th>
+                                            <th>
+                                                Monto
+                                            </th>
+                                            <th>
+                                                fecha
+                                            </th>
+                                            <th>
+                                                Ver detalle
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>
+                                                Comprador
+                                            </th>
+                                            <th>
+                                                Unidades
+                                            </th>
+                                            <th>
+                                                Monto
+                                            </th>
+                                            <th>
+                                                fecha
+                                            </th>
+                                            <th>
+                                                Ver detalle
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Esau Martinez
+                                            </td>
+                                            <td>
+                                                10
+                                            </td>
+                                            <td>
+                                                3250
+                                            </td>
+                                            <td>
+                                                01/01/2022
+                                            </td>
+                                            <td>
+                                                <a href="detalle-orden-venta.html" data-id-orden-venta="1">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                    Detalle
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Main Content -->
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Your Website 2021</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+            </div>
+            <!-- End of Content Wrapper -->
+        </div>
+        <!-- End of Page Wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Ready to Leave?
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Select "Logout" below if you are ready to end your current session.
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <a class="btn btn-primary" href="login.html">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- /.container-fluid -->
-    </div>
-    <!-- End of Main Content -->
-    <!-- Footer -->
-    <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-                <span>Copyright &copy; Your Website 2021</span>
-            </div>
-        </div>
-    </footer>
-    <!-- End of Footer -->
-    </div>
-    <!-- End of Content Wrapper -->
-    </div>
-    <!-- End of Page Wrapper -->
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                        Ready to Leave?
-                    </h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Select "Logout" below if you are ready to end your current session.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
-                        Cancel
-                    </button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Bootstrap core JavaScript-->
-    <script src="../static/vendor/jquery/jquery.min.js"></script>
-    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="../static/js/sb-admin-2.min.js"></script>
-    <!-- Page level plugins -->
-    <script src="../static/vendor/chart.js/Chart.min.js"></script>
-    <!-- Page level custom scripts -->
-    <script src="../static/js/demo/chart-area-demo.js"></script>
-    <script src="../static/js/demo/chart-pie-demo.js"></script>
-    <!-- DATA TABLES -->
-    <script src="../static/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    
-    {% block ScriptJS %}{% endblock ScriptJS %}
-    
+        <!-- Bootstrap core JavaScript-->
+        <script src="../static/vendor/jquery/jquery.min.js"></script>
+        <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="../static/js/sb-admin-2.min.js"></script>
+        <!-- Page level plugins -->
+        <script src="../static/vendor/chart.js/Chart.min.js"></script>
+        <!-- Page level custom scripts -->
+        <script src="../static/js/demo/chart-area-demo.js"></script>
+        <script src="../static/js/demo/chart-pie-demo.js"></script>
+        <!-- DATA TABLES -->
+        <script src="../static/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#dataTable').DataTable();
+            });
+        </script>
 </body>
 
 </html>

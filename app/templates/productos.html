@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+<!-- Init when having tables -->
+{% block ScriptJS %}
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+{% endblock ScriptJS %}
+
+<!-- Content -->
+{% block content %}
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">
+    Productos
+</h1>
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            Listado Productos
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Descripción
+                        </th>
+                        <th>
+                            Precio
+                        </th>
+                        <th>
+                            Activo
+                        </th>
+                        <th>
+                            Acciones
+                        </th>   
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Descripción
+                        </th>
+                        <th>
+                            Precio
+                        </th>
+                        <th>
+                            Activo
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% if productos %}
+                        {% for producto in productos %}
+                            <tr data-producto-id="{{ producto[0] }}">
+                                <td>{{ producto[1] }}</td>
+                                <td>{{ producto[2] }}</td>
+                                <td>{{ producto[3] }}</td>
+                                <td>{{ producto[4] }}</td>
+                                <td>
+                                    <a href="/detalle-producto/{{ producto[0] }}">
+                                        <i class="fa-solid fa-eye"></i>
+                                        Detalle
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

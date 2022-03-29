@@ -16,8 +16,6 @@
         rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="../static/css/sb-admin-2.min.css" rel="stylesheet">
-    <!-- DATA TABLES -->
-    <link href="../static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -59,16 +57,16 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
-            <div class="sidebar-heading">Módulos</div>
+            <div class="sidebar-heading">Recurrente</div>
             <!-- Productos -->
             <li class="nav-item">
-                <a class="nav-link" href="/productos">
+                <a class="nav-link" href="productos.html">
                     <i class="fa-solid fa-shirt"></i>
                     <span>Productos</span></a>
             </li>
             <!-- Materia Prima -->
             <li class="nav-item">
-                <a class="nav-link" href="stoack-materia-prima.html">
+                <a class="nav-link" href="materia-prima.html">
                     <i class="fa-solid fa-box"></i>
                     <span>Insumos</span></a>
             </li>
@@ -208,25 +206,20 @@
                                             Hi there! I am wondering if you can help me with a
                                             problem I've been having.
                                         </div>
-                                        <div class="small text-gray-500">
-                                            Emily Fowler · 58m
-                                        </div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="../static/img/undraw_profile_2.svg" alt="...">
-                                        <div class="status-indicator">
-                                        </div>
+                                        <div class="status-indicator"></div>
                                     </div>
                                     <div>
                                         <div class="text-truncate">
                                             I have the photos that you ordered last month, how
                                             would you like them sent to you?
                                         </div>
-                                        <div class="small text-gray-500">
-                                            Jae Chun · 1d
-                                        </div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -300,27 +293,99 @@
                     </ul>
                 </nav>
                 <!-- End of Topbar -->
-                <!-- Begin Page Content -->
+                <!-- Begin Content -->
                 <div class="container-fluid">
-                    {% block content %}{% endblock content %}
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">
+                        Detalle Orden de Venta
+                    </h1>
+                    <!-- Form Card -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                Orden N. {idVenta: 1}
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group form-row">
+                                    <label 
+                                        class="col-1 col-form-label"
+                                        for="inputCliente">Cliente</label>
+                                    <div class="col-4">
+                                        <input type="text"
+                                            placeholder="Esau Martinez"
+                                            class="form-control"
+                                            name="inputCliente"
+                                            id="inputCliente"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group form-row">
+                                    <label 
+                                        class="col-1 col-form-label"
+                                        for="inputFecha">Fecha</label>
+                                    <div class="col-4">
+                                        <input type="text"
+                                            placeholder="22/03/2022"
+                                            class="form-control"
+                                            name="inputFecha"
+                                            id="inputFecha"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-row">
+                                    <label 
+                                        class="col-1 col-form-label"
+                                        for="inputTotal">Total a Pagar</label>
+                                    <div class="col-4">
+                                        <input type="text"
+                                            placeholder="1050"
+                                            class="form-control"
+                                            name="inputTotal"
+                                            id="inputTotal"/>
+                                    </div>
+                                </div>
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Produto</th>
+                                            <th>Cantidad</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Playera Negra</td>
+                                            <td>2</td>
+                                            <td>$ 450</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pants Azul</td>
+                                            <td>1</td>
+                                            <td>$ 600</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+                <!-- End Content -->
             </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
         </div>
-    </div>
-    <!-- /.container-fluid -->
-    </div>
-    <!-- End of Main Content -->
-    <!-- Footer -->
-    <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-                <span>Copyright &copy; Your Website 2021</span>
-            </div>
-        </div>
-    </footer>
-    <!-- End of Footer -->
-    </div>
-    <!-- End of Content Wrapper -->
+        <!-- End of Content Wrapper -->
     </div>
     <!-- End of Page Wrapper -->
     <!-- Scroll to Top Button-->
@@ -364,12 +429,6 @@
     <!-- Page level custom scripts -->
     <script src="../static/js/demo/chart-area-demo.js"></script>
     <script src="../static/js/demo/chart-pie-demo.js"></script>
-    <!-- DATA TABLES -->
-    <script src="../static/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    
-    {% block ScriptJS %}{% endblock ScriptJS %}
-    
 </body>
 
 </html>
