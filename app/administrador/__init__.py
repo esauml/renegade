@@ -1,26 +1,42 @@
 
 from flask import Blueprint, render_template, request, redirect, url_for
-from ..productos import producto
+from ..productos.ProductosQueries import Producto as Query
 from ..config import USUARIO_ADMIN
 
 
 administrador = Blueprint('administrador', __name__)
 
-@administrador.route("/consultar-productos", methods=['GET'])
+# HTML Render Entry-Points
+@administrador.route("/productos", methods=['GET'])
 #@roles_required('administrador')
 def consultar_productos_get():
-    producto_obj = producto.Producto()
-    productos = producto_obj.consultar_productos(USUARIO_ADMIN)
-    return render_template('catalogo-productos.html', productos = productos)
+    queries = Query()
+    try:
+        productos = queries.consultar_productos(USUARIO_ADMIN)
+        return render_template('productos.html', productos = productos)
+    except Exception as e:
+        # TODO What to do when couldn't handle DB operation
+        print("Exception: ")
+        raise e
+        return render_template('layout.html')
 
-@administrador.route("/consultar-producto", methods=['GET'])
+
+@administrador.route("/detalle-producto/<id>", methods=['GET'])
 #@roles_required('administrador')
-def consultar_producto_get():
-    producto_id = request.args.get('id')
-    producto_obj = producto.Producto()
-    producto_por_id = producto_obj.consultar_producto_por_id(USUARIO_ADMIN, producto_id)
-    print(producto_por_id)
-    return render_template('consulta-producto.html', producto = producto_por_id)
+def consultar_producto_get(id):
+    # inputs
+    producto_id = id
+    # init query handler
+    queries = Query()
+    # consulta
+    try:
+        producto_por_id = queries.consultar_producto_por_id(USUARIO_ADMIN, producto_id)
+        print(producto_por_id)
+        return render_template('detalle-producto.html', producto = producto_por_id)
+    except Exception as e:
+        raise e    
+    
+
 
 @administrador.route("/editar-producto", methods=['POST'])
 #@roles_required('administrador')
@@ -31,14 +47,15 @@ def editar_producto_post():
     precio = request.form.get('precio')
     id = request.form.get('id')
 
-    producto_obj = producto.Producto()
-    producto_obj.actualizar_producto(USUARIO_ADMIN, nombre, descripcion, precio, id)
+    queries = Query()
+    queries.actualizar_producto(USUARIO_ADMIN, nombre, descripcion, precio, id)
     return redirect(url_for('administrador.consultar_productos_get'))
+
 
 @administrador.route("/eliminar-producto", methods=['POST'])
 #@roles_required('administrador')
 def eliminar_producto_post():
     id = request.form.get('id')
-    producto_obj = producto.Producto()
-    producto_obj.eliminar_producto(USUARIO_ADMIN, id)
+    queries = Query()
+    queries.eliminar_producto(USUARIO_ADMIN, id)
     return redirect(url_for('administrador.consultar_productos_get'))
