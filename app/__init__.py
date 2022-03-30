@@ -5,6 +5,7 @@ from .administrativo import administrativo
 from .administrador import administrador
 from .site import error_handler
 
+
 def create_app():
     app = Flask(__name__)
 

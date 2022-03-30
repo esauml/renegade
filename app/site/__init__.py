@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, session
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session, g
 from werkzeug.security import check_password_hash
 from flask_security.utils import login_user, logout_user
 from flask_security import login_required
@@ -16,6 +16,7 @@ auth = Blueprint('auth', __name__)
 def login_get():
     return render_template('login.html')
 
+
 @auth.route('/login', methods=['POST'])
 def login_post():
     email = request.form.get('email')
@@ -31,14 +32,19 @@ def login_post():
     print(usuario.id)
     rol_obj = rol.Rol()
     roles = rol_obj.obtener_roles_por_usuario_id(usuario.id)
-    print(roles)
 
-    session['loggedin'] = True
     session['id'] = usuario.id
     session['email'] = usuario.email
     session['rol'] = roles[0]
-    #TODO Hacer un if para verificar el tipo de usuario y redirigirlo a su pagina respectiva o separar los login.
-    return render_template('/index.html')
+
+    if(roles[0] == 'administrador'):
+        return render_template('/administrador/index.html')
+
+    if(roles[0] == 'administrativo'):
+        return render_template('/index.html')
+
+    if(roles[0] == 'cliente'):
+        return render_template('/index.html')
 
 
 @auth.route('/signup', methods=['GET'])
