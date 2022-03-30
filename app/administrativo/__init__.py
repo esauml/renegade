@@ -1,6 +1,6 @@
 
 from flask import Blueprint, g, session, flash, render_template
-from ..cliente.clienteQueries import ClienteQueries
+from ..cliente.clienteQueries import Cliente
 from ..site import UsuarioQueries, Rol
 
 administrativo = Blueprint('administrativo', __name__)
