@@ -5,7 +5,7 @@ class MateriaPrima():
 
     def consultar_materias_primas(self, tipo_usuario):
         try:
-            query = 'SELECT id, nombre, descripcion, costo, stock FROM materiaprima;'
+            query = 'SELECT * FROM vista_stock_materia;'
             conexion = obtener_conexion(tipo_usuario)
             materiasprimas = []
 
@@ -18,3 +18,17 @@ class MateriaPrima():
         except Exception as ex:
             raise Exception(ex)
 
+    def consultar_materia_prima_id(self, tipo_usuario):
+        try:
+            query = 'SELECT * FROM vista_stock_materia WHERE id=%s;'
+            conexion = obtener_conexion(tipo_usuario)
+            materia = None
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (id,))
+                materia = cursor.fetchone()
+
+            cursor.close()
+            return materia
+        except Exception as ex:
+            raise Exception(ex)
