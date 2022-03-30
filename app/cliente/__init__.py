@@ -1,5 +1,5 @@
 
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, g
 
 cliente = Blueprint('cliente', __name__)
 
@@ -16,3 +16,7 @@ def agregar_producto_carrito_post():
     # id producto
     #cantidad
     return 0
+
+@cliente.route("/profile", methods=['GET'])
+def profile_get():
+    return ""

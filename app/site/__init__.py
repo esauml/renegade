@@ -1,15 +1,25 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session, g
 from werkzeug.security import check_password_hash
-from flask_security.utils import login_user, logout_user
 from flask_security import login_required
 
 from .model_user import ModelUser
 from .rol import Rol
 from ..config import USUARIO_ADMIN
-from flask import current_app as app
 
 
 auth = Blueprint('auth', __name__)
+
+
+@auth.before_request
+def before_request():
+    if 'id' in session:
+        model = ModelUser()
+        rol_obj = rol.Rol()
+        id = session['id']
+        usuario = model.consultar_cliente_por_id(id)
+        roles = rol_obj.obtener_roles_por_usuario_id(id)
+        g.user = usuario
+        g.rol = roles[0]
 
 
 @auth.route('/login', methods=['GET'])
@@ -29,22 +39,22 @@ def login_post():
         flash('El usuario y/o la contraseña son incorrectos')
         return redirect(url_for('auth.login_get'))
 
-    print(usuario.id)
     rol_obj = rol.Rol()
     roles = rol_obj.obtener_roles_por_usuario_id(usuario.id)
-
-    session['id'] = usuario.id
-    session['email'] = usuario.email
-    session['rol'] = roles[0]
-
+    session['id'] = usuario.id  
+    print(usuario)
+    mensaje = 'Bienvenido ' + usuario.nombre
     if(roles[0] == 'administrador'):
-        return render_template('/administrador/index.html')
+        flash(mensaje)
+        return render_template('/adm/index.html')
 
     if(roles[0] == 'administrativo'):
-        return render_template('/index.html')
+        flash(mensaje)
+        return render_template('/adm/index.html')
 
     if(roles[0] == 'cliente'):
-        return render_template('/index.html')
+        flash(mensaje)
+        return render_template('/landing_page.html')
 
 
 @auth.route('/signup', methods=['GET'])
@@ -79,7 +89,7 @@ def signup_post():
 @auth.route('/logout')
 @login_required
 def logout():
-    session.pop('loggedin', None)
     session.pop('id', None)
-    session.pop('email', None)
+    g.user = None
+    g.rol = None
     return redirect(url_for('index'))
