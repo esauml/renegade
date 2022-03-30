@@ -55,7 +55,8 @@ CREATE TABLE IF NOT EXISTS Producto
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     nombre      VARCHAR(50) NOT NULL,
-    descripcion TEXT        NOT NULL
+    descripcion TEXT        NOT NULL,
+    activo      TINYINT
 );
 
 CREATE TABLE IF NOT EXISTS Estructura
