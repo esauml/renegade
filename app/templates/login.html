@@ -9,7 +9,16 @@
 </head>
 
 <body>
-
+    {%with messages = get_flashed_messages()%}
+    {% if messages %}
+    {%for message in messages%}
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+    {%endfor%}
+    {%endif%}
+    {%endwith%}
+    
     <form action="/login" method="POST">
         <input type="text" name="email" id="email">
         <input type="text" name="password" id="password">

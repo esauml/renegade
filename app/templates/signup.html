@@ -10,6 +10,16 @@
 
 <body>
 
+    {%with messages = get_flashed_messages()%}
+    {% if messages %}
+    {%for message in messages%}
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+    {%endfor%}
+    {%endif%}
+    {%endwith%}
+    
     <form action="/signup" method="POST">
         <input type="text" name="nombre" id="nombre" placeholder="nombre">
         <input type="text" name="apellidos" id="apellidos" placeholder="apellidos">
