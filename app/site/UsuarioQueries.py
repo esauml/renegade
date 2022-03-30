@@ -3,7 +3,7 @@ from ..config import USUARIO_ADMIN
 from werkzeug.security import generate_password_hash
 
 
-class ModelUser():
+class UsuarioQueries():
 
     def registro_usuario(self, tipo_usuario, nombre, apellidos, email, password):
         try:
@@ -21,9 +21,8 @@ class ModelUser():
 
     def consultar_cliente_por_id(self, id):
         try:
-            query = 'SELECT * FROM Usuario WHERE id = %s'
+            query = 'SELECT id, nombres, apellidos, correo, password, active FROM Usuario WHERE id = %s'
             conexion = obtener_conexion(USUARIO_ADMIN)
-            usuario = None
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (id))

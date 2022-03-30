@@ -1,1 +1,10 @@
 hola {{g.user.nombre}} tienes un Rol como {{g.rol}}
+
+<a href="{{ url_for('cliente.profile_get') }}" class="navbar-item">
+    Mi perfil
+</a>
+
+
+<a href="{{ url_for('auth.logout') }}" class="navbar-item">
+    Cerrar sesion
+</a>

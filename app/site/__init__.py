@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from werkzeug.security import check_password_hash
 from flask_security import login_required
 
-from .model_user import ModelUser
+from .UsuarioQueries import UsuarioQueries
 from .rol import Rol
 from ..config import USUARIO_ADMIN
 
@@ -13,7 +13,8 @@ auth = Blueprint('auth', __name__)
 @auth.before_request
 def before_request():
     if 'id' in session:
-        model = ModelUser()
+        print('aqui')
+        model = UsuarioQueries()
         rol_obj = rol.Rol()
         id = session['id']
         usuario = model.consultar_cliente_por_id(id)
@@ -32,7 +33,7 @@ def login_post():
     email = request.form.get('email')
     passsword = request.form.get('password')
 
-    model = ModelUser()
+    model = UsuarioQueries()
     usuario = model.consultar_por_email(email)
 
     if not usuario or not check_password_hash(usuario.password, passsword):
@@ -41,16 +42,18 @@ def login_post():
 
     rol_obj = rol.Rol()
     roles = rol_obj.obtener_roles_por_usuario_id(usuario.id)
-    session['id'] = usuario.id  
-    print(usuario)
+    session['id'] = usuario.id
+    g.user = usuario
+    g.rol = roles[0]
+    
     mensaje = 'Bienvenido ' + usuario.nombre
     if(roles[0] == 'administrador'):
         flash(mensaje)
-        return render_template('/adm/index.html')
+        return render_template(url_for('administrador.consultar_productos_get'))
 
     if(roles[0] == 'administrativo'):
         flash(mensaje)
-        return render_template('/adm/index.html')
+        return render_template(url_for('administrativo.consultar_ventas_get'))
 
     if(roles[0] == 'cliente'):
         flash(mensaje)
@@ -70,7 +73,7 @@ def signup_post():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    model = ModelUser()
+    model = UsuarioQueries()
     usuario_email = model.consultar_por_email(email)
 
     if usuario_email:

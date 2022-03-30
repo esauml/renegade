@@ -27,8 +27,8 @@ def obtener_conexion_administrador():
 def obtener_conexion_administrativo():
     return pymysql.connect(
         host=servidor_db,
-        user=usuario_conexion_administrativo,
-        password=contrasenia_conexion_administrativo,
+        user=usuario_conexion_admin,
+        password=contrasenia_conexion_admin,
         db=nombre_bd
     )
 
@@ -36,7 +36,7 @@ def obtener_conexion_administrativo():
 def obtener_conexion_cliente():
     return pymysql.connect(
         host=servidor_db,
-        user=usuario_conexion_cliente,
-        password=contrasenia_conexion_cliente,
+        user=usuario_conexion_admin,
+        password=contrasenia_conexion_admin,
         db=nombre_bd
     )
