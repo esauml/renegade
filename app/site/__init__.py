@@ -3,7 +3,6 @@ from werkzeug.security import check_password_hash
 from flask_security.utils import login_user, logout_user
 from flask_security import login_required
 
-from . import Usuario
 from .model_user import ModelUser
 from .rol import Rol
 from ..config import USUARIO_ADMIN
@@ -17,26 +16,28 @@ auth = Blueprint('auth', __name__)
 def login_get():
     return render_template('login.html')
 
-
 @auth.route('/login', methods=['POST'])
 def login_post():
     email = request.form.get('email')
     passsword = request.form.get('password')
 
-    model = model_user.ModelUser()
-    usuario = model.consultar_por_email(USUARIO_ADMIN, email)
+    model = ModelUser()
+    usuario = model.consultar_por_email(email)
 
     if not usuario or not check_password_hash(usuario.password, passsword):
         flash('El usuario y/o la contraseña son incorrectos')
         return redirect(url_for('auth.login_get'))
 
-    print(usuario.apellidos)
-    usuario.username = 'username'
-    login_user(usuario)
-    # session['loggedin'] = True
-    # session['id'] = usuario.id
-    # session['email'] = usuario.email
-    # TODO Hacer un if para verificar el tipo de usuario y redirigirlo a su pagina respectiva o separar los login.
+    print(usuario.id)
+    rol_obj = rol.Rol()
+    roles = rol_obj.obtener_roles_por_usuario_id(usuario.id)
+    print(roles)
+
+    session['loggedin'] = True
+    session['id'] = usuario.id
+    session['email'] = usuario.email
+    session['rol'] = roles[0]
+    #TODO Hacer un if para verificar el tipo de usuario y redirigirlo a su pagina respectiva o separar los login.
     return render_template('/index.html')
 
 
@@ -53,15 +54,15 @@ def signup_post():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    model = model_user.ModelUser()
-    usuario_email = model.consultar_por_email(USUARIO_ADMIN, email)
+    model = ModelUser()
+    usuario_email = model.consultar_por_email(email)
 
     if usuario_email:
         flash('Ese correo electrónico ya existe')
         return redirect(url_for('auth.signup_get'))
 
     model.registro_usuario(USUARIO_ADMIN, nombre, apellidos, email, password)
-    usuario = model.consultar_por_email(USUARIO_ADMIN, email)
+    usuario = model.consultar_por_email(email)
 
     rol_obj = rol.Rol()
     rol_obj.agregar_rol_cliente_por_id(USUARIO_ADMIN, usuario.id)

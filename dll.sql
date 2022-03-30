@@ -1,95 +1,119 @@
 DROP DATABASE IF EXISTS renegade;
-CREATE DATABASE renegade;
+CREATE DATABASE IF NOT EXISTS renegade;
+
 USE renegade;
 
-CREATE TABLE producto
+CREATE TABLE IF NOT EXISTS Usuario
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    nombre      VARCHAR(250) NOT NULL UNIQUE,
-    descripcion VARCHAR(250),
-    precio      DOUBLE       NOT NULL DEFAULT 0.0,
-    activo      BOOLEAN               DEFAULT 1
+    id           INT AUTO_INCREMENT PRIMARY KEY,
+    nombres      VARCHAR(50)  NOT NULL,
+    apellidos    VARCHAR(50)  NOT NULL,
+    correo       VARCHAR(100) NOT NULL UNIQUE,
+    password     VARCHAR(255) NOT NULL,
+    active       TINYINT(1) DEFAULT 0,
+    confirmed_at DATETIME
 );
 
-CREATE TABLE materia_prima
+CREATE TABLE IF NOT EXISTS Rol
 (
-    id       INT PRIMARY KEY AUTO_INCREMENT,
-    nombre   VARCHAR(250) NOT NULL UNIQUE,
-    costo    DOUBLE       NOT NULL DEFAULT 0.0,
-    en_stock INT          NOT NULL DEFAULT 0
-);
-
-
-CREATE TABLE producto_materia_prima
-(
-    id               INT PRIMARY KEY AUTO_INCREMENT,
-    producto_id      INT NOT NULL,
-    mataria_prima_id INT NOT NULL,
-    cantidad         INT NOT NULL DEFAULT 1,
-    FOREIGN KEY (producto_id) REFERENCES producto (id),
-    FOREIGN KEY (mataria_prima_id) REFERENCES materia_prima (id)
-);
-
-CREATE TABLE usuario
-(
-    id        INT PRIMARY KEY AUTO_INCREMENT,
-    nombre    VARCHAR(250) NOT NULL,
-    apellidos VARCHAR(250) NOT NULL,
-    email     VARCHAR(250) NOT NULL UNIQUE,
-    password  VARCHAR(250) NOT NULL,
-    activo    BOOLEAN DEFAULT 1
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    name        VARCHAR(50) NOT NULL,
+    description VARCHAR(255)
 );
 
 
-CREATE TABLE rol
+CREATE TABLE IF NOT EXISTS Rol_Usuario
 (
-    id     INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(250) NOT NULL
+    idUsuario INT,
+    idRol     INT,
+    PRIMARY KEY (idUsuario, idRol),
+    FOREIGN KEY (idUsuario) REFERENCES Usuario (id),
+    FOREIGN KEY (idRol) REFERENCES Rol (id)
 );
 
-CREATE TABLE usuario_rol
+CREATE TABLE IF NOT EXISTS Proveedor
 (
-    id         INT PRIMARY KEY AUTO_INCREMENT,
-    usuario_id INT NOT NULL,
-    rol_id     INT NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES usuario (id),
-    FOREIGN KEY (rol_id) REFERENCES rol (id)
+    id       INT AUTO_INCREMENT PRIMARY KEY,
+    nombre   VARCHAR(50)  NOT NULL, -- Nombre de la empresa
+    contacto VARCHAR(50)  NOT NULL, -- Nombre de la persona (Contacto persona)
+    telefono VARCHAR(20)  NOT NULL,
+    correo   VARCHAR(100) NOT NULL
 );
 
-INSERT INTO producto(nombre, descripcion, precio, activo)
-VALUES ('Ejemplo 1', 'Descripcion 1', 10.50, 1),
-       ('Ejemplo 2', 'Descripcion 2', 10.50, 1);
+CREATE TABLE IF NOT EXISTS MateriaPrima
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    nombre      VARCHAR(50) NOT NULL,
+    descripcion TEXT        NOT NULL,
+    costo       FLOAT       NOT NULL,
+    stock       INT         NOT NULL,
+    idProveedor INT         NOT NULL,
+    FOREIGN KEY (idProveedor) REFERENCES Proveedor (id)
+);
 
-INSERT INTO materia_prima (nombre, costo, en_stock)
-VALUES ('Botones', 0.5, 10),
-       ('Algo mas', 1.0, 5);
+CREATE TABLE IF NOT EXISTS Producto
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    nombre      VARCHAR(50) NOT NULL,
+    descripcion TEXT        NOT NULL
+);
 
-INSERT INTO producto_materia_prima(producto_id, mataria_prima_id, cantidad)
-VALUES (1, 1, 2),
-       (1, 2, 3),
-       (2, 2, 1);
+CREATE TABLE IF NOT EXISTS Estructura
+(
+    id             INT AUTO_INCREMENT PRIMARY KEY,
+    idProducto     INT NOT NULL,
+    idMateriaPrima INT NOT NULL,
+    cantidad       INT NOT NULL,
+    FOREIGN KEY (idProducto) REFERENCES Producto (id),
+    FOREIGN KEY (idMateriaPrima) REFERENCES MateriaPrima (id)
+);
 
+CREATE TABLE IF NOT EXISTS Carrito
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    status    TINYINT(1) DEFAULT 0, -- 0 -> Activo | 1 -> Vendido
+    idUsuario INT NOT NULL,
+    FOREIGN KEY (idUsuario) REFERENCES Usuario (id)
+);
 
-INSERT INTO usuario(nombre, apellidos, email, password, activo)
-VALUES ('Cliente', 'cliente', 'cliente@gmail.com', 'password', 1),
-       ('Administrador', 'administrador', 'administrador@gmail.com', 'password', 1),
-       ('Administrativo', 'administrativo', 'administrativo@gmail.com', 'password', 1);
+CREATE TABLE IF NOT EXISTS ProductoCarrito
+(
+    idProducto INT NOT NULL,
+    idCarrito  INT NOT NULL,
+    cantidad   INT,
+    PRIMARY KEY (idProducto, idCarrito),
+    FOREIGN KEY (idProducto) REFERENCES Producto (id),
+    FOREIGN KEY (idCarrito) REFERENCES Carrito (id)
+);
 
-INSERT INTO rol (nombre)
-VALUES ('administrador'),
-       ('administrativo'),
-       ('cliente');
+CREATE TABLE IF NOT EXISTS Venta
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    total     TINYINT(1) DEFAULT 0,
+    fecha     DATETIME NOT NULL,
+    idCarrito INT      NOT NULL,
+    FOREIGN KEY (idCarrito) REFERENCES Carrito (id)
+);
 
-INSERT INTO usuario_rol(usuario_id, rol_id)
-VALUES (1, 3),
-       (2, 1),
-       (3, 2);
+CREATE TABLE IF NOT EXISTS Log
+(
+    id             INT AUTO_INCREMENT PRIMARY KEY,
+    cantidad       INT NOT NULL,
+    idProducto     INT NOT NULL,
+    idMateriaPrima INT,
+    FOREIGN KEY (idProducto) REFERENCES Producto (id),
+    FOREIGN KEY (idMateriaPrima) REFERENCES MateriaPrima (id)
+);
 
-SELECT prod.id, prod.nombre, descripcion, precio, activo, mp.nombre, pmp.cantidad
-FROM producto prod
-         INNER JOIN producto_materia_prima pmp ON prod.id = pmp.producto_id
-         INNER JOIN materia_prima mp on pmp.mataria_prima_id = mp.id
-WHERE prod.id = 1;
+CREATE TABLE IF NOT EXISTS Pedido
+(
+    id           INT AUTO_INCREMENT PRIMARY KEY,
+    cantidad     INT DEFAULT 0,
+    idProducto   INT  NOT NULL,
+    idUsuario    INT  NOT NULL,
+    fechaEntrega DATE NOT NULL,
+    FOREIGN KEY (idProducto) REFERENCES Producto (id),
+    FOREIGN KEY (idUsuario) REFERENCES Usuario (id)
+);
 
-
-SELECT * FROM usuario;
+INSERT INTO Rol (name, description) VALUES ('administrador', 'Administrador'), ('administrativo', 'Administrativo'), ('Cliente', 'cliente');
