@@ -13,7 +13,7 @@ def consultar_productos_get():
     queries = Query()
     try:
         productos = queries.consultar_productos(USUARIO_ADMIN)
-        return render_template('administrador/productos.html', productos=productos)
+        return render_template('adm/administrador/productos.html', productos=productos)
     except Exception as e:
         # TODO What to do when couldn't handle DB operation
         print("Exception: ")
@@ -32,7 +32,7 @@ def consultar_producto_get(id):
     try:
         producto_por_id = queries.consultar_producto_por_id(USUARIO_ADMIN, producto_id)
         print(producto_por_id)
-        return render_template('administrador/detalle-producto.html', producto=producto_por_id)
+        return render_template('adm/administrador/detalle-producto.html', producto=producto_por_id)
     except Exception as e:
         raise e    
     
