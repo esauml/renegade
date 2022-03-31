@@ -27,11 +27,11 @@ def consultar_producto_get(id):
     materia_id = id
     # init query handler
     queries = MateriaPrima()
+    print(materia_id)
     # consulta
     try:
-        materia = queries.consultar_materia_prima_id(
-            USUARIO_ADMIN, materia_id)
-        print(materia)
+        materia = queries.consultar_materia_prima_id(USUARIO_ADMIN, materia_id)
+        
         return render_template('adm/administrador/detalle-materia.html', materia=materia)
     except Exception as e:
         raise e

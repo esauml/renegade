@@ -18,7 +18,7 @@ class MateriaPrima():
         except Exception as ex:
             raise Exception(ex)
 
-    def consultar_materia_prima_id(self, tipo_usuario):
+    def consultar_materia_prima_id(self, tipo_usuario, id):
         try:
             query = 'SELECT * FROM vista_stock_materia WHERE id=%s;'
             conexion = obtener_conexion(tipo_usuario)
