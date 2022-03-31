@@ -29,9 +29,9 @@ def consultar_producto_get(id):
     queries = MateriaPrima()
     # consulta
     try:
-        producto_por_id = queries.consultar_materia_prima_id(
+        materia = queries.consultar_materia_prima_id(
             USUARIO_ADMIN, materia_id)
-        print(producto_por_id)
-        return render_template('adm/administrador/detalle-materia.html', producto=producto_por_id)
+        print(materia)
+        return render_template('adm/administrador/detalle-materia.html', materia=materia)
     except Exception as e:
         raise e

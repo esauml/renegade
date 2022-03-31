@@ -18,7 +18,7 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">
-            Materia Prima
+            Insumo
             <div class="float-right">
                 <button id="btnEditar" 
                     type="submit" form="form" value="update" formmethod="post" formaction="/editar-producto"
@@ -47,17 +47,17 @@
     </div>
     <div class="card-body">
         <form id="form">
-            {{ producto }}
+            {{ materia }}
             <input type="hidden" name="accion" id="accion" value="consultar">
             <input type="hidden" name="idEditable" id="idEditable" value="0">
-            <input type="hidden" name="id" id="id" value={{ producto[0] }}>
+            <input type="hidden" name="id" id="id" value={{ materia[0] }}>
             
             <!-- Stock de Producto -->
             <div class="form-group form-row">
                 <label class="col-1 col-form-label" for="inputCliente">Stock</label>
                 <div class="col-4">
                     <input
-                        {% if producto %} value={{ 0 }} {% endif %}
+                        {% if materia %} value={{ 0 }} {% endif %}
                         type="text" placeholder="20 (IMPORTANTE)" class="form-control" name="inputCliente"
                         id="inputCliente" />
                 </div>
@@ -68,7 +68,7 @@
                 <label class="col-1 col-form-label" for="nombre">Nombre</label>
                 <div class="col-4">
                     <input 
-                        {% if producto %} value={{ producto[1] }} {% endif %}
+                        {% if materia %} value={{ materia[1] }} {% endif %}
                         type="text" placeholder="Nombre" class="form-control" name="nombre" id="nombre" />
                 </div>
             </div>
@@ -78,7 +78,7 @@
                 <label class="col-1 col-form-label" for="descripcion">Descripcion</label>
                 <div class="col-4">
                     <input 
-                        {% if producto %} value={{ producto[2] }} {% endif %}
+                        {% if materia %} value={{ materia[2] }} {% endif %}
                         type="text" placeholder="Descripcion" class="form-control" name="descripcion" id="descripcion" />
                 </div>
             </div>
@@ -88,7 +88,7 @@
                 <label class="col-1 col-form-label" for="precio">Precio</label>
                 <div class="col-4">
                     <input 
-                        {% if producto %} value={{ producto[3] }} {% endif %}
+                        {% if materia %} value={{ materia[3] }} {% endif %}
                         type="text" placeholder="Precio" class="form-control" name="precio" id="precio" />
                 </div>
             </div>
@@ -98,28 +98,12 @@
                 <label class="col-1 col-form-label" for="algo">Algo</label>
                 <div class="col-4">
                     <input 
-                        {% if producto %} value={{ producto[4] }} {% endif %}
+                        {% if materia %} value={{ materia[4] }} {% endif %}
                         type="text" placeholder="Precio" class="form-control" name="algo" id="algo" />
                 </div>
             </div>
 
-            <h3>Materia Prima</h3>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Produto</th>
-                        <th>Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if producto %}
-                        <tr>
-                            <td>{{ producto[5] }}</td>
-                            <td>{{ producto[6] }}</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
+        
         </form>
     </div>
 </div>
