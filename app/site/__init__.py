@@ -43,15 +43,15 @@ def login_post():
     session['id'] = usuario.idRol
     g.user = usuario
     g.rol = usuario.idRol
-    print(usuario.idRol)
     mensaje = 'Bienvenido ' + usuario.nombre
+    
     if(usuario.idRol == 2):
         flash(mensaje)
-        return render_template(url_for('administrador.consultar_productos_get'))
+        return redirect('/productos')
 
     if(usuario.idRol == 3):
         flash(mensaje)
-        return render_template(url_for('administrativo.consultar_ventas_get'))
+        return redirect('/consultar-ventas')
 
     if(usuario.idRol == 1):
         flash(mensaje)
@@ -84,9 +84,8 @@ def signup_post():
 
 
 @auth.route('/logout')
-@login_required
 def logout():
     session.pop('id', None)
     g.user = None
     g.rol = None
-    return redirect(url_for('index'))
+    return redirect(url_for('auth.login_get'))

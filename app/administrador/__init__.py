@@ -8,26 +8,14 @@ from ..site import UsuarioQueries
 
 administrador = Blueprint('administrador', __name__)
 
-'''
-@administrador.before_request
-def before_request_cliente():
-    if 'id' in session:
-        usuario_queries = UsuarioQueries()
-        rol_obj = Rol()
-        id = session['id']
-        usuario = usuario_queries.consultar_cliente_por_id(id)
-        roles = rol_obj.obtener_roles_por_usuario_id(id)
-        g.user = usuario
-        g.rol = roles[0]
-        if g.rol == 'cliente' or g.rol == 'administrativo':
-            flash('El perfil no cuenta con permisos para consultar esta página.')
-            return render_template('login.html')
-    else:
-        flash('Es necesario inciar sesión previamente.')
-        return render_template('login.html')
-'''
 
-# HTML Render Entry-Points
+@administrador.before_request
+def before_request_administrador():
+    if 'id' in session:
+        model = UsuarioQueries()
+        id = session['id']
+        usuario = model.consultar_cliente_por_id(id)
+        g.user = usuario
 
 @administrador.route("/productos", methods=['GET'])
 def consultar_productos_get():
