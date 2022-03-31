@@ -1,13 +1,14 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, redirect, render_template, request, url_for
 from ..config import USUARIO_CLIENTE as USER_TYPE
 from .Queries.Productos import QueriesProducto as Query
+from .Queries.CarritoProductos import QueriesCarrito as QueryCarrito
 
 
 cliente_productos_name = "CLIENTE_PRODUCTOS"
 cliente_productos_blueprint = Blueprint(cliente_productos_name, __name__)
 
 
-@cliente_productos_blueprint.route('/listado-productos', methods=["GET"])
+@cliente_productos_blueprint.route('/cliente/listado-productos', methods=["GET"])
 def listado_productos():
     queries = Query()
     try:
@@ -45,12 +46,10 @@ def consultar_producto_get(id):
         producto_por_id = queries.consultar_producto_por_id(
             USER_TYPE, producto_id)
 
-        # STOCK FOR SPECIFIC
-        # stock = queries.consultar_stock_producto(USER_TYPE, producto_id)
         stock = 0  # default for now
 
         print(producto_por_id)
-        return render_template('administrador/detalle-producto.html', producto=producto_por_id, stock=stock)
+        return render_template('cliente/detalle-producto.html', producto=producto_por_id)
     except Exception as e:
         raise e
 
