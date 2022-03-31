@@ -22,11 +22,6 @@
         <div class="col-3">
             <label for="correo" class="col-form-label">Correo</label>
             <input name="correo" class="form-control inputCorreo" type="text" value="{{g.user.email}}" disabled>
-        </div>
-        <div class="col-3">
-            <label for="contraseña" class="col-form-label">Contraseña</label>
-            <input name="contraseña" class="form-control inputContraseña" type="password" value="{{g.user.password}}"
-                disabled>
             <br>
         </div>
 
@@ -54,8 +49,6 @@
         apellidos.disabled = false;
         let correo = document.querySelector(".inputCorreo");
         correo.disabled = false;
-        let password = document.querySelector(".inputContraseña");
-        password.disabled = false;
         let inputSubmit = document.querySelector(".inputSubmit");
         inputSubmit.hidden = false;
 
