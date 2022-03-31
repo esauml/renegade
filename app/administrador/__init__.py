@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, g
 from ..productos.ProductosQueries import Producto as Query
 from ..config import USUARIO_ADMIN
-from ..cliente.clienteQueries import ClienteQueries
+from ..cliente.clienteQueries import Cliente
 from ..site import UsuarioQueries, Rol
 
 

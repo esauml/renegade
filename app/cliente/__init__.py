@@ -1,11 +1,12 @@
 
 
-from flask import Blueprint, render_template, request, flash, g, session
-from .clienteQueries import ClienteQueries as Query
+from flask import Blueprint, redirect, render_template, request, flash, g, session, url_for
+from .clienteQueries import Cliente as Query
 from ..site import UsuarioQueries, Rol
+from ..config import USUARIO_CLIENTE
 
 cliente = Blueprint('cliente', __name__)
-
+'''
 @cliente.before_request
 def before_request_cliente():
     if 'id' in session:
@@ -21,7 +22,7 @@ def before_request_cliente():
             return render_template('login.html')  
     else:
         flash('Es necesario inciar sesión previamente.')
-        return render_template('login.html') 
+        return render_template('login.html') '''
         
 
 @cliente.route("/carrito-compras", methods=['GET'])
@@ -68,7 +69,7 @@ def actualizar_Cliente():
 
 @cliente.route("/perfil", methods=['GET'])
 def profile_get():   
-    cliente_queries = ClienteQueries()
+    cliente_queries = Query()
     cliente = cliente_queries.consultar_perfil(g.user.id)
     
     if cliente == None:
@@ -77,7 +78,7 @@ def profile_get():
     
     return render_template('/cliente/perfil.html', cliente = cliente)
 
-@cliente.route("/actualizar-perfil", methods=['GET'])
+@cliente.route("/mi-carrito", methods=['GET'])
 def profile_post():   
-    #TODO Agregar logica
-    return ''
+    
+    return render_template("/cliente/micarrito.html")
