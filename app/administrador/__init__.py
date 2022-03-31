@@ -8,7 +8,7 @@ from ..site import UsuarioQueries, Rol
 
 administrador = Blueprint('administrador', __name__)
 
-
+'''
 @administrador.before_request
 def before_request_cliente():
     if 'id' in session:
@@ -25,6 +25,7 @@ def before_request_cliente():
     else:
         flash('Es necesario inciar sesión previamente.')
         return render_template('login.html')
+'''
 
 # HTML Render Entry-Points
 

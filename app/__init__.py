@@ -3,6 +3,7 @@ from .site import auth
 from .cliente import cliente
 from .administrativo import administrativo
 from .administrador import administrador
+from .productos import Productos
 from .site import error_handler
 
 
@@ -14,7 +15,7 @@ def create_app():
     app.register_blueprint(cliente)
     app.register_blueprint(administrativo)
     app.register_blueprint(administrador)
-
+    app.register_blueprint(Productos)
     # error hanlder
     app.register_error_handler(401, error_handler.status_401)
     app.register_error_handler(404, error_handler.status_404)

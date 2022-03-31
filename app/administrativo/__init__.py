@@ -5,6 +5,7 @@ from ..site import UsuarioQueries, Rol
 
 administrativo = Blueprint('administrativo', __name__)
 
+
 @administrativo.before_request
 def before_request_administrativo():
     if 'id' in session:
@@ -21,6 +22,7 @@ def before_request_administrativo():
     else:
         flash('Es necesario inciar sesión previamente.')
         return render_template('login.html') 
+
 
 @administrativo.route("/consultar-ventas", methods=['GET'])
 #@roles_required('administrativo')
