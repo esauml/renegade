@@ -5,8 +5,15 @@ from .clienteQueries import Cliente as Query
 from ..site import UsuarioQueries
 from ..config import USUARIO_CLIENTE
 
+# routes import
+from .RoutesClienteCarrito import cliente_carrito_blueprint as carrito
+from .RoutesClienteProductos import cliente_productos_blueprint as producto
+
 cliente = Blueprint('cliente', __name__)
 
+# routes subscribe
+cliente.register_blueprint(carrito)
+cliente.register_blueprint(producto)
 
 @cliente.before_request
 def before_request_cliente():
