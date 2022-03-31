@@ -1,6 +1,6 @@
 
 from multiprocessing import context
-from flask import render_template, session, redirect, flash, url_for
+from flask import render_template, session, redirect, flash, url_for, g, request
 from app.productos.materia_prima import MateriaPrima
 from . import Productos
 from ..config import USUARIO_ADMIN
@@ -40,3 +40,32 @@ def consultar_producto_get(id):
         return render_template('adm/administrador/detalle-materia.html', materia=materia)
     except Exception as e:
         raise e
+
+@Productos.route("/editar-materia", methods=['POST'])
+def editar_producto_post():
+    # TODO Validar formulario
+    nombre = request.form.get('nombre')
+    descripcion = request.form.get('descripcion')
+    id = request.form.get('id')
+
+    queries = MateriaPrima()
+    queries.actualizar_materia(USUARIO_ADMIN, nombre, descripcion,  id)
+    return redirect(url_for('productos.getAllMateria'))
+
+
+
+@Productos.route("/agregar-materia", methods=['POST'])
+def agregar_materia():
+    return render_template('adm/administrador/agregar-materia.html')
+
+@Productos.route("/guardar-materia", methods=['POST'])
+def guardar():
+    # TODO Validar formulario
+    nombre = request.form.get('nombre')
+    descripcion = request.form.get('descripcion')
+    cantidad = request.form.get('cantidad')
+    unidad = request.form.get('unidad')
+
+    queries = MateriaPrima()
+    queries.guardar_materia(USUARIO_ADMIN, nombre, descripcion, cantidad, unidad)
+    return redirect(url_for('productos.getAllMateria'))
