@@ -20,7 +20,7 @@ def before_request():
 
 @auth.route('/', methods=['GET'])
 def index():
-    return render_template('login.html')
+    return render_template('landing_page.html')
 
 
 @auth.route('/login', methods=['GET'])
@@ -44,7 +44,7 @@ def login_post():
     g.user = usuario
     g.rol = usuario.idRol
     mensaje = 'Bienvenido ' + usuario.nombre
-    
+
     if(usuario.idRol == 2):
         flash(mensaje)
         return redirect('/productos')
