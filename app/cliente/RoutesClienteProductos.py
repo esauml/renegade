@@ -27,7 +27,7 @@ def productos_busqueda():
 
     queries = Query()
     try:
-        productos = queries.consultar_productos_busqueda(USER_TYPE)
+        productos = queries.consultar_productos_busqueda(USER_TYPE, criteria)
         return render_template('clientes/productos.html', productos=productos)
     except Exception as e:
         print('Exception: ')
