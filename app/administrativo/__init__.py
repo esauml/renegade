@@ -1,4 +1,4 @@
-from flask import Blueprint, g, session, flash, render_template
+from flask import Blueprint, g, session, flash, render_template, redirect
 from .Queries.productoQuery import Producto
 from ..site import UsuarioQueries
 from ..config import USUARIO_ADMINISTATIVO
@@ -12,7 +12,13 @@ def before_request_administrativo():
         model = UsuarioQueries()
         id = session['id']
         usuario = model.consultar_cliente_por_id(id)
+        if usuario.idRol == 1 or usuario.idRol == 2:
+            flash('No cuentas con permisos para consultar este módulo')
+            return render_template('login.html')
         g.user = usuario
+    else:
+        flash('Es necesario inicar sesión para consultar este módulo')
+        return render_template('login.html')
 
 
 @administrativo.route("/productos", methods=['GET'])

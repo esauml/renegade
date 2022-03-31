@@ -1,13 +1,15 @@
 -- INSERCIONES PROVEEDOR --
 insert into proveedor (nombre, contacto, telefono, correo)
-values ('proveedorTela', 'agenteProveedorTela', '477-000-00-00', 'correo@proveedor');
+values ('proveedorTela', 'agenteProveedorTela', '477-000-00-00','correo@proveedor'),
+    ('proveedorTela2', 'agenteProveedorTela2', '477-000-00-00','correo1@proveedor'),
+    ('proveedorTela3', 'agenteProveedorTela3', '477-000-00-00','correo2@proveedor'),
+    ('proveedorTela4', 'agenteProveedorTela4', '477-000-00-00','correo3@proveedor');
 
 -- INSERCIONES COMPRA --
 insert into compra (folio, idProveedor, fechaCompra)
 values ('00001', 1, '2022/03/30');
 insert into compra (folio, idProveedor, fechaCompra)
 values ('00002', 1, '2022/03/30');
-
 
 -- INSERSCIONES CATALOGO MATERIA PRIMA --
 insert into MateriaPrima (nombre, descripcion, cantidad, unidad)

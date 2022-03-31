@@ -44,10 +44,10 @@
                         </th>
                         <th>
                             Fecha de compra
-                        </th>  
+                        </th>
                         <th>
                             Proveedor
-                        </th>  
+                        </th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -69,32 +69,32 @@
                         </th>
                         <th>
                             Fecha de compra
-                        </th>  
+                        </th>
                         <th>
                             Proveedor
-                        </th>  
+                        </th>
                     </tr>
                 </tfoot>
-                <tbody>                    
+                <tbody>
                     {% if materias %}
-                        {% for materia in materias %}
-                            
-                            <tr data-materia-id="{{ materia[0] }}">
-                                <td>{{ materia[1] }}</td>
-                                <td>{{ materia[2] }}</td>
-                                <td>{{ materia[4] }}</td>
-                                <td>{{ materia[3] }}</td>
-                                <td>{{ materia[5] }}</td>
-                                <td>{{ materia[6] }}</td>
-                                <td>{{ materia[7] }}</td>
-                                <td>
-                                    <a href="/productos/detalle-materia/{{ materia[0] }}">
-                                        <i class="fa-solid fa-eye"></i>
-                                        Detalle
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                    {% for materia in materias %}
+
+                    <tr data-materia-id="{{ materia[0] }}">
+                        <td>{{ materia[1] }}</td>
+                        <td>{{ materia[2] }}</td>
+                        <td>{{ materia[4] }}</td>
+                        <td>{{ materia[3] }}</td>
+                        <td>{{ materia[5] }}</td>
+                        <td>{{ materia[6] }}</td>
+                        <td>{{ materia[7] }}</td>
+                        <td>
+                            <a href="/productos/detalle-materia/{{ materia[0] }}">
+                                <i class="fa-solid fa-eye"></i>
+                                Detalle
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
                     {% endif %}
                 </tbody>
             </table>
