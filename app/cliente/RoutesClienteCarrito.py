@@ -7,7 +7,7 @@ cliente_carrito_name = "CLIENTE_CARRITO"
 cliente_carrito_blueprint = Blueprint(cliente_carrito_name, __name__)
 
 
-@cliente_carrito_blueprint.route("/carrito-productos/<id>", methods=['GET'])
+@cliente_carrito_blueprint.route("cliente/carrito-productos/<id>", methods=['GET'])
 def carrito_productos(id):
 
     query = Query()
