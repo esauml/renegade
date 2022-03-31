@@ -3,7 +3,6 @@ from werkzeug.security import check_password_hash
 from flask_security import login_required
 
 from .UsuarioQueries import UsuarioQueries
-from .rol import Rol
 from ..config import USUARIO_ADMIN
 
 
@@ -13,14 +12,15 @@ auth = Blueprint('auth', __name__)
 @auth.before_request
 def before_request():
     if 'id' in session:
-        print('aqui')
         model = UsuarioQueries()
-        rol_obj = rol.Rol()
         id = session['id']
         usuario = model.consultar_cliente_por_id(id)
-        roles = rol_obj.obtener_roles_por_usuario_id(id)
         g.user = usuario
-        g.rol = roles[0]
+
+
+@auth.route('/', methods=['GET'])
+def index():
+    return render_template('login.html')
 
 
 @auth.route('/login', methods=['GET'])
@@ -40,24 +40,22 @@ def login_post():
         flash('El usuario y/o la contraseña son incorrectos')
         return redirect(url_for('auth.login_get'))
 
-    rol_obj = rol.Rol()
-    roles = rol_obj.obtener_roles_por_usuario_id(usuario.id)
-    session['id'] = usuario.id
+    session['id'] = usuario.idRol
     g.user = usuario
-    g.rol = roles[0]
-    
+    g.rol = usuario.idRol
+    print(usuario.idRol)
     mensaje = 'Bienvenido ' + usuario.nombre
-    if(roles[0] == 'administrador'):
+    if(usuario.idRol == 2):
         flash(mensaje)
         return render_template(url_for('administrador.consultar_productos_get'))
 
-    if(roles[0] == 'administrativo'):
+    if(usuario.idRol == 3):
         flash(mensaje)
         return render_template(url_for('administrativo.consultar_ventas_get'))
 
-    if(roles[0] == 'cliente'):
+    if(usuario.idRol == 1):
         flash(mensaje)
-        return render_template('/landing_page.html')
+        return redirect(url_for('cliente.miInformacion'))
 
 
 @auth.route('/signup', methods=['GET'])
@@ -77,15 +75,11 @@ def signup_post():
     usuario_email = model.consultar_por_email(email)
 
     if usuario_email:
-        flash('Ese correo electrónico ya existe')
+        flash('El correo electrónico ya fue registrado.')
         return redirect(url_for('auth.signup_get'))
 
     model.registro_usuario(USUARIO_ADMIN, nombre, apellidos, email, password)
-    usuario = model.consultar_por_email(email)
-
-    rol_obj = rol.Rol()
-    rol_obj.agregar_rol_cliente_por_id(USUARIO_ADMIN, usuario.id)
-
+    flash('Se registró correctamente al usario.')
     return redirect(url_for('auth.login_get'))
 
 

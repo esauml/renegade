@@ -3,28 +3,29 @@
 {% block content %}
 
 <h1>MI INFORMACION</h1>
-<h2>{{cliente[1]}} {{cliente[2]}}</h2>
+<h2>{{g.user.nombre}}</h2>
 
 <form action="/actualizar-cliente" method="POST">
-    <input name="idCliente" type="text" value="{{cliente[0]}}" hidden>
+    <input name="idCliente" type="text" value="{{g.user.id}}" hidden>
     <div class="row">
         <div class="col-3">
             <label for="nombres" class="col-form-label">Nombres</label>
-            <input name="nombres" class="form-control inputNombre" type="text" value="{{cliente[1]}}" disabled>
+            <input name="nombres" class="form-control inputNombre" type="text" value="{{g.user.nombre}}" disabled>
         </div>
         <div class="col-3">
             <label for="apellidos" class="col-form-label">Apellidos</label>
-            <input name="apellidos" class="form-control inputApellidos" type="text" value="{{cliente[2]}}" disabled>
+            <input name="apellidos" class="form-control inputApellidos" type="text" value="{{g.user.apellidos}}"
+                disabled>
         </div>
     </div>
     <div class="row">
         <div class="col-3">
             <label for="correo" class="col-form-label">Correo</label>
-            <input name="correo" class="form-control inputCorreo" type="text" value="{{cliente[3]}}" disabled>
+            <input name="correo" class="form-control inputCorreo" type="text" value="{{g.user.email}}" disabled>
         </div>
         <div class="col-3">
             <label for="contraseña" class="col-form-label">Contraseña</label>
-            <input name="contraseña" class="form-control inputContraseña" type="password" value="{{cliente[4]}}"
+            <input name="contraseña" class="form-control inputContraseña" type="password" value="{{g.user.password}}"
                 disabled>
             <br>
         </div>
@@ -33,7 +34,7 @@
     <div class="row">
         <div class="col-3">
             <input class="form-control inputSubmit btn btn-success" type="submit" value="Guardar cambios" hidden>
-            
+
         </div>
     </div>
 
