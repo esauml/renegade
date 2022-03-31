@@ -1,10 +1,6 @@
 
 from multiprocessing import context
-<<<<<<< HEAD
-from flask import render_template, session, redirect, flash, url_for, g
-=======
 from flask import render_template, session, redirect, flash, url_for, g, request
->>>>>>> oscar
 from app.productos.materia_prima import MateriaPrima
 from . import Productos
 from ..config import USUARIO_ADMIN
