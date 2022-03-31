@@ -1,18 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "cliente/layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<!-- Content -->
+{% block content %}
 
-<body>
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">
+    Productos
+</h1>
+
+
+<!-- Productos -->
+<div class="row">
+
+    {% if productos %}
     {% for producto in productos %}
-    <li>{{producto}}</li>
-    <a href="{{ url_for('administrador.consultar_producto_get', id = producto[0]) }}">Consultar</a>
+    <div class="col-md-4">
+        <div class="card p-4 m-1 mb-4">
+            <img class="card-img-top m-3" style="height: 250px" src={{ producto[6] }} alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ producto[1] }} - {{ producto[2] }}</h5>
+                <hr>
+                <p class="card-text">
+                    Precio : <span>{{ producto[3] }}</span>
+                    <br>
+                    Talla : <span>{{ producto[4] }}</span>
+                </p>
+            </div>
+            <div class="card-body">
+                <a href="/cliente/detalle-producto/{{ producto[0] }}" class="btn btn-primary">Ir a detalle</a>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</body>
+    {% endif %}
 
-</html>
+</div>
+{% endblock content %}
