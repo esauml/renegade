@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 from ..config import USUARIO_CLIENTE as USER_TYPE
-from ..productos.ProductosQueries import Producto as Query
+from .Queries.Productos import QueriesProducto as Query
 
 
 cliente_productos_name = "CLIENTE_PRODUCTOS"
