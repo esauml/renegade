@@ -30,3 +30,15 @@ insert into StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) values (
 INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) values (50, 2,1);
 INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) values (50, 2,1);
 INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) values (50, 2,1);
+
+--INSERCIONES DE ROL--
+INSERT INTO Rol(name, description) VALUES ('cliente', 'Rol designado para los usuarios finales'),
+                                          ('administrador', 'Rol designado para los administradores del sistema'),
+                                          ('administrativo', 'Rol designado para los administrativos del sistema');
+
+-- INSERCIONES USUARIO--
+-- Las contrasenias son password --
+INSERT INTO usuario(nombres, apellidos, correo, password, active, idRol) VALUES
+('Nombre de administrador', 'Apellidos', 'administrador@gmail.com', 'sha256$1Ftzf32tZ0QCcdHj$0ebc4d9c6e18261e08f17a5fbc5572d7d6f3a75ea692dee2d59e2c1e2dbdb197', 1, 2),
+('Nombre de administrativo', 'Apellidos', 'administrativo@gmail.com', 'sha256$1Ftzf32tZ0QCcdHj$0ebc4d9c6e18261e08f17a5fbc5572d7d6f3a75ea692dee2d59e2c1e2dbdb197', 1, 3),
+('Nombre de cliente', 'Apellidos', 'cliente@gmail.com', 'sha256$1Ftzf32tZ0QCcdHj$0ebc4d9c6e18261e08f17a5fbc5572d7d6f3a75ea692dee2d59e2c1e2dbdb197', 1, 1);

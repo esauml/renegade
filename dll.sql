@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     correo    VARCHAR(100) UNIQUE,
     password  VARCHAR(255),
     active    TINYINT(1) DEFAULT 0,
-    idRol     INT,
+    idRol     INT DEFAULT 1,
     FOREIGN KEY (idRol) REFERENCES Rol (id)
 );
 
