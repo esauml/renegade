@@ -1,6 +1,6 @@
 
 from multiprocessing import context
-from flask import render_template, session, redirect, flash, url_for
+from flask import render_template, session, redirect, flash, url_for, g
 from app.productos.materia_prima import MateriaPrima
 from . import Productos
 from ..config import USUARIO_ADMIN
@@ -14,6 +14,9 @@ def before_request_administrador():
         id = session['id']
         usuario = model.consultar_cliente_por_id(id)
         g.user = usuario
+    else:
+        flash('Es necesario inicar sesión para consultar este módulo')
+        return render_template('login.html')
 
 
 @Productos.route('/getAllMateria', methods=['GET'])

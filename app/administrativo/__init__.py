@@ -13,6 +13,9 @@ def before_request_administrativo():
         id = session['id']
         usuario = model.consultar_cliente_por_id(id)
         g.user = usuario.before_request
+    else:
+        flash('Es necesario inicar sesión para consultar este módulo')
+        return render_template('login.html')
 
 
 @administrativo.route("/consultar-ventas", methods=['GET'])

@@ -6,7 +6,7 @@ class ProveedoresQueries():
 
     def consultar_proveedores():
         try:
-            query = 'SELECT id, nombre, contacto, telefono, correo, FROM usuario WHERE id={}'.format(1)
+            query = 'select id, nombre, contacto, telefono, correo from proveedor;'
             conexion = obtener_conexion(USUARIO_ADMIN)
             proveedores = []
 
