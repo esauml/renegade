@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     correo    VARCHAR(100) UNIQUE,
     password  VARCHAR(255),
     active    TINYINT(1) DEFAULT 0,
-    idRol     INT DEFAULT 1,
+    idRol     INT        DEFAULT 1,
     FOREIGN KEY (idRol) REFERENCES Rol (id)
 );
 
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS Producto (
     talla       VARCHAR(50),
     stock       INT DEFAULT 0,
     image_url   TEXT,
-    activo tinyint
+    activo      TINYINT(1) DEFAULT 1
 );
 
 
