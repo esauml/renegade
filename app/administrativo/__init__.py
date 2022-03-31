@@ -30,7 +30,9 @@ def productos():
 
 @administrativo.route("/detalle_producto/<product_id>", methods=['GET'])
 def detalle_producto(product_id):
-    return render_template('adm/administrativo/consulta-producto.html')
+    query = Producto()
+    producto = query.consultarProducto(USUARIO_ADMINISTATIVO, product_id)
+    return render_template('adm/administrativo/consulta-producto.html', producto=producto)
 
 
 @administrativo.route("/consultar-ventas", methods=['GET'])

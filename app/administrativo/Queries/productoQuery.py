@@ -26,7 +26,7 @@ class Producto():
 
             with conexion.cursor() as cursor:
                 cursor.execute(query)
-                productos = cursor.fetchall()
+                productos = cursor.fetchone()
 
             cursor.close()
             return productos
