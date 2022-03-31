@@ -49,7 +49,7 @@ def actualizar_Cliente():
     queries = Query()
     try:
         cliente = queries.actualizarUsuario(nombre=request.form.get("nombres"), apellidos=request.form.get("apellidos"),
-                                            email=request.form.get("correo"), password=request.form.get("contraseña"),
+                                            email=request.form.get("correo"),
                                             id=request.form.get("idCliente"), tipo_usuario=USUARIO_CLIENTE)
         return redirect(url_for('cliente.miInformacion'))
 
@@ -73,4 +73,4 @@ def profile_get():
 @cliente.route("/mi-carrito", methods=['GET'])
 def profile_post():
 
-    return render_template("/cliente/micarrito.html")
+    return render_template("/cliente/micarrito.html",productos=[])
