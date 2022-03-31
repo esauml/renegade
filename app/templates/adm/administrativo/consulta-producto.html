@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    Esta consulta tiene la info del producto y de las materias primeras que lo componen
+    {{producto}}
+
+
+    <hr>
+    Para actualizar producto
+    <form action="/editar-producto" method="POST">
+        <input type="hidden" name="id" value={{producto[0]}} id="id">
+        <input type="text" name="nombre" id="nombre" placeholder="nombre">
+        <input type="text" name="descripcion" id="descripcion" placeholder="descripcion">
+        <input type="text" name="precio" id="precio" placeholder="precio">
+        <button type="submit">Editar</button>
+    </form>
+    <hr>
+    <br>
+    <hr>
+    Para eliminar producto
+    <form action="/eliminar-producto" method="POST">
+        <input type="hidden" name="id" value={{producto[0]}} id="id">
+        <button type="submit">Eliminar</button>
+    </form>
+    <hr>
+
+
+</body>
+
+</html>
