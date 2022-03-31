@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session, g
 from werkzeug.security import check_password_hash
-from flask_security import login_required
+# from flask_security import login_required
 
 from .UsuarioQueries import UsuarioQueries
 from ..config import USUARIO_ADMIN
