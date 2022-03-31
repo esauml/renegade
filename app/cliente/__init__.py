@@ -1,7 +1,7 @@
 
 
 from flask import Blueprint, render_template, request, flash, g, session
-from .clienteQueries import ClienteQueries
+from .clienteQueries import ClienteQueries as Query
 from ..site import UsuarioQueries, Rol
 
 cliente = Blueprint('cliente', __name__)
