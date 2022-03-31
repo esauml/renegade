@@ -84,9 +84,8 @@ def signup_post():
 
 
 @auth.route('/logout')
-@login_required
 def logout():
     session.pop('id', None)
     g.user = None
     g.rol = None
-    return redirect(url_for('index'))
+    return redirect(url_for('auth.login_get'))
