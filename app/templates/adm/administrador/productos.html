@@ -41,7 +41,7 @@
                         </th>
                         <th>
                             Acciones
-                        </th>   
+                        </th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -65,20 +65,20 @@
                 </tfoot>
                 <tbody>
                     {% if productos %}
-                        {% for producto in productos %}
-                            <tr data-producto-id="{{ producto[0] }}">
-                                <td>{{ producto[1] }}</td>
-                                <td>{{ producto[2] }}</td>
-                                <td>{{ producto[3] }}</td>
-                                <td>{{ producto[4] }}</td>
-                                <td>
-                                    <a href="/detalle-producto/{{ producto[0] }}">
-                                        <i class="fa-solid fa-eye"></i>
-                                        Detalle
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                    {% for producto in productos %}
+                    <tr data-producto-id="{{ producto[0] }}">
+                        <td>{{ producto[1] }}</td>
+                        <td>{{ producto[2] }}</td>
+                        <td>{{ producto[3] }}</td>
+                        <td>{{ producto[4] }}</td>
+                        <td>
+                            <a href="/detalle-producto/{{ producto[0] }}">
+                                <i class="fa-solid fa-eye"></i>
+                                Detalle
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
                     {% endif %}
                 </tbody>
             </table>

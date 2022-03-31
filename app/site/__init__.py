@@ -20,7 +20,7 @@ def before_request():
 
 @auth.route('/', methods=['GET'])
 def index():
-    return render_template('login.html')
+    return render_template('landing_page.html')
 
 
 @auth.route('/login', methods=['GET'])
@@ -40,18 +40,18 @@ def login_post():
         flash('El usuario y/o la contraseña son incorrectos')
         return redirect(url_for('auth.login_get'))
 
-    session['id'] = usuario.idRol
+    session['id'] = usuario.id
     g.user = usuario
     g.rol = usuario.idRol
     mensaje = 'Bienvenido ' + usuario.nombre
-    
+
     if(usuario.idRol == 2):
         flash(mensaje)
         return redirect('/productos')
 
     if(usuario.idRol == 3):
         flash(mensaje)
-        return redirect('/consultar-ventas')
+        return redirect('/productos')
 
     if(usuario.idRol == 1):
         flash(mensaje)

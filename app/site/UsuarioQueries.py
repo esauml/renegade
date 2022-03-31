@@ -31,7 +31,7 @@ class UsuarioQueries():
 
                 if consulta != None:
                     from .Usuario import Usuario
-                    return Usuario(consulta[0], consulta[1], consulta[2], consulta[3], None, consulta[4], consulta[5])
+                    return Usuario(consulta[0], consulta[1], consulta[2], consulta[3], None, consulta[5], consulta[6])
 
             return None
         except Exception as ex:

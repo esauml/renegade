@@ -1,16 +1,50 @@
-
+from ...bd import obtener_conexion
 
 class QueriesProducto():
 
     def consultar_productos(self, USER_TYPE):
-        return 0
+        try:
+            query = 'SELECT * FROM producto where stock > 0;'
+            conexion = obtener_conexion(USER_TYPE)
+            productos = []
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query)
+                productos = cursor.fetchall()
+
+            cursor.close()
+            return productos
+        except Exception as ex:
+            raise Exception(ex)
 
     def consultar_productos_busqueda(self, USER_TYPE, criteria):
-        return 0
+        try:
+            query = "SELECT * from producto where nombre=%s or descripcion=%s;"
+            conexion = obtener_conexion(USER_TYPE)
+            productos = []
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (criteria, criteria))
+                productos = cursor.fetchall()
+
+            cursor.close()
+            return productos
+        except Exception as ex:
+            raise Exception(ex)
 
     def consultar_producto_por_id(self, USER_TYPE, id):
-        return 0
+        try:
+            query = 'SELECT * from producto where id=%s'
+            conexion = obtener_conexion(USER_TYPE)
+            producto = None
 
-    def consultar_calculo_max_stock(self, USER_TYPE, id):
-        return 0
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (id,))
+                producto = cursor.fetchone()
+
+            cursor.close()
+            return producto
+        except Exception as ex:
+            raise Exception(ex)
+
 

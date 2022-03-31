@@ -7,7 +7,7 @@ cliente_productos_name = "CLIENTE_PRODUCTOS"
 cliente_productos_blueprint = Blueprint(cliente_productos_name, __name__)
 
 
-@cliente_productos_blueprint.route('listado-productos', methods=["GET"])
+@cliente_productos_blueprint.route('/cliente/listado-productos', methods=["GET"])
 def listado_productos():
     queries = Query()
     try:
@@ -21,7 +21,7 @@ def listado_productos():
 
 
 # Viene Después de hacer una busqueda <FORM>
-@cliente_productos_blueprint.route('productos-busqueda', methods=["POST"])
+@cliente_productos_blueprint.route('/cliente/productos-busqueda', methods=["POST"])
 def productos_busqueda():
     criteria = request.form.get('criteria')
 
@@ -34,7 +34,7 @@ def productos_busqueda():
         raise e
 
 
-@cliente_productos_blueprint.route("/detalle-producto/<id>", methods=['GET'])
+@cliente_productos_blueprint.route("/cliente/detalle-producto/<id>", methods=['GET'])
 def consultar_producto_get(id):
     # inputs
     producto_id = id
@@ -55,7 +55,7 @@ def consultar_producto_get(id):
         raise e
 
 
-@cliente_productos_blueprint.route("/max-possible-stock/<id>", methods=['GET'])
+@cliente_productos_blueprint.route("/cliente/max-possible-stock/<id>", methods=['GET'])
 def max_possible_stock(id):
     # inputs
     producto_id = id
@@ -70,5 +70,31 @@ def max_possible_stock(id):
 
         print(f'Max Calculated Stock For Producto({id}). Stock: {stock}')
         return {'max_stock': stock}
+    except Exception as e:
+        raise e
+
+
+@cliente_productos_blueprint.route("/cliente/agregar-producto-producto", methods=['POST'])
+def aregar_producto_carrito(id):
+    # inputs
+    producto_id = request.json
+    producto_id = 0 
+    user_id = 0
+    stock
+
+
+    # init query handler
+    queries = Query()
+    # consulta
+    try:
+        producto_por_id = queries.consultar_producto_por_id(
+            USER_TYPE, producto_id)
+
+        # STOCK FOR SPECIFIC
+        # stock = queries.consultar_stock_producto(USER_TYPE, producto_id)
+        stock = 0  # default for now
+
+        print(producto_por_id)
+        return render_template('administrador/detalle-producto.html', producto=producto_por_id, stock=stock)
     except Exception as e:
         raise e
