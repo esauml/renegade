@@ -14,8 +14,13 @@ def before_request_cliente():
         model = UsuarioQueries()
         id = session['id']
         usuario = model.consultar_cliente_por_id(id)
+        if usuario.idRol == 2 or usuario.idRol == 3:
+            flash('No cuentas con permisos para consultar este módulo')
+            return render_template('login.html')
         g.user = usuario
-        
+    else:
+        flash('Es necesario inicar sesión para consultar este módulo')
+        return render_template('login.html')
 
 
 @cliente.route("/carrito-compras", methods=['GET'])
@@ -40,9 +45,11 @@ def agregar_producto_carrito_post():
 def index():
     return render_template("cliente/index.html")
 
+
 @cliente.route('/mi-informacion')
 def miInformacion():
     return render_template("cliente/infoUsuario.html")
+
 
 @cliente.route('/actualizar-cliente', methods=["POST"])
 def actualizar_Cliente():

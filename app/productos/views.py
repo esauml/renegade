@@ -13,6 +13,9 @@ def before_request_administrador():
         model = UsuarioQueries()
         id = session['id']
         usuario = model.consultar_cliente_por_id(id)
+        if usuario.idRol == 1:
+            flash('No cuentas con permisos para consultar este módulo')
+            return render_template('login.html')
         g.user = usuario
     else:
         flash('Es necesario inicar sesión para consultar este módulo')
