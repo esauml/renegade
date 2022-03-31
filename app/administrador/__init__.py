@@ -1,5 +1,8 @@
 
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, g
+
+from app.productos import materia_prima
+
 from ..productos.ProductosQueries import Producto as Query
 from .proveedoresQueries import ProveedoresQueries as QueryProveedores
 from ..config import USUARIO_ADMIN
@@ -67,3 +70,32 @@ def consultar_proveedores():
     queries = QueryProveedores()
     proveedores = queries.consultar_proveedores()
     return render_template('adm/administrador/proveedores.html', proveedores=proveedores)
+
+
+@administrador.route("/consultar-proveedor/<id>", methods=['GET'])
+def consultar_proveedore_get(id):
+    queries = QueryProveedores()
+    proveedor = queries.consultar_proveedor_por_id(id)
+
+    if proveedor:
+        materia_primas = queries.consultar_materiasprimas_por_proveedor_id(
+            proveedor[0])
+        return render_template('adm/administrador/detalle-proveedor.html', proveedor=proveedor, materia_primas=materia_primas)
+
+    flash('El proveedor no existe.')
+    return redirect(url_for('administrador.consultar_proveedores'))
+
+
+@administrador.route("/actualizar-proveedor", methods=['POST'])
+def actualizar_proveedor():
+    id = request.form.get('id')
+    nombre = request.form.get('nombre')
+    contacto = request.form.get('contacto')
+    telefono = request.form.get('telefono')
+    correo = request.form.get('correo')
+
+    queries = QueryProveedores()
+    queries.actualizar_proveedor(nombre, correo, contacto, telefono, id)
+
+    flash('Se actualizó correctamente al proveedor.')
+    return redirect(url_for('administrador.consultar_proveedores'))
