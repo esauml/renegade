@@ -7,7 +7,7 @@ cliente_productos_name = "CLIENTE_PRODUCTOS"
 cliente_productos_blueprint = Blueprint(cliente_productos_name, __name__)
 
 
-@cliente_productos_blueprint.route('listado-productos', methods=["GET"])
+@cliente_productos_blueprint.route('/cliente/listado-productos', methods=["GET"])
 def listado_productos():
     queries = Query()
     try:
@@ -21,7 +21,7 @@ def listado_productos():
 
 
 # Viene Después de hacer una busqueda <FORM>
-@cliente_productos_blueprint.route('productos-busqueda', methods=["POST"])
+@cliente_productos_blueprint.route('/cliente/productos-busqueda', methods=["POST"])
 def productos_busqueda():
     criteria = request.form.get('criteria')
 
@@ -34,7 +34,7 @@ def productos_busqueda():
         raise e
 
 
-@cliente_productos_blueprint.route("/detalle-producto/<id>", methods=['GET'])
+@cliente_productos_blueprint.route("/cliente/detalle-producto/<id>", methods=['GET'])
 def consultar_producto_get(id):
     # inputs
     producto_id = id
@@ -55,7 +55,7 @@ def consultar_producto_get(id):
         raise e
 
 
-@cliente_productos_blueprint.route("/max-possible-stock/<id>", methods=['GET'])
+@cliente_productos_blueprint.route("/cliente/max-possible-stock/<id>", methods=['GET'])
 def max_possible_stock(id):
     # inputs
     producto_id = id
@@ -74,7 +74,7 @@ def max_possible_stock(id):
         raise e
 
 
-@cliente_productos_blueprint.route("/agregar-producto-producto", methods=['POST'])
+@cliente_productos_blueprint.route("/cliente/agregar-producto-producto", methods=['POST'])
 def aregar_producto_carrito(id):
     # inputs
     producto_id = request.json
