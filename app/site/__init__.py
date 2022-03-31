@@ -40,7 +40,7 @@ def login_post():
         flash('El usuario y/o la contraseña son incorrectos')
         return redirect(url_for('auth.login_get'))
 
-    session['id'] = usuario.idRol
+    session['id'] = usuario.id
     g.user = usuario
     g.rol = usuario.idRol
     mensaje = 'Bienvenido ' + usuario.nombre
@@ -51,7 +51,7 @@ def login_post():
 
     if(usuario.idRol == 3):
         flash(mensaje)
-        return redirect('/consultar-ventas')
+        return redirect('/productos')
 
     if(usuario.idRol == 1):
         flash(mensaje)
