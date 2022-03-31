@@ -72,3 +72,29 @@ def max_possible_stock(id):
         return {'max_stock': stock}
     except Exception as e:
         raise e
+
+
+@cliente_productos_blueprint.route("/agregar-producto-producto", methods=['POST'])
+def aregar_producto_carrito(id):
+    # inputs
+    producto_id = request.json
+    producto_id = 0 
+    user_id = 0
+    stock
+
+
+    # init query handler
+    queries = Query()
+    # consulta
+    try:
+        producto_por_id = queries.consultar_producto_por_id(
+            USER_TYPE, producto_id)
+
+        # STOCK FOR SPECIFIC
+        # stock = queries.consultar_stock_producto(USER_TYPE, producto_id)
+        stock = 0  # default for now
+
+        print(producto_por_id)
+        return render_template('administrador/detalle-producto.html', producto=producto_por_id, stock=stock)
+    except Exception as e:
+        raise e
