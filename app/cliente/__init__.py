@@ -15,6 +15,7 @@ def before_request_cliente():
         id = session['id']
         usuario = model.consultar_cliente_por_id(id)
         g.user = usuario
+        
 
 
 @cliente.route("/carrito-compras", methods=['GET'])
@@ -38,7 +39,6 @@ def agregar_producto_carrito_post():
 @cliente.route("/index", methods=["GET"])
 def index():
     return render_template("cliente/index.html")
-
 
 @cliente.route('/mi-informacion')
 def miInformacion():
