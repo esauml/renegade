@@ -1,10 +1,9 @@
 from cgi import print_exception
 from ..bd import obtener_conexion
 
-
 class Cliente():
 
-    def consultarCliente(self, tipo_usuario,id):
+    def consultarCliente(self, tipo_usuario, id):
         try:
             query = 'SELECT * FROM usuario WHERE id={}'.format(1)
             conexion = obtener_conexion(tipo_usuario)
@@ -19,13 +18,13 @@ class Cliente():
         except Exception as ex:
             raise Exception(ex)
 
-    def actualizarUsuario(self, nombre, apellidos, email, password, id,tipo_usuario):
+    def actualizarUsuario(self, nombre, apellidos, email, password, id, tipo_usuario):
         try:
             query = 'UPDATE usuario SET nombres = %s, apellidos = %s, correo = %s, password=%s WHERE id = %s;'
             conexion = obtener_conexion(tipo_usuario)
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (nombre, apellidos, email,password, id))
+                cursor.execute(query, (nombre, apellidos, email, password, id))
 
             conexion.commit()
             cursor.close()
