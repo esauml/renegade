@@ -7,12 +7,12 @@ cliente_productos_name = "CLIENTE_PRODUCTOS"
 cliente_productos_blueprint = Blueprint(cliente_productos_name, __name__)
 
 
-@cliente_productos_blueprint.route('/cliente/listado-productos', methods=["GET"])
+@cliente_productos_blueprint.route('/listado-productos', methods=["GET"])
 def listado_productos():
     queries = Query()
     try:
         productos = queries.consultar_productos(USER_TYPE)
-        return render_template('clientes/productos.html', productos=productos)
+        return render_template('cliente/catalogo-productos.html', productos=productos)
     except Exception as e:
         # TODO What to do when couldn't handle DB operation
         print("Exception: ")
@@ -28,7 +28,7 @@ def productos_busqueda():
     queries = Query()
     try:
         productos = queries.consultar_productos_busqueda(USER_TYPE, criteria)
-        return render_template('clientes/productos.html', productos=productos)
+        return render_template('cliente/catalogo-productos.html', productos=productos)
     except Exception as e:
         print('Exception: ')
         raise e
