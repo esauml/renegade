@@ -75,13 +75,12 @@ class Cliente():
 
     def obtener_carrito_activo_cliente(self, id_cliente):
         try:
-            query = 'SELECT id, status, idUsuario FROM carrito WHERE idUsuario = {} AND status = {};'.format(
-                id_cliente)
+            query = 'SELECT id, status, idUsuario FROM carrito WHERE idUsuario = %s AND status = 1;'
             conexion = obtener_conexion(USUARIO_CLIENTE)
             carrito = []
 
             with conexion.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, (id_cliente))
                 carrito = cursor.fetchone()
                 cursor.close()
 
