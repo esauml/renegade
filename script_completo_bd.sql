@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS MateriaPrima (
     nombre      VARCHAR(50),
     descripcion TEXT,
     cantidad    INT,
+    cant_min    INT DEFAULT 1,
+    cant_max    INT DEFAULT 10,
     unidad      VARCHAR(50)
 );
 
@@ -72,7 +74,9 @@ CREATE TABLE IF NOT EXISTS Producto (
     descripcion TEXT,
     precio      FLOAT,
     talla       VARCHAR(50),
-    stock       INT DEFAULT 0,
+    cant_min    INT DEFAULT 1,
+    cant_max    INT DEFAULT 10,
+    stock       INT DEFAULT 5,
     image_url   TEXT,
     activo tinyint
 );
@@ -90,7 +94,7 @@ CREATE TABLE IF NOT EXISTS Estructura (
 
 CREATE TABLE IF NOT EXISTS Carrito (
     id        INT AUTO_INCREMENT PRIMARY KEY,
-    status    TINYINT(1) DEFAULT 0, -- 0 -> Activo | 1 -> Vendido
+    status    TINYINT(1) DEFAULT 1,
     idUsuario INT,
     FOREIGN KEY (idUsuario) REFERENCES Usuario (id)
 );
@@ -206,6 +210,7 @@ INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) VALUES
 (20,3,2),
 (500,4,3),
 (100,5,4), (100,6,4);
+
 
 -- INSERCIONES PRODUCTO --
 INSERT INTO renegade.producto(nombre, descripcion, precio, talla, image_url, activo) VALUES
