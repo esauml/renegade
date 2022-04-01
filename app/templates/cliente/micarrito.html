@@ -38,7 +38,9 @@
                         </div>
                         <div>
                             <br>
-                            <form action="">
+                            <form method="POST" action="/cliente/eliminar-producto-carrito">
+                                <input type="hidden" name="id_carrito" value={{ carrito[0] }}>
+                                <input type="hidden" name="id_producto" value={{ item[0] }}>
                                 <input type="submit" class="btn btn-danger" value="Eliminar del carrito">
                             </form>
                         </div>
