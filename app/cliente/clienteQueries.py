@@ -1,4 +1,5 @@
 
+from multiprocessing import context
 from ..bd import obtener_conexion
 
 class Cliente():
@@ -47,3 +48,20 @@ class Cliente():
     def calcular_cantidad_disponible_por_producto(self, producto_id):
         # TODO Calculo de materia prima por producto
         return 0
+    
+    def consulta_mis_ventas(self,tipo_usuario,idCliente):
+        try:
+            query='SELECT * FROM vista_carritos_usuario WHERE idUsuario={} AND status=0'.format(idCliente)
+            conexion= obtener_conexion(tipo_usuario)
+            carritos=[]
+            
+            with conexion.cursor() as cursor:
+                cursor.execute(query)
+                carritos = cursor.fetchall()
+            
+            conexion.commit()
+            cursor.close()
+            return carritos
+            
+        except Exception as e:
+            raise Exception(e)

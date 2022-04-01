@@ -30,6 +30,12 @@ def consultar_ventas_get():
     # consulta de carrito en BD
     return 0
 
+@cliente.route("/mis-compras", methods=['GET'])
+# @roles_required('cliente')
+def consultar_mis_compras():
+    
+    return render_template("cliente/miscompras.html")
+
 
 @cliente.route("/agregar-producto-carrito", methods=['POST'])
 # @roles_required('cliente')
@@ -79,5 +85,5 @@ def profile_get():
 
 @cliente.route("/mi-carrito", methods=['GET'])
 def profile_post():
-
+    
     return render_template("/cliente/micarrito.html",productos=[])
