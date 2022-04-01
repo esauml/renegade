@@ -50,6 +50,7 @@ def consultar_producto_get(id):
     except Exception as e:
         raise e
 
+
 @Productos.route("/editar-materia", methods=['POST'])
 def editar_producto_post():
     # TODO Validar formulario
@@ -62,10 +63,10 @@ def editar_producto_post():
     return redirect(url_for('productos.getAllMateria'))
 
 
-
 @Productos.route("/agregar-materia", methods=['POST'])
 def agregar_materia():
     return render_template('adm/administrador/agregar-materia.html')
+
 
 @Productos.route("/guardar-materia", methods=['POST'])
 def guardar():
@@ -76,6 +77,7 @@ def guardar():
     unidad = request.form.get('unidad')
 
     queries = MateriaPrima()
+<<<<<<< HEAD
     queries.guardar_materia(USUARIO_ADMIN, nombre, descripcion, cantidad, unidad)
     return redirect(url_for('productos.getAllMateria'))
 
@@ -145,3 +147,8 @@ def quitar_materia():
     
     mateSelect['insumos'].pop(id)
     return redirect(url_for('productos.cargar_agregar_compra'))
+=======
+    queries.guardar_materia(USUARIO_ADMIN, nombre,
+                            descripcion, cantidad, unidad)
+    return redirect(url_for('productos.getAllMateria'))
+>>>>>>> master
