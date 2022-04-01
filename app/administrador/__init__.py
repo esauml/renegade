@@ -89,8 +89,27 @@ def consultar_proveedore_get(id):
     return redirect(url_for('administrador.consultar_proveedores'))
 
 
+@administrador.route("/agregar-proveedor", methods=['GET'])
+def agregar_proveedor_get():
+    return render_template('adm/administrador/agregar-proovedor.html')
+
+
+@administrador.route("/agregar-proveedor", methods=['POST'])
+def agregar_proveedor_post():
+    nombre = request.form.get('nombre')
+    contacto = request.form.get('contacto')
+    telefono = request.form.get('telefono')
+    correo = request.form.get('correo')
+
+    queries = QueryProveedores()
+    queries.guardar_proveedor(nombre, correo, contacto, telefono)
+
+    flash('Se creó correctamente al proveedor.')
+    return redirect(url_for('administrador.consultar_proveedores'))
+
+
 @administrador.route("/actualizar-proveedor", methods=['POST'])
-def actualizar_proveedor():
+def actualizar_proveedor_post():
     id = request.form.get('id')
     nombre = request.form.get('nombre')
     contacto = request.form.get('contacto')

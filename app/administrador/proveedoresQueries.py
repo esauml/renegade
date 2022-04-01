@@ -1,6 +1,7 @@
 from ..bd import obtener_conexion
 from ..config import USUARIO_ADMIN
 
+
 class ProveedoresQueries():
 
     def consultar_proveedores(self):
@@ -30,6 +31,19 @@ class ProveedoresQueries():
 
             cursor.close()
             return proveedor
+        except Exception as ex:
+            raise Exception(ex)
+
+    def guardar_proveedor(self, nombre, correo, contacto, telefono,):
+        try:
+            query = 'INSERT INTO proveedor(nombre, contacto, telefono, correo) VALUES (%s, %s ,%s ,%s);'
+            conexion = obtener_conexion(USUARIO_ADMIN)
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (nombre, contacto, telefono,  correo))
+
+            conexion.commit()
+            cursor.close()
         except Exception as ex:
             raise Exception(ex)
 

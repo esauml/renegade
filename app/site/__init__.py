@@ -85,6 +85,7 @@ def signup_post():
 
 @auth.route('/logout')
 def logout():
+    flash('Se cerró la sesión exitosamente')
     session.pop('id', None)
     g.user = None
     g.rol = None

@@ -25,14 +25,10 @@ def listado_productos():
 @cliente_productos_blueprint.route('/cliente/productos-busqueda', methods=["POST"])
 def productos_busqueda():
     criteria = request.form.get('criteria')
-
+    print(criteria)
     queries = Query()
-    try:
-        productos = queries.consultar_productos_busqueda(USER_TYPE, criteria)
-        return render_template('cliente/catalogo-productos.html', productos=productos)
-    except Exception as e:
-        print('Exception: ')
-        raise e
+    productos = queries.consultar_productos_busqueda(USER_TYPE, criteria)
+    return render_template('cliente/catalogo-productos.html', productos=productos)
 
 
 @cliente_productos_blueprint.route("/cliente/detalle-producto/<id>", methods=['GET'])
@@ -77,9 +73,8 @@ def max_possible_stock(id):
 def aregar_producto_carrito():
     # inputs
     cliente = request.form.get('id-cliente')
-    producto = request.form.get('id-producto') 
+    producto = request.form.get('id-producto')
     cantidad = request.form.get('cantidad')
-
 
     # init query handler
     queries = QueryCarrito()

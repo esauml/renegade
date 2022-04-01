@@ -1,0 +1,76 @@
+{% extends "adm/layout.html" %}
+
+<!-- Content -->
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">
+    Nueva Proveedor
+</h1>
+<!-- Form Card -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            Insumo
+            <div class="float-right">
+                <form>
+                    <div class="float-right">
+                        <button id="btnAgregar" type="submit" form="form" value="add" formmethod="post"
+                            formaction="/agregar-proveedor" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            <span class="text">Guardar</span>
+                        </button>
+                    </div>
+                </form>
+                </button>
+            </div>
+        </h6>
+    </div>
+    <div class="card-body">
+        <form id="form">
+
+            <input type="hidden" name="accion" id="accion" value="consultar">
+            <input type="hidden" name="idEditable" id="idEditable" value="0">
+
+            <!-- Nombre -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="nombre">Nombre</label>
+                <div class="col-4">
+                    <input type="text" placeholder="Samper" class="form-control" name="nombre" id="nombre" required />
+                </div>
+            </div>
+
+            <!-- Descripcion -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="contacto">Contacto</label>
+                <div class="col-4">
+                    <input type="text" placeholder="Ricardo Alonozo Romo" class="form-control" name="contacto"
+                        id="contacto" required />
+                </div>
+            </div>
+
+            <!-- Cantidad -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="telefono">Teléfono</label>
+                <div class="col-4">
+                    <input type="text" placeholder="477-700-3785" class="form-control" name="telefono" id="telefono"
+                        required />
+                </div>
+            </div>
+
+            <!-- Unidad -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="correo">Correo</label>
+                <div class="col-4">
+                    <input type="text" placeholder="samper-ricardo-romo@gmail.com" class="form-control" name="correo" id="correo" required />
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}
