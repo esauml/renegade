@@ -22,7 +22,7 @@ def carrito_productos():
     except Exception as e:
         raise e
 
-@cliente_carrito_blueprint.route("/cliente/eliminar-producto-carrito", methods=['GET'])
+@cliente_carrito_blueprint.route("/cliente/eliminar-producto-carrito", methods=['POST'])
 def carrito_productos():
 
     carrito = request.form.get('id_carrito')
