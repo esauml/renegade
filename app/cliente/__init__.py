@@ -25,7 +25,7 @@ def before_request_cliente():
         usuario = model.consultar_cliente_por_id(id)
         if usuario.idRol == 2 or usuario.idRol == 3:
             flash('No cuentas con permisos para consultar este módulo')
-            return render_template('login.html')
+            return render_template('/login.html')
         g.user = usuario
     else:
         flash('Es necesario inicar sesión para consultar este módulo')
@@ -34,7 +34,7 @@ def before_request_cliente():
 
 @cliente.route("/index", methods=["GET"])
 def index():
-    return render_template('landing_page.html')
+    return render_template('/landing_page.html')
 
 
 @cliente.route("/carrito-compras", methods=['GET'])
@@ -49,7 +49,7 @@ def consultar_ventas_get():
 def consultar_mis_compras():
     queries=Query()
     carritos = queries.consulta_mis_ventas(USUARIO_CLIENTE,g.user.id)
-    return render_template("cliente/miscompras.html",carritos=carritos)
+    return render_template("/cliente/miscompras.html",carritos=carritos)
 
 @cliente.route("/detalle-carrito-usuario/<id>", methods=['GET'])
 # @roles_required('cliente')
@@ -70,7 +70,7 @@ def agregar_producto_carrito_post():
 
 @cliente.route('/mi-informacion')
 def miInformacion():
-    return render_template("cliente/infoUsuario.html")
+    return render_template("/cliente/infoUsuario.html")
 
 
 @cliente.route('/actualizar-cliente', methods=["POST"])
