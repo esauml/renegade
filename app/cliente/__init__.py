@@ -15,6 +15,7 @@ cliente = Blueprint('cliente', __name__)
 cliente.register_blueprint(carrito)
 cliente.register_blueprint(producto)
 
+
 @cliente.before_request
 def before_request_cliente():
     if 'id' in session:
@@ -28,6 +29,11 @@ def before_request_cliente():
     else:
         flash('Es necesario inicar sesión para consultar este módulo')
         return render_template('login.html')
+
+
+@cliente.route("/index", methods=["GET"])
+def index():
+    return render_template('landing_page.html')
 
 
 @cliente.route("/carrito-compras", methods=['GET'])
@@ -45,13 +51,6 @@ def agregar_producto_carrito_post():
     # cantidad
     return 0
 
-# Este index va a landing page
-
-
-@cliente.route("/index", methods=["GET"])
-def index():
-    return render_template("cliente/index.html")
-
 
 @cliente.route('/mi-informacion')
 def miInformacion():
@@ -61,15 +60,10 @@ def miInformacion():
 @cliente.route('/actualizar-cliente', methods=["POST"])
 def actualizar_Cliente():
     queries = Query()
-    try:
-        cliente = queries.actualizarUsuario(nombre=request.form.get("nombres"), apellidos=request.form.get("apellidos"),
-                                            email=request.form.get("correo"),
-                                            id=request.form.get("idCliente"), tipo_usuario=USUARIO_CLIENTE)
-        return redirect(url_for('cliente.miInformacion'))
-
-    except Exception as e:
-        raise e
-        return render_template("cliente/infoUsuario.html", expetion=e)
+    cliente = queries.actualizarUsuario(nombre=request.form.get("nombres"), apellidos=request.form.get("apellidos"),
+                                        email=request.form.get("correo"),
+                                        id=request.form.get("idCliente"), tipo_usuario=USUARIO_CLIENTE)
+    return redirect(url_for('cliente.miInformacion'))
 
 
 @cliente.route("/perfil", methods=['GET'])
@@ -87,4 +81,4 @@ def profile_get():
 @cliente.route("/mi-carrito", methods=['GET'])
 def profile_post():
 
-    return render_template("/cliente/micarrito.html",productos=[])
+    return render_template("/cliente/micarrito.html", productos=[])
