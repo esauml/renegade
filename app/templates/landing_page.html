@@ -30,7 +30,8 @@
                                 <p class="animate__animated animate__fadeInUp">
                                     Empresa de ropa 100 % mexicana
                                 </p>
-                                <a  href="{{ url_for('auth.login_get') }}" class="btn-get-started animate__animated animate__fadeInUp scrollto">Iniciar
+                                <a href="{{ url_for('auth.login_get') }}"
+                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Iniciar
                                     sesión</a>
                             </div>
                         </div>
@@ -55,7 +56,7 @@
                     <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                         <div class="portfolio-wrap">
                             <img src="https://cdn.fashiola.mx/L970433/hombre-playeras-zara-camiseta-numbers-collection.jpg"
-                                class="img-fluid" alt="">
+                                class="img-fluid shadow" alt="">
                             <div class="portfolio-info">
                                 <h4>Consulta nuestro catálogo</h4>
                             </div>
@@ -65,7 +66,7 @@
                     <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                         <div class="portfolio-wrap">
                             <img src="https://cdn.fashiola.mx/L4945734/mujer-playeras-zara-camiseta-estampado-floral-disponible-en-mas-colores.jpg"
-                                class="img-fluid" alt="">
+                                class="img-fluid shadow" alt="">
                             <div class="portfolio-info">
                                 <h4>Consulta nuestro catálogo</h4>
                             </div>
@@ -75,11 +76,135 @@
                     <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                         <div class="portfolio-wrap">
                             <img src="https://cdn.fashiola.mx/L540018214/zara-mujer-playeras-camiseta-basica.jpg"
-                                class="img-fluid" alt="">
+                                class="img-fluid shadow" alt="">
                             <div class="portfolio-info">
                                 <h4>Consulta nuestro catálogo</h4>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="hero">
+            <div class="hero-container">
+                <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"
+                    data-bs-interval="5000">
+
+                    <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+                    <div class="carousel-inner" role="listbox">
+
+                        <div class="carousel-item active">
+                            <div class="background">
+                                <img class="" src="https://i.ytimg.com/vi/f2VoBvJartg/maxresdefault.jpg" alt="">
+                            </div>
+                            <div class="carousel-container">
+                                <div class="container">
+
+                                    <div class="section-title">
+                                        <h2>Revisa algunos de nuestros productos...</h2>
+                                    </div>
+
+                                    <div class="row portfolio-container">
+
+                                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                                            <div class=" shadow ">
+                                                <div class="card-title text-center text-light">
+                                                    Mision
+                                                </div>
+                                                <div class="card-body text-light text-justify">
+                                                    garantizar a sus clientes productos que reflejen su misma pasión por
+                                                    la moda,
+                                                    capaz de acoplarse a diferentes gustos y personalidades.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                                            <div class="shadow">
+                                                <div class="card-title text-light text-center">
+                                                    Vision
+                                                </div>
+                                                <div class="card-body text-light text-justify">
+                                                    Ser una empresa líder en la confección, comercialización y
+                                                    distribución de prendas de vestir,
+                                                    que pueda llegar a clientes de todo el mundo facilitándoles
+                                                    diferentes diseños y
+                                                    modas de acuerdo a sus gustos y tendencias a precios asequibles
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                                            <div class="shadow">
+                                                <div class="card-title text-light text-center">
+                                                    Valores
+                                                </div>
+                                                <div class="card-body text-light text-justify">
+                                                    Honestidad e integridad Pasión y Entusiasmo Compromiso
+                                                    Profesionalismo
+                                                    Trabajo en Equipo Servicio y Satisfacción
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <section id="" class="portfolio section-bg">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>CONTACTO</h2>
+                </div>
+
+                <div class="row portfolio-container">
+
+                    <div class="col-2 portfolio-item filter-app"></div>
+
+                    <div class="col-4 portfolio-item filter-app">
+                        <div class="card shadow">
+                            <div style="padding-bottom: 150px;"></div>
+                            <div class="card-body" style="padding-bottom: 210px;">
+                                <h5 class="card-title">INFORMACION DE CONTACTO</h5>
+                                <h4 class="text-primary"></span>Correo:</h4>
+                                <h5 class="text-secondary">CONTACTO@RENEGADE.COM</h5>
+                                <h4 class="text-primary"></span>TELEFONO:</h4>
+                                <h5 class="text-secondary">0180015135468</h5>
+                                <h4 class="text-primary"></span>DIRECCION:</h4>
+                                <h5 class="text-secondary">Enrique Segoviano</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5 portfolio-item filter-app">
+                        <div class=" text-center">
+                            <div class="card shadow ">
+                                <div class="card-body">
+                                    <h5 class="card-title">Envianos tus comentarios</h5>
+                                    <form action="">
+                                        <label for="Nombre">Nombre:</label>
+                                        <input class="form-control" type="text" name="Nombre">
+                                        <label for="Felefono Celular">Telefono: </label>
+                                        <input class="form-control" type="text" name="Telefono celular">
+                                        <label for="correo">Correo: </label>
+                                        <input class="form-control" type="text" name="correo">
+                                        <label for="mensaje">Mensaje:</label>
+                                        <input class="form-control" style="height: 250px;" type="text" name="mensaje">
+                                        <br>
+                                        <input type="submit">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-3 portfolio-item filter-app">
+                        <div class="portfolio-wrap"></div>
                     </div>
                 </div>
 
