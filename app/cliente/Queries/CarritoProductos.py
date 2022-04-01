@@ -1,6 +1,6 @@
 from ...config import USUARIO_CLIENTE as USER_TYPE
 from .Productos import QueriesProducto
-from ....app.bd import obtener_conexion
+from ...bd import obtener_conexion
 
 
 class QueriesCarrito():
