@@ -93,7 +93,13 @@ def profile_post():
 @cliente.route("/generar-venta", methods=['POST'])
 def generar_venta_post():
     queries = Query()
-    queries.generar_venta(g.user.id)
-    flash('Su compra se registro exitosamente.')
+    puede_comprar = queries.puede_comprar(g.user.id)
+
+    if puede_comprar:
+        queries.generar_venta(g.user.id)
+        flash('Su compra se registro exitosamente.')
+        return render_template("/cliente/micarrito.html", productos=[])
+    
+    flash('Uno o varios productos exceden el máximo de nuestros inventarios.')
     return render_template("/cliente/micarrito.html", productos=[])
 

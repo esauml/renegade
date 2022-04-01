@@ -1,4 +1,6 @@
 from ...bd import obtener_conexion
+from ...config import USUARIO_ADMIN
+
 
 class QueriesProducto():
 
@@ -19,7 +21,8 @@ class QueriesProducto():
 
     def consultar_productos_busqueda(self, USER_TYPE, criteria):
         try:
-            query = "SELECT * from producto where nombre LIKE '%" + criteria +" %' or descripcion LIKE '%" + criteria + "%'"
+            query = "SELECT * from producto where nombre LIKE '%" + \
+                criteria + " %' or descripcion LIKE '%" + criteria + "%'"
             conexion = obtener_conexion(USER_TYPE)
             productos = []
 
@@ -47,4 +50,17 @@ class QueriesProducto():
         except Exception as ex:
             raise Exception(ex)
 
+    def consultar_stock_por_producto(self, id_producto):
+        try:
+            query = 'SELECT stock from producto where id=%s'
+            conexion = obtener_conexion(USUARIO_ADMIN)
+            producto = None
 
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (id_producto))
+                producto = cursor.fetchone()
+
+            cursor.close()
+            return producto
+        except Exception as ex:
+            raise Exception(ex)
