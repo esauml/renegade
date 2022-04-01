@@ -22,7 +22,7 @@
                 <div class="float-right">
                     <button id="btnEditar"
                             type="submit" form="form" value="update" formmethod="post"
-                            formaction="{{ url_for('administrativo.modificar_producto') }}"
+                            formaction="{{ url_for('administrativo.producto.modificar_producto') }}"
                             class="btn btn-primary btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-info-circle"></i>
@@ -32,7 +32,7 @@
                     {% if producto[6] == 1 %}
                         <button id="btnEliminar"
                             type="submit" form="form" value="delete" formmethod="post"
-                            formaction="{{ url_for('administrativo.eliminar_producto') }}"
+                            formaction="{{ url_for('administrativo.producto.eliminar_producto') }}"
                             class="btn btn-danger btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-lock"></i>
@@ -42,7 +42,7 @@
                     {% else %}
                         <button id="btnEliminar"
                             type="submit" form="form" value="delete" formmethod="post"
-                            formaction="{{ url_for('administrativo.eliminar_producto') }}"
+                            formaction="{{ url_for('administrativo.producto.eliminar_producto') }}"
                             class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-lock-open"></i>

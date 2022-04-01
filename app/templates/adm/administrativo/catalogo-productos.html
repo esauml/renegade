@@ -35,7 +35,7 @@
                 <div class="modal fade" id="agregarProductoModal" tabindex="-1"
                      aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <form action="{{ url_for('administrativo.agregar_producto') }}" method="POST"
+                        <form action="{{ url_for('administrativo.producto.agregar_producto') }}" method="POST"
                               class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">
@@ -124,7 +124,7 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="{{ url_for('administrativo.detalle_producto', product_id=producto[0]) }}">
+                                <a href="{{ url_for('administrativo.producto.detalle_producto', product_id=producto[0]) }}">
                                     <i class="fa-solid fa-eye"></i>
                                     Detalle
                                 </a>
