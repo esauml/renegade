@@ -19,12 +19,12 @@ class QueriesProducto():
 
     def consultar_productos_busqueda(self, USER_TYPE, criteria):
         try:
-            query = "SELECT * from producto where nombre=%s or descripcion=%s;"
+            query = "SELECT * from producto where nombre LIKE '%" + criteria +" %' or descripcion LIKE '%" + criteria + "%'"
             conexion = obtener_conexion(USER_TYPE)
             productos = []
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (criteria, criteria))
+                cursor.execute(query)
                 productos = cursor.fetchall()
 
             cursor.close()

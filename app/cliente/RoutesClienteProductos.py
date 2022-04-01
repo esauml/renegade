@@ -12,21 +12,14 @@ cliente_productos_blueprint = Blueprint(cliente_productos_name, __name__)
 @cliente_productos_blueprint.route('/cliente/listado-productos', methods=["GET"])
 def listado_productos():
     queries = Query()
-    try:
-        productos = queries.consultar_productos(USER_TYPE)
-        return render_template('cliente/catalogo-productos.html', productos=productos)
-    except Exception as e:
-        # TODO What to do when couldn't handle DB operation
-        print("Exception: ")
-        raise e
-        return render_template('layout.html')
+    productos = queries.consultar_productos(USER_TYPE)
+    return render_template('cliente/catalogo-productos.html', productos=productos)
 
 
 # Viene Después de hacer una busqueda <FORM>
 @cliente_productos_blueprint.route('/cliente/productos-busqueda', methods=["POST"])
 def productos_busqueda():
     criteria = request.form.get('criteria')
-    print(criteria)
     queries = Query()
     productos = queries.consultar_productos_busqueda(USER_TYPE, criteria)
     return render_template('cliente/catalogo-productos.html', productos=productos)
