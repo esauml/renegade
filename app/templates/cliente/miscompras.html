@@ -9,10 +9,11 @@
         <table class="table">
             {%if carritos%}
             <thead class="table-active table-primary">
-                <tr class="table bg-primary">
+                <tr class="table bg-primary text-light">
                     <th>FOLIO</th>
                     <th>TOTAL</th>
                     <th>FECHA</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -22,7 +23,7 @@
                     <th>{{items[2]}}</th>
                     <th>{{items[3]}}</th>
                     <th>
-                        <a href="/detalle-carrito-usuario/{{ items[0] }}">
+                        <a href="{{ url_for('cliente.detalle_carrito_usuario', id=items[0]) }}">
                         <i class="fa-solid fa-eye"></i>
                         Detalle
                     </a></th>
