@@ -4,13 +4,15 @@ CREATE DATABASE IF NOT EXISTS renegade;
 USE renegade;
 
 -- TABLAS --
-CREATE TABLE IF NOT EXISTS Rol (
+CREATE TABLE IF NOT EXISTS Rol
+(
     id          INT AUTO_INCREMENT PRIMARY KEY,
     name        VARCHAR(50),
     description VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS Usuario (
+CREATE TABLE IF NOT EXISTS Usuario
+(
     id        INT AUTO_INCREMENT PRIMARY KEY,
     nombres   VARCHAR(50),
     apellidos VARCHAR(50),
@@ -21,7 +23,8 @@ CREATE TABLE IF NOT EXISTS Usuario (
     FOREIGN KEY (idRol) REFERENCES Rol (id)
 );
 
-CREATE TABLE IF NOT EXISTS Proveedor (
+CREATE TABLE IF NOT EXISTS Proveedor
+(
     id       INT AUTO_INCREMENT PRIMARY KEY,
     nombre   VARCHAR(50), -- Nombre de la empresa
     contacto VARCHAR(50), -- Nombre de la persona (Contacto persona)
@@ -29,7 +32,8 @@ CREATE TABLE IF NOT EXISTS Proveedor (
     correo   VARCHAR(100)
 );
 
-CREATE TABLE IF NOT EXISTS MateriaPrima (
+CREATE TABLE IF NOT EXISTS MateriaPrima
+(
     id          INT AUTO_INCREMENT PRIMARY KEY,
     nombre      VARCHAR(50),
     descripcion TEXT,
@@ -39,7 +43,8 @@ CREATE TABLE IF NOT EXISTS MateriaPrima (
     unidad      VARCHAR(50)
 );
 
-CREATE TABLE IF NOT EXISTS Compra (
+CREATE TABLE IF NOT EXISTS Compra
+(
     id          INT AUTO_INCREMENT PRIMARY KEY,
     folio       VARCHAR(50) UNIQUE,
     idProveedor INT,
@@ -48,7 +53,8 @@ CREATE TABLE IF NOT EXISTS Compra (
 );
 
 
-CREATE TABLE IF NOT EXISTS StockMateriaPrima (
+CREATE TABLE IF NOT EXISTS StockMateriaPrima
+(
     id             INT AUTO_INCREMENT PRIMARY KEY,
     cantidad       FLOAT,
     idMateriaPrima INT,
@@ -57,7 +63,8 @@ CREATE TABLE IF NOT EXISTS StockMateriaPrima (
     FOREIGN KEY (idOrdenCompra) REFERENCES Compra (id)
 );
 
-CREATE TABLE IF NOT EXISTS CompraStockMateria (
+CREATE TABLE IF NOT EXISTS CompraStockMateria
+(
     idOrdenCompra  INT,
     idMateriaPrima INT,
     cantidad       INT,
@@ -68,7 +75,8 @@ CREATE TABLE IF NOT EXISTS CompraStockMateria (
 );
 
 
-CREATE TABLE IF NOT EXISTS Producto (
+CREATE TABLE IF NOT EXISTS Producto
+(
     id          INT AUTO_INCREMENT PRIMARY KEY,
     nombre      VARCHAR(50),
     descripcion TEXT,
@@ -82,7 +90,8 @@ CREATE TABLE IF NOT EXISTS Producto (
 );
 
 
-CREATE TABLE IF NOT EXISTS Estructura (
+CREATE TABLE IF NOT EXISTS Estructura
+(
     id             INT PRIMARY KEY AUTO_INCREMENT,
     idProducto     INT,
     idMateriaPrima INT,
@@ -92,14 +101,16 @@ CREATE TABLE IF NOT EXISTS Estructura (
     FOREIGN KEY (idMateriaPrima) REFERENCES MateriaPrima (id)
 );
 
-CREATE TABLE IF NOT EXISTS Carrito (
+CREATE TABLE IF NOT EXISTS Carrito
+(
     id        INT AUTO_INCREMENT PRIMARY KEY,
     status    TINYINT(1) DEFAULT 1, -- 0 -> Vendido | 1 -> Activo
     idUsuario INT,
     FOREIGN KEY (idUsuario) REFERENCES Usuario (id)
 );
 
-CREATE TABLE IF NOT EXISTS ProductoCarrito (
+CREATE TABLE IF NOT EXISTS ProductoCarrito
+(
     idProducto INT,
     idCarrito  INT,
     cantidad   INT,
@@ -109,7 +120,8 @@ CREATE TABLE IF NOT EXISTS ProductoCarrito (
     FOREIGN KEY (idCarrito) REFERENCES Carrito (id)
 );
 
-CREATE TABLE IF NOT EXISTS Venta (
+CREATE TABLE IF NOT EXISTS Venta
+(
     id        INT AUTO_INCREMENT PRIMARY KEY,
     folio     VARCHAR(50) UNIQUE,
     total     FLOAT,
@@ -118,7 +130,8 @@ CREATE TABLE IF NOT EXISTS Venta (
     FOREIGN KEY (idCarrito) REFERENCES Carrito (id)
 );
 
-CREATE TABLE IF NOT EXISTS MaterialUsado (
+CREATE TABLE IF NOT EXISTS MaterialUsado
+(
     idProducto          INT,
     idStockMateriaPrima INT,
     cantidad            INT,
@@ -129,7 +142,8 @@ CREATE TABLE IF NOT EXISTS MaterialUsado (
 
 
 -- TODO Esta tabla es para resurtir en la aplicación los productos, el administrador gestiona la falta de productos
-CREATE TABLE IF NOT EXISTS Pedido (
+CREATE TABLE IF NOT EXISTS Pedido
+(
     id          INT AUTO_INCREMENT PRIMARY KEY,
     cantidad    INT DEFAULT 0,
     idProducto  INT,
@@ -161,13 +175,40 @@ from StockMateriaPrima as stk
 drop view if exists vista_estructura_materia;
 
 create view vista_estructura_materia as
-    select e.id,
-           e.descripcion,
-           m.nombre                          as nombreMateriaPrima,
-           concat(e.cantidad, ' ', m.unidad) as cantidad,
-           e.idProducto
-    from estructura e
-             join materiaprima m on e.idMateriaPrima = m.id;
+select e.id,
+       e.descripcion,
+       m.nombre                          as nombreMateriaPrima,
+       concat(e.cantidad, ' ', m.unidad) as cantidad,
+       e.idProducto
+from estructura e
+         join materiaprima m on e.idMateriaPrima = m.id;
+
+DROP VIEW IF EXISTS vista_detalle_carrito;
+CREATE VIEW vista_detalle_carrito AS
+(
+SELECT carrito.id as idCarrito,
+       carrito.status,
+       idUsuario,
+       p.cantidad,
+       p.precio,
+       nombre,
+       descripcion,
+       talla,
+       image_url
+FROM carrito
+         INNER JOIN productocarrito p on carrito.id = p.idCarrito
+         INNER JOIN renegade.producto p2 on p.idProducto = p2.id
+WHERE carrito.status = 0);
+
+
+DROP VIEW IF EXISTS vista_carritos_usuario;
+CREATE VIEW vista_carritos_usuario as
+(
+SELECT v.id as idVenta, v.folio, v.total, v.fecha, v.idCarrito, c.status, u.id as idUsuario
+FROM venta as v
+         INNER JOIN carrito as c ON c.id = v.idCarrito
+         INNER JOIN usuario as u ON c.idUsuario = u.id
+    );
 
 -- INSERCION DATOS--
 
