@@ -18,54 +18,116 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">
+            <div class="row">
+                <div class="col-6" m-0 font-weight-bold text-primary
+                ">
                 Listado Productos
-            </h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Talla</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Activo</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% if productos %}
-                        {% for producto in productos %}
+                </h6>
+            </div>
+            <div class="col-6 text-right">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#agregarProductoModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-plus"
+                         viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                </button>
+                <div class="modal fade" id="agregarProductoModal" tabindex="-1"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="{{ url_for('administrativo.agregar_producto') }}" method="POST" class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    Agregar un nuevo Producto
+                                </h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Nombre -->
+                                <div class="form-group form-row">
+                                    <label class="col-3 col-form-label" for="nombre">Nombre</label>
+                                    <div class="col">
+                                        <input
+                                        type="text" class="form-control" name="nombre"
+                                                    id="nombre"/>
+                                    </div>
+                                </div>
 
-                            <tr data-materia-id="{{ producto[0] }}">
-                                <td>{{ producto[1] }}</td>
-                                <td>{{ producto[2] }}</td>
-                                <td>{{ producto[4] }}</td>
-                                <td>{{ producto[3] }}</td>
-                                <td>{{ producto[5] }}</td>
-                                <td>
-                                    {% if producto[7] == 1 %}
-                                        Activo
-                                    {% else %}
-                                        Inactivo
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <a href="{{ url_for('administrativo.detalle_producto', product_id=producto[0]) }}">
-                                        <i class="fa-solid fa-eye"></i>
-                                        Detalle
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    {% endif %}
-                    </tbody>
-                </table>
+                                <!-- Descripcion -->
+                                <div class="form-group form-row">
+                                    <label class="col-3 col-form-label" for="descripcion">Descripcion</label>
+                                    <div class="col">
+                                        <input
+                                        type="text" class="form-control" name="descripcion" id="descripcion"/>
+                                    </div>
+                                </div>
+
+                                <!-- Talla -->
+                                <div class="form-group form-row">
+                                    <label class="col-3 col-form-label" for="talla">Talla</label>
+                                    <div class="col">
+                                        <input
+                                        type="text" class="form-control" name="talla" id="talla"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Talla</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Activo</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if productos %}
+                    {% for producto in productos %}
+
+                        <tr data-materia-id="{{ producto[0] }}">
+                            <td>{{ producto[1] }}</td>
+                            <td>{{ producto[2] }}</td>
+                            <td>{{ producto[4] }}</td>
+                            <td>{{ producto[3] }}</td>
+                            <td>{{ producto[5] }}</td>
+                            <td>
+                                {% if producto[7] == 1 %}
+                                    Activo
+                                {% else %}
+                                    Inactivo
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('administrativo.detalle_producto', product_id=producto[0]) }}">
+                                    <i class="fa-solid fa-eye"></i>
+                                    Detalle
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+
 
 {% endblock content %}

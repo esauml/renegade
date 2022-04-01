@@ -22,18 +22,18 @@ class Producto():
         try:
             query = 'SELECT * FROM producto WHERE id={}'.format(producto_id)
             conexion = obtener_conexion(tipo_usuario)
-            productos = []
+            producto = None
 
             with conexion.cursor() as cursor:
                 cursor.execute(query)
-                productos = cursor.fetchone()
+                producto = cursor.fetchone()
 
             cursor.close()
-            return productos
+            return producto
         except Exception as ex:
             raise Exception(ex)
 
-    def actualizarUsuario(self, nombre, apellidos, email, password, id, tipo_usuario):
+    def actualizarProducto(self, nombre, apellidos, email, password, id, tipo_usuario):
         try:
             query = 'UPDATE usuario SET nombres = %s, apellidos = %s, correo = %s, password=%s WHERE id = %s;'
             conexion = obtener_conexion(tipo_usuario)
@@ -43,6 +43,21 @@ class Producto():
 
             conexion.commit()
             cursor.close()
+        except Exception as ex:
+            raise Exception(ex)
+
+    def agregarProducto(self, nombre, descripcion, talla, tipo_usuario):
+        try:
+            query = 'UPDATE Producto SET nombre = %s, descripcion = %s, talla = %s;'
+
+            conexion = obtener_conexion(tipo_usuario)
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (nombre, descripcion, talla))
+
+            conexion.commit()
+            cursor.close()
+            return "Agregado"
         except Exception as ex:
             raise Exception(ex)
 
@@ -58,7 +73,3 @@ class Producto():
             cursor.close()
         except Exception as ex:
             raise Exception(ex)
-
-    def calcular_cantidad_disponible_por_producto(self, producto_id):
-        # TODO Calculo de materia prima por producto
-        return 0

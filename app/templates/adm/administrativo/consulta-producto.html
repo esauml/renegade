@@ -52,17 +52,6 @@
                 <input type="hidden" name="idEditable" id="idEditable" value="0">
                 <input type="hidden" name="id" id="id" value={{ producto[0] }}>
 
-                <!-- Stock de Producto -->
-                <div class="form-group form-row">
-                    <label class="col-1 col-form-label" for="inputCliente">Stock</label>
-                    <div class="col-4">
-                        <input
-                                {% if producto %} value={{ 0 }} {% endif %}
-                        type="text" placeholder="20 (IMPORTANTE)" class="form-control" name="inputCliente"
-                                    id="inputCliente"/>
-                    </div>
-                </div>
-
                 <!-- Nombre -->
                 <div class="form-group form-row">
                     <label class="col-1 col-form-label" for="nombre">Nombre</label>
@@ -93,13 +82,23 @@
                     </div>
                 </div>
 
-                <!-- Algo -->
+                <!-- Talla -->
                 <div class="form-group form-row">
-                    <label class="col-1 col-form-label" for="algo">Algo</label>
+                    <label class="col-1 col-form-label" for="talla">Talla</label>
                     <div class="col-4">
                         <input
                                 {% if producto %} value={{ producto[4] }} {% endif %}
-                        type="text" placeholder="Precio" class="form-control" name="algo" id="algo"/>
+                        type="text" placeholder="Talla" class="form-control" name="talla" id="talla"/>
+                    </div>
+                </div>
+
+                <!-- Talla -->
+                <div class="form-group form-row">
+                    <label class="col-1 col-form-label" for="stock">Stock</label>
+                    <div class="col-4">
+                        <input
+                                {% if producto %} value={{ producto[5] }} {% endif %}
+                        type="text" placeholder="Talla" class="form-control" name="stock" id="stock"/>
                     </div>
                 </div>
 
@@ -107,7 +106,7 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>Produto</th>
+                        <th>Materia</th>
                         <th>Cantidad</th>
                     </tr>
                     </thead>

@@ -1,4 +1,4 @@
-from flask import Blueprint, g, session, flash, render_template, redirect
+from flask import Blueprint, g, session, flash, render_template, redirect, request, url_for
 from .Queries.productoQuery import Producto
 from ..site import UsuarioQueries
 from ..config import USUARIO_ADMINISTATIVO
@@ -21,18 +21,34 @@ def before_request_administrativo():
         return render_template('login.html')
 
 
-@administrativo.route("/productos", methods=['GET'])
+@administrativo.route("/productos")
 def productos():
     query = Producto()
     lista_productos = query.consultarListaProductos(USUARIO_ADMINISTATIVO)
     return render_template('adm/administrativo/catalogo-productos.html', productos=lista_productos)
 
 
-@administrativo.route("/detalle_producto/<product_id>", methods=['GET'])
+@administrativo.route("/productos/<product_id>", methods=['GET'])
 def detalle_producto(product_id):
     query = Producto()
     producto = query.consultarProducto(USUARIO_ADMINISTATIVO, product_id)
     return render_template('adm/administrativo/consulta-producto.html', producto=producto)
+
+
+@administrativo.route("/detalle_producto/agregar", methods=['POST'])
+def agregar_producto():
+    name = request.form.get('nombre')
+    desc = request.form.get('descripcion')
+    talla = request.form.get('talla')
+    query = Producto()
+    resp = query.agregarProducto(name, desc, talla, USUARIO_ADMINISTATIVO)
+    flash(resp)
+    return redirect(url_for('administrativo.productos'))
+
+
+@administrativo.route("/detalle_producto/<product_id>/modificar", methods=['POST'])
+def modificar_producto(product_id):
+    return render_template('adm/administrativo/consulta-producto.html')
 
 
 @administrativo.route("/consultar-ventas", methods=['GET'])

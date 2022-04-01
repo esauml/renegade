@@ -79,7 +79,6 @@ CREATE TABLE IF NOT EXISTS Producto (
 
 
 CREATE TABLE IF NOT EXISTS Estructura (
-    id             INT AUTO_INCREMENT PRIMARY KEY,
     idProducto     INT,
     idMateriaPrima INT,
     cantidad       INT,

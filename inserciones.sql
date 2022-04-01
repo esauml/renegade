@@ -62,3 +62,5 @@ VALUES ('Playera', 'Playera', 10, 'Unitalla', 0, ''),
        ('Vestido', 'Vestido', 80, 'Unitalla', 0, ''),
        ('Sudadera', 'Sudadera', 90, 'Unitalla', 0, ''),
        ('Bufandas', 'Bufandas', 100, 'Unitalla', 0, '');
+
+

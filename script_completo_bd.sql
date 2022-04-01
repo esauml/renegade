@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     correo    VARCHAR(100) UNIQUE,
     password  VARCHAR(255),
     active    TINYINT(1) DEFAULT 0,
-    idRol     INT DEFAULT 1,
+    idRol     INT        DEFAULT 1,
     FOREIGN KEY (idRol) REFERENCES Rol (id)
 );
 
@@ -73,16 +73,17 @@ CREATE TABLE IF NOT EXISTS Producto (
     talla       VARCHAR(50),
     stock       INT DEFAULT 0,
     image_url   TEXT,
-    activo tinyint
+    activo      tinyint
 );
 
 
 
 CREATE TABLE IF NOT EXISTS Estructura (
-    id             INT AUTO_INCREMENT PRIMARY KEY,
+    id             int PRIMARY KEY AUTO_INCREMENT,
     idProducto     INT,
     idMateriaPrima INT,
-    cantidad       INT,
+    descripcion    VARCHAR(50),
+    cantidad       FLOAT,
     FOREIGN KEY (idProducto) REFERENCES Producto (id),
     FOREIGN KEY (idMateriaPrima) REFERENCES MateriaPrima (id)
 );
@@ -140,21 +141,22 @@ CREATE TABLE IF NOT EXISTS Pedido (
 --------------------------------------------------------------------------------------------------
 
 drop view if exists vista_stock_materia;
-create view vista_stock_materia as (
-	select 
-	m.id,
-	m.nombre,
-    m.descripcion,
-    concat(stk.cantidad,' ',m.unidad) as stock,
-    com.folio, 
-    com.fechaCompra,
-    p.nombre as Proveedor
-   
-from StockMateriaPrima as stk inner join MateriaPrima as m on stk.idMateriaPrima = m.id
-							  inner join Compra as com on com.id=stk.idOrdenCompra
-                              inner join CompraStockMateria as comStk on comStk.idMateriaPrima = m.id
-                              inner join Proveedor as p on com.idProveedor = p.id
-);
+create view vista_stock_materia as
+(
+select m.id,
+       m.nombre,
+       m.descripcion,
+       concat(stk.cantidad, ' ', m.unidad) as stock,
+       com.folio,
+       com.fechaCompra,
+       p.nombre                            as Proveedor
+
+from StockMateriaPrima as stk
+         inner join MateriaPrima as m on stk.idMateriaPrima = m.id
+         inner join Compra as com on com.id = stk.idOrdenCompra
+         inner join CompraStockMateria as comStk on comStk.idMateriaPrima = m.id
+         inner join Proveedor as p on com.idProveedor = p.id
+    );
 
 -------------------------------------------------------------------------------------------------
 -- Inserts
@@ -165,46 +167,53 @@ from StockMateriaPrima as stk inner join MateriaPrima as m on stk.idMateriaPrima
 
 -- INSERCIONES PROVEEDOR --
 insert into proveedor (nombre, contacto, telefono, correo)
-values ('proveedorTela', 'agenteProveedorTela', '477-000-00-00','correo@proveedor'),
-    ('proveedorTela2', 'agenteProveedorTela2', '477-000-00-00','correo1@proveedor'),
-    ('proveedorTela3', 'agenteProveedorTela3', '477-000-00-00','correo2@proveedor'),
-    ('proveedorTela4', 'agenteProveedorTela4', '477-000-00-00','correo3@proveedor');
+values ('proveedorTela', 'agenteProveedorTela', '477-000-00-00', 'correo@proveedor'),
+       ('proveedorTela2', 'agenteProveedorTela2', '477-000-00-00', 'correo1@proveedor'),
+       ('proveedorTela3', 'agenteProveedorTela3', '477-000-00-00', 'correo2@proveedor'),
+       ('proveedorTela4', 'agenteProveedorTela4', '477-000-00-00', 'correo3@proveedor');
 
 -- INSERCIONES COMPRA --
-insert into compra (folio,idProveedor, fechaCompra) 
-values ('00001', 1,'2022/03/30');
-insert into compra (folio,idProveedor, fechaCompra) 
-values ('00002', 1,'2022/03/30');
+insert into compra (folio, idProveedor, fechaCompra)
+values ('00001', 1, '2022/03/30');
+insert into compra (folio, idProveedor, fechaCompra)
+values ('00002', 1, '2022/03/30');
 
 
 -- INSERSCIONES CATALOGO MATERIA PRIMA --
 insert into MateriaPrima (nombre, descripcion, cantidad, unidad)
 values ('Rollo de tela negra', 'Tela para el diseño de playeras', 50, 'metros');
 insert into MateriaPrima (nombre, descripcion, cantidad, unidad)
-values ('Rollo de tela blanca', 'Tela para el diseño de playeras', 50, 'metros'); 
-
+values ('Rollo de tela blanca', 'Tela para el diseño de playeras', 50, 'metros');
 
 
 -- INSERCIONES STOCKCOMPRA --
 insert into CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad, costo)
-values (1,1,1,250.00);
+values (1, 1, 1, 250.00);
 insert into CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad, costo)
-values (1,2,3,255.00);
+values (1, 2, 3, 255.00);
 
 -- INSERCIONES STOCKMATERIA -- 
-insert into StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) values (50, 1,1);
-INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) values (50, 2,1);
-INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) values (50, 2,1);
-INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) values (50, 2,1);
+insert into StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra)
+values (50, 1, 1);
+INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra)
+values (50, 2, 1);
+INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra)
+values (50, 2, 1);
+INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra)
+values (50, 2, 1);
 
 --INSERCIONES DE ROL--
-INSERT INTO Rol(name, description) VALUES ('cliente', 'Rol designado para los usuarios finales'),
-                                          ('administrador', 'Rol designado para los administradores del sistema'),
-                                          ('administrativo', 'Rol designado para los administrativos del sistema');
+INSERT INTO Rol(name, description)
+VALUES ('cliente', 'Rol designado para los usuarios finales'),
+       ('administrador', 'Rol designado para los administradores del sistema'),
+       ('administrativo', 'Rol designado para los administrativos del sistema');
 
 -- INSERCIONES USUARIO--
 -- Las contrasenias son password --
-INSERT INTO usuario(nombres, apellidos, correo, password, active, idRol) VALUES
-('Nombre de administrador', 'Apellidos', 'administrador@gmail.com', 'sha256$1Ftzf32tZ0QCcdHj$0ebc4d9c6e18261e08f17a5fbc5572d7d6f3a75ea692dee2d59e2c1e2dbdb197', 1, 2),
-('Nombre de administrativo', 'Apellidos', 'administrativo@gmail.com', 'sha256$1Ftzf32tZ0QCcdHj$0ebc4d9c6e18261e08f17a5fbc5572d7d6f3a75ea692dee2d59e2c1e2dbdb197', 1, 3),
-('Nombre de cliente', 'Apellidos', 'cliente@gmail.com', 'sha256$1Ftzf32tZ0QCcdHj$0ebc4d9c6e18261e08f17a5fbc5572d7d6f3a75ea692dee2d59e2c1e2dbdb197', 1, 1);
+INSERT INTO usuario(nombres, apellidos, correo, password, active, idRol)
+VALUES ('Nombre de administrador', 'Apellidos', 'administrador@gmail.com',
+        'sha256$1Ftzf32tZ0QCcdHj$0ebc4d9c6e18261e08f17a5fbc5572d7d6f3a75ea692dee2d59e2c1e2dbdb197', 1, 2),
+       ('Nombre de administrativo', 'Apellidos', 'administrativo@gmail.com',
+        'sha256$1Ftzf32tZ0QCcdHj$0ebc4d9c6e18261e08f17a5fbc5572d7d6f3a75ea692dee2d59e2c1e2dbdb197', 1, 3),
+       ('Nombre de cliente', 'Apellidos', 'cliente@gmail.com',
+        'sha256$1Ftzf32tZ0QCcdHj$0ebc4d9c6e18261e08f17a5fbc5572d7d6f3a75ea692dee2d59e2c1e2dbdb197', 1, 1);
