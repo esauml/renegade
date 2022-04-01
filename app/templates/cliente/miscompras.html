@@ -1,0 +1,41 @@
+{% extends "cliente/layout.html" %}
+
+{% block content %}
+
+<h1>MIS COMPRAS</h1>
+
+<div class="container">
+    <div class="row">
+        <table class="table">
+            {%if carritos%}
+            <thead class="table-active table-primary">
+                <tr class="table bg-primary">
+                    <th>FOLIO</th>
+                    <th>TOTAL</th>
+                    <th>FECHA</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for items in carritos%}
+                <tr>
+                    <th>{{items[1]}}</th>
+                    <th>{{items[2]}}</th>
+                    <th>{{items[3]}}</th>
+                    <th>
+                        <a href="/detalle-carrito-usuario/{{ items[0] }}">
+                        <i class="fa-solid fa-eye"></i>
+                        Detalle
+                    </a></th>
+                </tr>
+                {%endfor%}
+            </tbody>
+            {%else%}
+            <h4 class="text-primary">SIN COMPRAS PREVIAS</h4>
+            {%endif%}
+        </table>
+    </div>
+</div>
+
+
+
+{% endblock content%}
