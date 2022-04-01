@@ -33,41 +33,42 @@ class Producto():
         except Exception as ex:
             raise Exception(ex)
 
-    def actualizarProducto(self, nombre, apellidos, email, password, id, tipo_usuario):
+    def actualizarProducto(self, producto_id, nombre, descripcion, talla, image_ur, cant_min, cant_max, tipo_usuario):
         try:
-            query = 'UPDATE usuario SET nombres = %s, apellidos = %s, correo = %s, password=%s WHERE id = %s;'
+            query = 'UPDATE Producto SET nombre = %s, descripcion = %s, talla = %s, image_url = %s, cant_min = %s, cant_max = %s WHERE id = %s;'
             conexion = obtener_conexion(tipo_usuario)
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (nombre, apellidos, email, password, id))
+                cursor.execute(query, (nombre, descripcion, talla, image_ur, cant_min, cant_max, producto_id))
 
             conexion.commit()
             cursor.close()
-        except Exception as ex:
-            raise Exception(ex)
+            return "El producto fue modificado"
+        except Exception:
+            return "El producto no pudo ser modificado"
 
-    def agregarProducto(self, nombre, descripcion, talla, tipo_usuario):
+    def agregarProducto(self, nombre, descripcion, talla, image_url, tipo_usuario):
         try:
-            query = 'UPDATE Producto SET nombre = %s, descripcion = %s, talla = %s;'
+            query = 'INSERT INTO Producto(nombre, descripcion, talla, image_url) VALUES (%s,%s,%s,%s);'
 
             conexion = obtener_conexion(tipo_usuario)
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (nombre, descripcion, talla))
+                cursor.execute(query, (nombre, descripcion, talla, image_url))
 
             conexion.commit()
             cursor.close()
-            return "Agregado"
-        except Exception as ex:
-            raise Exception(ex)
+            return "El producto fue agregado"
+        except Exception:
+            return "El producto no pudo ser agregado"
 
-    def eliminar_producto(self, tipo_usuario, id):
+    def estatus_producto(self, product_id, activo, tipo_usuario):
         try:
-            query = 'UPDATE usuario SET activo = 0 WHERE id = %s'
+            query = 'UPDATE Producto SET activo = %s WHERE id = %s'
             conexion = obtener_conexion(tipo_usuario)
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (id,))
+                cursor.execute(query, (activo, product_id))
 
             conexion.commit()
             cursor.close()

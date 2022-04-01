@@ -19,9 +19,9 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="row">
-                <div class="col-6" m-0 font-weight-bold text-primary
-                ">
-                Listado Productos
+                <div class="col-6 m-0 font-weight-bold text-primary">
+                <h6>
+                    Listado Productos
                 </h6>
             </div>
             <div class="col-6 text-right">
@@ -35,7 +35,8 @@
                 <div class="modal fade" id="agregarProductoModal" tabindex="-1"
                      aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <form action="{{ url_for('administrativo.agregar_producto') }}" method="POST" class="modal-content">
+                        <form action="{{ url_for('administrativo.agregar_producto') }}" method="POST"
+                              class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">
                                     Agregar un nuevo Producto
@@ -50,8 +51,8 @@
                                     <label class="col-3 col-form-label" for="nombre">Nombre</label>
                                     <div class="col">
                                         <input
-                                        type="text" class="form-control" name="nombre"
-                                                    id="nombre"/>
+                                                type="text" class="form-control" name="nombre"
+                                                id="nombre"/>
                                     </div>
                                 </div>
 
@@ -60,7 +61,7 @@
                                     <label class="col-3 col-form-label" for="descripcion">Descripcion</label>
                                     <div class="col">
                                         <input
-                                        type="text" class="form-control" name="descripcion" id="descripcion"/>
+                                                type="text" class="form-control" name="descripcion" id="descripcion"/>
                                     </div>
                                 </div>
 
@@ -69,7 +70,15 @@
                                     <label class="col-3 col-form-label" for="talla">Talla</label>
                                     <div class="col">
                                         <input
-                                        type="text" class="form-control" name="talla" id="talla"/>
+                                                type="text" class="form-control" name="talla" id="talla"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-row">
+                                    <label class="col-3 col-form-label" for="image_url">Url de la Imagen</label>
+                                    <div class="col">
+                                        <input
+                                                type="text" class="form-control" name="image_url" id="image_url"/>
                                     </div>
                                 </div>
                             </div>
@@ -106,9 +115,9 @@
                             <td>{{ producto[2] }}</td>
                             <td>{{ producto[4] }}</td>
                             <td>{{ producto[3] }}</td>
-                            <td>{{ producto[5] }}</td>
+                            <td>{{ producto[9] }}</td>
                             <td>
-                                {% if producto[7] == 1 %}
+                                {% if producto[6] == 1 %}
                                     Activo
                                 {% else %}
                                     Inactivo

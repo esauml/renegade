@@ -40,15 +40,35 @@ def agregar_producto():
     name = request.form.get('nombre')
     desc = request.form.get('descripcion')
     talla = request.form.get('talla')
+    image_url = request.form.get('image_url')
     query = Producto()
-    resp = query.agregarProducto(name, desc, talla, USUARIO_ADMINISTATIVO)
+    resp = query.agregarProducto(name, desc, talla, image_url, USUARIO_ADMINISTATIVO)
     flash(resp)
     return redirect(url_for('administrativo.productos'))
 
 
-@administrativo.route("/detalle_producto/<product_id>/modificar", methods=['POST'])
-def modificar_producto(product_id):
-    return render_template('adm/administrativo/consulta-producto.html')
+@administrativo.route("/detalle_producto/modificar", methods=['POST'])
+def modificar_producto():
+    product_id = int(request.form.get('id'))
+    nombre = request.form.get('nombre')
+    descripcion = request.form.get('descripcion')
+    talla = request.form.get('talla')
+    image_url = request.form.get('image_url')
+    cant_min = request.form.get('cant_min')
+    cant_max = request.form.get('cant_max')
+    query = Producto()
+    query.actualizarProducto(product_id, nombre, descripcion, talla, image_url, cant_min, cant_max,
+                             USUARIO_ADMINISTATIVO)
+    return redirect(url_for('administrativo.detalle_producto', product_id=product_id))
+
+
+@administrativo.route("/detalle_producto/eliminar", methods=['POST'])
+def eliminar_producto():
+    product_id = int(request.form.get('id'))
+    status = int(request.form.get('status'))
+    query = Producto()
+    query.estatus_producto(product_id, status, USUARIO_ADMINISTATIVO)
+    return redirect(url_for('administrativo.detalle_producto', product_id=product_id))
 
 
 @administrativo.route("/consultar-ventas", methods=['GET'])
