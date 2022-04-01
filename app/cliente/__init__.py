@@ -1,5 +1,6 @@
 
 
+from pydoc import cli
 from flask import Blueprint, redirect, render_template, request, flash, g, session, url_for
 from .clienteQueries import Cliente as Query
 from ..site import UsuarioQueries
@@ -60,7 +61,7 @@ def miInformacion():
 @cliente.route('/actualizar-cliente', methods=["POST"])
 def actualizar_Cliente():
     queries = Query()
-    cliente = queries.actualizarUsuario(nombre=request.form.get("nombres"), apellidos=request.form.get("apellidos"),
+    queries.actualizarUsuario(nombre=request.form.get("nombres"), apellidos=request.form.get("apellidos"),
                                         email=request.form.get("correo"),
                                         id=request.form.get("idCliente"), tipo_usuario=USUARIO_CLIENTE)
     return redirect(url_for('cliente.miInformacion'))
@@ -80,5 +81,12 @@ def profile_get():
 
 @cliente.route("/mi-carrito", methods=['GET'])
 def profile_post():
+    return render_template("/cliente/micarrito.html", productos=[])
 
+
+@cliente.route("/generar-venta", methods=['POST'])
+def generar_venta_post():
+    queries = Query()
+    queries.generar_venta(g.user.id)
+    flash('Su compra se registro exitosamente.')
     return render_template("/cliente/micarrito.html", productos=[])
