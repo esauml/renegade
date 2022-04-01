@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS Estructura (
     id             INT PRIMARY KEY AUTO_INCREMENT,
     idProducto     INT,
     idMateriaPrima INT,
-    cantidad       INT,
+    cantidad       FLOAT,
     descripcion    VARCHAR(50),
     FOREIGN KEY (idProducto) REFERENCES Producto (id),
     FOREIGN KEY (idMateriaPrima) REFERENCES MateriaPrima (id)
@@ -157,6 +157,17 @@ from StockMateriaPrima as stk
          inner join CompraStockMateria as comStk on comStk.idMateriaPrima = m.id
          inner join Proveedor as p on com.idProveedor = p.id);
 
+
+drop view if exists vista_estructura_materia;
+
+create view vista_estructura_materia as
+    select e.id,
+           e.descripcion,
+           m.nombre                          as nombreMateriaPrima,
+           concat(e.cantidad, ' ', m.unidad) as cantidad,
+           e.idProducto
+    from estructura e
+             join materiaprima m on e.idMateriaPrima = m.id;
 
 -- INSERCION DATOS--
 

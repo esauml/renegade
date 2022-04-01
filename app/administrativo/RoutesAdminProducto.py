@@ -29,11 +29,13 @@ def productos():
     return render_template('adm/administrativo/catalogo-productos.html', productos=lista_productos)
 
 
-@producto.route("/productos/<product_id>", methods=['GET'])
+@producto.route("/productos/<product_id>")
 def detalle_producto(product_id):
     query = Producto()
     producto = query.consultarProducto(USUARIO_ADMINISTATIVO, product_id)
-    return render_template('adm/administrativo/consulta-producto.html', producto=producto)
+    estructura = query.consultar_estructura_producto(product_id, USUARIO_ADMINISTATIVO)
+    materias = query.consultarMateriaPrima(USUARIO_ADMINISTATIVO)
+    return render_template('adm/administrativo/consulta-producto.html', producto=producto, estructura=estructura, materias=materias)
 
 
 @producto.route("/detalle_producto/agregar", methods=['POST'])
@@ -58,8 +60,27 @@ def modificar_producto():
     cant_min = request.form.get('cant_min')
     cant_max = request.form.get('cant_max')
     query = Producto()
-    query.actualizarProducto(product_id, nombre, descripcion, talla, image_url, cant_min, cant_max,
+    resp = query.actualizarProducto(product_id, nombre, descripcion, talla, image_url, cant_min, cant_max,
                              USUARIO_ADMINISTATIVO)
+    flash(resp)
+    return redirect(url_for('administrativo.producto.detalle_producto', product_id=product_id))
+
+
+@producto.route("/estructura_producto/agregar", methods=['POST'])
+def agregar_materia_estructura():
+    product_id = int(request.form.get('product_id'))
+    materia_id = request.form.get('materia_id')
+    descripcion = request.form.get('descripcion')
+    cantidad = request.form.get('cantidad')
+    query = Producto()
+    query.agregar_materia_estructura(product_id, materia_id, cantidad, descripcion, USUARIO_ADMINISTATIVO)
+    return redirect(url_for('administrativo.producto.detalle_producto', product_id=product_id))
+
+@producto.route("/estructura_producto/<product_id>/del/<pieza_id>", methods=['POST'])
+def eliminar_materia_estructura(product_id, pieza_id):
+    query = Producto()
+    resp = query.eliminar_materia_estructura(pieza_id, USUARIO_ADMINISTATIVO)
+    flash(resp)
     return redirect(url_for('administrativo.producto.detalle_producto', product_id=product_id))
 
 
