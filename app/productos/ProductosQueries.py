@@ -1,5 +1,6 @@
 from ..bd import obtener_conexion
 
+
 class Producto():
 
     def consultar_productos(self, tipo_usuario):
