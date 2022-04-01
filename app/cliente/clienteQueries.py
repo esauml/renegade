@@ -1,13 +1,17 @@
 
 from multiprocessing import context
 from ..bd import obtener_conexion
+import uuid
+from datetime import datetime
+from ..config import USUARIO_CLIENTE
+
 
 class Cliente():
 
-    def consultarCliente(self, tipo_usuario, id):
+    def consultarCliente(self, id):
         try:
             query = 'SELECT * FROM usuario WHERE id={}'.format(1)
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_CLIENTE)
             usuario = []
 
             with conexion.cursor() as cursor:
@@ -19,10 +23,10 @@ class Cliente():
         except Exception as ex:
             raise Exception(ex)
 
-    def actualizarUsuario(self, nombre, apellidos, email, id, tipo_usuario):
+    def actualizarUsuario(self, nombre, apellidos, email, id):
         try:
             query = 'UPDATE usuario SET nombres = %s, apellidos = %s, correo = %s WHERE id = %s;'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_CLIENTE)
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (nombre, apellidos, email,  id))
@@ -32,16 +36,105 @@ class Cliente():
         except Exception as ex:
             raise Exception(ex)
 
-    def eliminar_producto(self, tipo_usuario, id):
+    def eliminar_producto(self, id):
         try:
             query = 'UPDATE usuario SET activo = 0 WHERE id = %s'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_CLIENTE)
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (id,))
 
             conexion.commit()
             cursor.close()
+        except Exception as ex:
+            raise Exception(ex)
+
+    def generar_venta(self, id_cliente):
+        try:
+            self.registrar_venta(id_cliente)
+            self.desactivar_carrito_por_cliente(id_cliente)
+            self.activar_carrito_por_cliente(id_cliente)
+        except Exception as ex:
+            raise Exception(ex)
+
+    def registrar_venta(self, id_cliente):
+        try:
+            folio = str(uuid.uuid4())
+            fecha = datetime.today().strftime('%Y-%m-%d')
+            carrito = self.obtener_carrito_activo_cliente(id_cliente)
+            total = self.calcular_total_carrito_compra(carrito[0])
+            query = 'INSERT INTO venta(folio, total, fecha, idCarrito) VALUES (%s, %s, %s, %s);'
+            conexion = obtener_conexion(USUARIO_CLIENTE)
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (folio, total, fecha, carrito[0]))
+
+            conexion.commit()
+            cursor.close()
+        except Exception as ex:
+            raise Exception(ex)
+
+    def obtener_carrito_activo_cliente(self, id_cliente):
+        try:
+            query = 'SELECT id, status, idUsuario FROM carrito WHERE idUsuario = %s AND status = 1;'
+            conexion = obtener_conexion(USUARIO_CLIENTE)
+            carrito = []
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (id_cliente))
+                carrito = cursor.fetchone()
+                cursor.close()
+
+            if carrito:
+                return carrito
+
+            raise Exception(
+                "No existe un carrito de compras activo para el cliente.")
+        except Exception as ex:
+            raise Exception(ex)
+
+    def desactivar_carrito_por_cliente(self, id_cliente):
+        try:
+            carrito = self.obtener_carrito_activo_cliente(id_cliente)
+            query = 'UPDATE carrito SET status = 0 WHERE id = %s;'
+            conexion = obtener_conexion(USUARIO_CLIENTE)
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (carrito[0]))
+
+            conexion.commit()
+            cursor.close()
+        except Exception as ex:
+            raise Exception(ex)
+
+    def activar_carrito_por_cliente(self, id_cliente):
+        try:
+            query = 'INSERT INTO carrito(status, idUsuario) VALUES (1,%s);'
+            conexion = obtener_conexion(USUARIO_CLIENTE)
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (id_cliente))
+
+            conexion.commit()
+            cursor.close()
+        except Exception as ex:
+            raise Exception(ex)
+
+    def calcular_total_carrito_compra(self, carrito_id):
+        try:
+            query = 'SELECT sum(suma) FROM (SELECT SUM(cantidad * precio) AS suma FROM carrito  \
+                    INNER JOIN productocarrito p on carrito.id = p.idCarrito WHERE idCarrito = %s  \
+                    GROUP BY idProducto) AS total;'
+
+            conexion = obtener_conexion(USUARIO_CLIENTE)
+            total = []
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (carrito_id))
+                total = cursor.fetchone()
+                cursor.close()
+
+            return total
         except Exception as ex:
             raise Exception(ex)
 

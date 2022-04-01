@@ -45,11 +45,11 @@ class MateriaPrima():
             cursor.close()
         except Exception as ex:
             raise Exception(ex)
-    
+
     def guardar_materia(self, tipo_usuario, nombre, descripcion, cantidad, unidad):
         try:
             query = 'INSERT INTO MateriaPrima (nombre, descripcion, cantidad, unidad) \
-                    values (%s,%s,%s,%s);';
+                    values (%s,%s,%s,%s);'
             conexion = obtener_conexion(tipo_usuario)
 
             with conexion.cursor() as cursor:
