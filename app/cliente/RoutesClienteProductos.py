@@ -76,9 +76,6 @@ def aregar_producto_carrito():
     cliente = g.user.id
     producto = request.form.get('id-producto')
     cantidad = request.form.get('cantidad')
-    print(cliente)
-    print(producto)
-    print(cantidad)
 
     # init query handler
     queries = QueryCarrito()

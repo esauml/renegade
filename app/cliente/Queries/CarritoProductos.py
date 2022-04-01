@@ -8,7 +8,6 @@ class QueriesCarrito():
     def carrito_usuario(self, USER_TYPE, id_usuario):
         try:
             query_carrito = 'SELECT * FROM Carrito where idUsuario=%s and status=1;'
-
             conexion = obtener_conexion(USER_TYPE)
             carrito = []
             productos_carrito = []
@@ -23,7 +22,8 @@ class QueriesCarrito():
                     FROM ProductoCarrito c \
                     inner join Producto p \
                         on c.idProducto = p.id \
-                    where idCarrito = %s;);'
+                    where idCarrito = %s;'
+
                 cursor.execute(query_productos_carrito, (carrito[0],))
                 productos_carrito = cursor.fetchall()
 
@@ -40,15 +40,13 @@ class QueriesCarrito():
         try:
             carrito = None
             # buscar carrito
-            self.buscar_carrito(USER_TYPE, id_user)
+            carrito = self.buscar_carrito(USER_TYPE, id_user)
             # check if it exists
             if carrito is None:
                 # insert into carrito
-                carrito = self.insert_carrito(USER_TYPE, id_user)
-            # check if proudcto is already in carrito
-            carrito_id = carrito[0]
-            is_in = self.search_proudcto_in_carrito(
-                USER_TYPE, carrito_id, id_producto)
+                self.insert_carrito(USER_TYPE, id_user)
+                # buscar de nuevo
+                carrito = self.buscar_carrito(USER_TYPE, id_user)
 
             # producto a actualizar
             precio = 0
@@ -58,11 +56,15 @@ class QueriesCarrito():
                 USER_TYPE, id_producto)
             producto_precio = producto_search[3]
 
+            # check if proudcto is already in carrito
+            carrito_id = carrito[0]
+            is_in = self.search_proudcto_in_carrito(
+                USER_TYPE, carrito_id, id_producto)
             if is_in is not None:
                 # new cantidad
-                cantidad = cantidad + int(is_in[2])
+                cantidad = int(cantidad) + int(is_in[2])
                 # calulo de subtotal
-                precio = int(cantidad) * int(producto_precio)
+                precio = int(cantidad) * float(producto_precio)
                 # addition to stock
                 self.update_producto_to_carrito(
                     USER_TYPE, carrito_id, id_producto, cantidad, precio)
@@ -87,7 +89,7 @@ class QueriesCarrito():
             with conexion.cursor() as cursor:
                 # carrito
                 cursor.execute(query_carrito, (id_user,))
-                carrito = cursor.fetchall()
+                carrito = cursor.fetchone()
 
             cursor.close()
 
@@ -126,13 +128,15 @@ class QueriesCarrito():
         except Exception as ex:
             raise Exception(ex)
 
-    def update_producto_to_carrito(self,  USER_TYPE, carrito_id, producto_id, cantidad):
+    def update_producto_to_carrito(self,  USER_TYPE, carrito_id, producto_id, cantidad, precio):
         try:
-            query = 'UPDATE ProductoCarrito set cantidad=%s where idCarrito=%s and idProducto=%s;'
+            # USER_TYPE, carrito_id, id_producto, cantidad, precio
+            query = 'UPDATE ProductoCarrito set cantidad=%s, precio=%s where idCarrito=%s and idProducto=%s;'
             conexion = obtener_conexion(USER_TYPE)
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (cantidad, carrito_id, producto_id))
+                cursor.execute(
+                    query, (cantidad, precio, carrito_id, producto_id))
 
             conexion.commit()
             cursor.close()
