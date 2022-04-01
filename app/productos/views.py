@@ -77,7 +77,6 @@ def guardar():
     unidad = request.form.get('unidad')
 
     queries = MateriaPrima()
-<<<<<<< HEAD
     queries.guardar_materia(USUARIO_ADMIN, nombre, descripcion, cantidad, unidad)
     return redirect(url_for('productos.getAllMateria'))
 
@@ -147,8 +146,3 @@ def quitar_materia():
     
     mateSelect['insumos'].pop(id)
     return redirect(url_for('productos.cargar_agregar_compra'))
-=======
-    queries.guardar_materia(USUARIO_ADMIN, nombre,
-                            descripcion, cantidad, unidad)
-    return redirect(url_for('productos.getAllMateria'))
->>>>>>> master

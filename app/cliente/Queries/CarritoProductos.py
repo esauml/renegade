@@ -35,11 +35,6 @@ class QueriesCarrito():
             return carrito
         except Exception as ex:
             raise Exception(ex)
-<<<<<<< HEAD
-    
-    def agregar_producto(self, USER_TYPE, id_user, id_producto, cantidad):
-        return "algo"
-=======
 
     def agregar_producto(self, USER_TYPE, id_user, id_producto, cantidad):
         try:
@@ -162,4 +157,3 @@ class QueriesCarrito():
             cursor.close()
         except Exception as ex:
             raise Exception(ex)
->>>>>>> master
