@@ -1,0 +1,48 @@
+{% extends "cliente/layout.html" %}
+
+{% block content %}
+
+<h1>MIS COMPRAS</h1>
+
+<div class="container">
+    <div class="row">
+        <button class="btn btn-warning" onclick="regresar()">
+            <i class="fa-solid fa-arrow-left">Atras</i>
+        </button>
+        <br>
+        <table class="table">
+            {%if productos%}
+            <thead class="table-active table-primary">
+                <tr class="table bg-primary text-light">
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Talla</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="text-justify">
+                {%for items in productos%}
+                <tr>
+                    <th>{{items[5]}}</th>
+                    <th>${{items[4]}}</th>
+                    <th>{{items[7]}}</th>
+                    <th>
+                        <img src="{{items[8]}}" alt="imgProducto" width="70px" height="100px">
+                    </th>
+                </tr>
+                {%endfor%}
+
+            </tbody>
+            {%endif%}
+        </table>
+    </div>
+</div>
+<script>
+    function regresar() {
+        window.history.go(-1);
+        window.history.back();
+    }
+</script>
+
+
+{% endblock content%}

@@ -219,3 +219,20 @@ class Cliente():
 
         except Exception as e:
             raise Exception(e)
+        
+    def detalle_consulta_mis_ventas(self,tipo_usuario,idCarrito):
+        try:
+            query='SELECT * FROM vista_detalle_carrito WHERE idCarrito={}'.format(idCarrito)
+            conexion= obtener_conexion(tipo_usuario)
+            productos=[]
+            
+            with conexion.cursor() as cursor:
+                cursor.execute(query)
+                productos = cursor.fetchall()
+            
+            conexion.commit()
+            cursor.close()
+            return productos
+            
+        except Exception as e:
+            raise Exception(e)
