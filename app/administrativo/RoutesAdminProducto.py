@@ -45,7 +45,7 @@ def agregar_producto():
     query = Producto()
     resp = query.agregarProducto(name, desc, talla, image_url, USUARIO_ADMINISTATIVO)
     flash(resp)
-    return redirect(url_for('producto.productos'))
+    return redirect(url_for('administrativo.producto.productos'))
 
 
 @producto.route("/detalle_producto/modificar", methods=['POST'])
@@ -60,7 +60,7 @@ def modificar_producto():
     query = Producto()
     query.actualizarProducto(product_id, nombre, descripcion, talla, image_url, cant_min, cant_max,
                              USUARIO_ADMINISTATIVO)
-    return redirect(url_for('producto.detalle_producto', product_id=product_id))
+    return redirect(url_for('administrativo.producto.detalle_producto', product_id=product_id))
 
 
 @producto.route("/detalle_producto/eliminar", methods=['POST'])
@@ -69,4 +69,4 @@ def eliminar_producto():
     status = int(request.form.get('status'))
     query = Producto()
     query.estatus_producto(product_id, status, USUARIO_ADMINISTATIVO)
-    return redirect(url_for('producto.detalle_producto', product_id=product_id))
+    return redirect(url_for('administrativo.producto.detalle_producto', product_id=product_id))
