@@ -1,4 +1,5 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from math import prod
+from flask import Blueprint, g, redirect, render_template, request, url_for
 from ..config import USUARIO_CLIENTE as USER_TYPE
 from .Queries.Productos import QueriesProducto as Query
 from .Queries.CarritoProductos import QueriesCarrito as QueryCarrito
@@ -72,17 +73,19 @@ def max_possible_stock(id):
 @cliente_productos_blueprint.route("/cliente/agregar-producto-producto", methods=['POST'])
 def aregar_producto_carrito():
     # inputs
-    cliente = request.form.get('id-cliente')
+    cliente = g.user.id
     producto = request.form.get('id-producto')
     cantidad = request.form.get('cantidad')
+    print(cliente)
+    print(producto)
+    print(cantidad)
 
     # init query handler
     queries = QueryCarrito()
     # consulta
     try:
-        queries.agregar_producto(
-            USER_TYPE, cliente, producto, cantidad)
+        queries.agregar_producto(USER_TYPE, cliente, producto, cantidad)
 
-        return redirect(url_for('CLIENTE_CARRITO.carrito_productos'))
+        return redirect(url_for('cliente.CLIENTE_CARRITO.carrito_productos'))
     except Exception as e:
         raise e
