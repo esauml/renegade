@@ -62,9 +62,9 @@ class QueriesCarrito():
                 USER_TYPE, carrito_id, id_producto)
             if is_in is not None:
                 # new cantidad
-                cantidad = cantidad + int(is_in[2])
+                cantidad = int(cantidad) + int(is_in[2])
                 # calulo de subtotal
-                precio = int(cantidad) * int(producto_precio)
+                precio = int(cantidad) * float(producto_precio)
                 # addition to stock
                 self.update_producto_to_carrito(
                     USER_TYPE, carrito_id, id_producto, cantidad, precio)
@@ -128,13 +128,15 @@ class QueriesCarrito():
         except Exception as ex:
             raise Exception(ex)
 
-    def update_producto_to_carrito(self,  USER_TYPE, carrito_id, producto_id, cantidad):
+    def update_producto_to_carrito(self,  USER_TYPE, carrito_id, producto_id, cantidad, precio):
         try:
-            query = 'UPDATE ProductoCarrito set cantidad=%s where idCarrito=%s and idProducto=%s;'
+            # USER_TYPE, carrito_id, id_producto, cantidad, precio
+            query = 'UPDATE ProductoCarrito set cantidad=%s, precio=%s where idCarrito=%s and idProducto=%s;'
             conexion = obtener_conexion(USER_TYPE)
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (cantidad, carrito_id, producto_id))
+                cursor.execute(
+                    query, (cantidad, precio, carrito_id, producto_id))
 
             conexion.commit()
             cursor.close()
