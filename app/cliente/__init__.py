@@ -44,6 +44,12 @@ def consultar_ventas_get():
     # consulta de carrito en BD
     return 0
 
+@cliente.route("/mis-compras", methods=['GET'])
+# @roles_required('cliente')
+def consultar_mis_compras():
+    
+    return render_template("cliente/miscompras.html")
+
 
 @cliente.route("/agregar-producto-carrito", methods=['POST'])
 # @roles_required('cliente')
@@ -90,3 +96,4 @@ def generar_venta_post():
     queries.generar_venta(g.user.id)
     flash('Su compra se registro exitosamente.')
     return render_template("/cliente/micarrito.html", productos=[])
+
