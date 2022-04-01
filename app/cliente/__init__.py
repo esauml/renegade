@@ -5,8 +5,15 @@ from .clienteQueries import Cliente as Query
 from ..site import UsuarioQueries
 from ..config import USUARIO_CLIENTE
 
+# routes import
+from .RoutesClienteCarrito import cliente_carrito_blueprint as carrito
+from .RoutesClienteProductos import cliente_productos_blueprint as producto
+
 cliente = Blueprint('cliente', __name__)
 
+# routes subscribe
+cliente.register_blueprint(carrito)
+cliente.register_blueprint(producto)
 
 @cliente.before_request
 def before_request_cliente():
@@ -56,7 +63,7 @@ def actualizar_Cliente():
     queries = Query()
     try:
         cliente = queries.actualizarUsuario(nombre=request.form.get("nombres"), apellidos=request.form.get("apellidos"),
-                                            email=request.form.get("correo"), password=request.form.get("contraseña"),
+                                            email=request.form.get("correo"),
                                             id=request.form.get("idCliente"), tipo_usuario=USUARIO_CLIENTE)
         return redirect(url_for('cliente.miInformacion'))
 
@@ -80,4 +87,4 @@ def profile_get():
 @cliente.route("/mi-carrito", methods=['GET'])
 def profile_post():
 
-    return render_template("/cliente/micarrito.html")
+    return render_template("/cliente/micarrito.html",productos=[])

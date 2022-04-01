@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session, g
 from werkzeug.security import check_password_hash
-from flask_security import login_required
+# from flask_security import login_required
 
 from .UsuarioQueries import UsuarioQueries
 from ..config import USUARIO_ADMIN
@@ -85,6 +85,7 @@ def signup_post():
 
 @auth.route('/logout')
 def logout():
+    flash('Se cerró la sesión exitosamente')
     session.pop('id', None)
     g.user = None
     g.rol = None

@@ -1,11 +1,5 @@
 {% extends "adm/layout.html" %}
 
-<!-- Init only when having tables -->
-{% block ScriptJS %}
-<script>
-    
-</script>
-{% endblock ScriptJS %}
 
 <!-- Content -->
 {% block content %}
@@ -21,20 +15,12 @@
             Insumo
             <div class="float-right">
                 <button id="btnEditar" 
-                    type="submit" form="form" value="update" formmethod="post" formaction="/editar-producto"
+                    type="submit" form="form" value="update" formmethod="post" formaction="/editar-materia"
                     class="btn btn-primary btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-info-circle"></i>
                     </span>
                     <span class="text">Editar</span>
-                </button>
-                <button id="btnEliminar" 
-                    type="submit" form="form" value="delete" formmethod="post" formaction="/eliminar-producto"
-                    class="btn btn-danger btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-trash"></i>
-                    </span>
-                    <span class="text">Eliminar</span>
                 </button>
                 <!--<button id="Guardar" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
@@ -47,21 +33,10 @@
     </div>
     <div class="card-body">
         <form id="form">
-            {{ materia }}
+
             <input type="hidden" name="accion" id="accion" value="consultar">
             <input type="hidden" name="idEditable" id="idEditable" value="0">
             <input type="hidden" name="id" id="id" value={{ materia[0] }}>
-            
-            <!-- Stock de Producto -->
-            <div class="form-group form-row">
-                <label class="col-1 col-form-label" for="inputCliente">Stock</label>
-                <div class="col-4">
-                    <input
-                        {% if materia %} value={{ 0 }} {% endif %}
-                        type="text" placeholder="20 (IMPORTANTE)" class="form-control" name="inputCliente"
-                        id="inputCliente" />
-                </div>
-            </div>
 
             <!-- Nombre -->
             <div class="form-group form-row">
@@ -85,27 +60,70 @@
 
             <!-- Precio -->
             <div class="form-group form-row">
-                <label class="col-1 col-form-label" for="precio">Precio</label>
+                <label class="col-1 col-form-label" for="unidades">Unidades</label>
                 <div class="col-4">
-                    <input 
-                        {% if materia %} value={{ materia[3] }} {% endif %}
-                        type="text" placeholder="Precio" class="form-control" name="precio" id="precio" />
+                    <input disabled="true"
+                        {% if materia %} value={{ materia[4] }} {% endif %}
+                        type="text" placeholder="Unidades" class="form-control" name="unidades" id="unidades" />
                 </div>
             </div>
 
-            <!-- Algo -->
+            <!-- Stock -->
             <div class="form-group form-row">
-                <label class="col-1 col-form-label" for="algo">Algo</label>
+                <label class="col-1 col-form-label" for="stock">Stock</label>
                 <div class="col-4">
-                    <input 
-                        {% if materia %} value={{ materia[4] }} {% endif %}
-                        type="text" placeholder="Precio" class="form-control" name="algo" id="algo" />
+                    <input disabled="true"
+                        {% if materia %} value={{ materia[3] }} {% endif %}
+                        type="text" placeholder="stock" class="form-control" name="stock" id="stock" />
                 </div>
             </div>
+
+            <!-- Costo -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="costo">Costo</label>
+                <div class="col-4">
+                    <input  disabled="true"
+                        {% if materia %} value=${{ materia[8] }} {% endif %}
+                        type="text" placeholder="stock" class="form-control" name="stock" id="stock" />
+                </div>
+            </div>
+
+            <!-- Folio -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="folio">Folio</label>
+                <div class="col-4">
+                    <input disabled="true"
+                        {% if materia %} value={{ materia[5] }} {% endif %}
+                        type="text" placeholder="Folio" class="form-control" name="folio" id="folio" />
+                </div>
+            </div>
+
+            <!-- Fecha -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="fecha">Fecha de compra</label>
+                <div class="col-4">
+                    <input disabled="true"
+                        {% if materia %} value={{ materia[6] }} {% endif %}
+                        type="text" placeholder="Folio" class="form-control" name="fecha" id="fecha" />
+                </div>
+            </div>
+
+            <!-- Proveedor -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="proveedor">Proveedor</label>
+                <div class="col-4">
+                    <input disabled="true"
+                        {% if materia %} value={{ materia[7] }} {% endif %}
+                        type="text" placeholder="Proveedor" class="form-control" name="proveedor" id="proveedor" />
+                </div>
+            </div>
+
+            
 
         
         </form>
     </div>
 </div>
+
 
 {% endblock content %}

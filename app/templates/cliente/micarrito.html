@@ -3,30 +3,89 @@
 {% block content %}
 
 <h1>MI CARRITO DE COMPRAS</h1>
+<div class="row">
+    <h4 class="col-10 text-primary">Productos</h4>
+    <div class="col-2">
+        <form action="">
+            <input type="submit" value="Realizar compra" class="btn btn-success">
+        </form>
+    </div>
+</div>
+<hr>
 <div class="container">
     <div class="row">
+        {% if carrito %}
+        {% for item in carrito[3] %}
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h2>{{ item[5] }} - {{ item[6] }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <img src={{ item[10] }} alt=""
+                                    width="100px" height="150px">
+                            </div>
+                            <div class="col-6">
+                                <h4>Talla: {{ item[8] }}</h4>
+                                <h5>Precio Unidad: ${{ item[7] }}</h5>
+                                <hr>
+                                <h4>Cantidad: {{ item[2] }}</h4>
+                                <h5>Sub-tota.: ${{ item[3] }}</h5>
+                            </div>
 
-        {%if productos%}
-        {%for items in productos%}
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    ITEM 1
+                        </div>
+                        <div>
+                            <br>
+                            <form action="">
+                                <input type="submit" class="btn btn-danger" value="Eliminar del carrito" >
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-        {%endfor%}
-        {%else%}
+        {% endfor %}
+        {% else %}
+
+
         <div class="col-6">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-title">{{items[]}}</div>
+                    <div class="card-title">
+                        <h2>Vestido</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Esta es una descripcion de vestido</p>
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="https://m.media-amazon.com/images/I/51f9FaV7TwL._AC_SY741_.jpg" alt=""
+                                    width="100px" height="150px">
+                            </div>
+                            <div class="col-6">
+                                <h4>Talla: Unitalla</h4>
+                                <h5>Precio: $100</h5>
+                            </div>
+
+                        </div>
+                        <div>
+                            <br>
+                            <form action="">
+                                <input type="submit" class="btn btn-danger" value="Eliminar del carrito" >
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-        <h4 class="text-primary">SIN PRODUCTOS</h4>
+        
         {%endif%}
     </div>
+
 </div>
 
 
