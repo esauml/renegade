@@ -5,7 +5,7 @@ class Producto():
 
     def consultarListaProductos(self, tipo_usuario):
         try:
-            query = 'SELECT * FROM producto'
+            query = 'SELECT id, nombre, descripcion, precio, talla, stock, activo FROM producto;'
             conexion = obtener_conexion(tipo_usuario)
             productos = []
 
@@ -20,16 +20,46 @@ class Producto():
 
     def consultarProducto(self, tipo_usuario, producto_id):
         try:
-            query = 'SELECT * FROM producto WHERE id={}'.format(producto_id)
+            query = 'SELECT id, nombre, descripcion, precio, talla, stock, image_url, cant_min, cant_max, activo FROM producto WHERE id = %s;'
             conexion = obtener_conexion(tipo_usuario)
             producto = None
 
             with conexion.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, (producto_id,))
                 producto = cursor.fetchone()
 
             cursor.close()
             return producto
+        except Exception as ex:
+            raise Exception(ex)
+
+    def consultarMateriaPrima(self, tipo_usuario):
+        try:
+            query = 'SELECT id, nombre FROM materiaprima;'
+            conexion = obtener_conexion(tipo_usuario)
+            materias = []
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query)
+                materias = cursor.fetchall()
+
+            cursor.close()
+            return materias
+        except Exception as ex:
+            raise Exception(ex)
+
+    def consultar_estructura_producto(self, producto_id, tipo_usuario):
+        try:
+            query = 'SELECT * FROM vista_estructura_materia WHERE idProducto = %s'
+            conexion = obtener_conexion(tipo_usuario)
+            materiaPrima = []
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (producto_id,))
+                materiaPrima = cursor.fetchall()
+
+            cursor.close()
+            return materiaPrima
         except Exception as ex:
             raise Exception(ex)
 
@@ -74,3 +104,30 @@ class Producto():
             cursor.close()
         except Exception as ex:
             raise Exception(ex)
+
+    def agregar_materia_estructura(self, product_id, materia_id, cantidad, descripcion, tipo_usuario):
+        try:
+            query = 'INSERT INTO estructura(idProducto, idMateriaPrima, cantidad, descripcion) VALUES (%s, %s, %s, %s);'
+            conexion = obtener_conexion(tipo_usuario)
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (product_id, materia_id, cantidad, descripcion))
+
+            conexion.commit()
+            cursor.close()
+        except Exception as ex:
+            raise Exception(ex)
+
+    def eliminar_materia_estructura(self, pieza_id, tipo_usuario):
+        try:
+            query = 'DELETE FROM estructura WHERE id = %s;'
+            conexion = obtener_conexion(tipo_usuario)
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (pieza_id,))
+
+            conexion.commit()
+            cursor.close()
+            return "Materia prima eliminada de la lista de diseño"
+        except Exception as ex:
+            return "No se pudo eliminar la materia prima del diseño"
