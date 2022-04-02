@@ -354,3 +354,63 @@ VALUES (1, 1, 2, 250),
 INSERT INTO venta(folio, total, fecha, idCarrito)
 VALUES ('1282d0c2-74ed-4a08-a1a0-df2179a63564', 550, '2022/03/29', 1),
        ('feddb073-197d-441e-bc34-a423a96656a2', 250, '2022/03/30', 2);
+
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+-- SHOW GRANTS FOR "root"@"localhost";
+FLUSH PRIVILEGES;
+
+-- Cliente
+USE renegade;
+DROP USER IF EXISTS 'cliente'@'localhost';
+CREATE USER 'cliente'@'localhost' identified by 'passwordcliente';
+GRANT SELECT, INSERT, UPDATE ON renegade.usuario TO 'cliente'@'localhost';
+GRANT SELECT, INSERT ON renegade.carrito TO 'cliente'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON renegade.productocarrito TO 'cliente'@'localhost';
+GRANT SELECT ON renegade.vista_carritos_usuario TO 'cliente'@'localhost';
+GRANT SELECT ON renegade.vista_detalle_carrito TO 'cliente'@'localhost';
+GRANT SELECT ON renegade.producto TO 'cliente'@'localhost';
+FLUSH PRIVILEGES;
+
+-- Administrativo
+-- # TODO Usuario quitar vista pra administrativo, lo controla el adm
+DROP USER IF EXISTS 'administrativo'@'localhost';
+CREATE USER 'administrativo'@'localhost' IDENTIFIED BY 'passwordadministrativo';
+GRANT SELECT, INSERT, UPDATE ON renegade.rol TO "administrativo"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.comprastockmateria TO "administrativo"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.compra TO "administrativo"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.estructura TO "administrativo"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.materialusado TO "administrativo"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.materiaprima TO "administrativo"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.pedido TO "administrativo"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.producto TO "administrativo"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.productocarrito TO "administrativo"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.proveedor TO "administrativo"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrativo"@"localhost";
+GRANT SELECT ON renegade.vista_estructura_materia TO "administrativo"@"localhost";
+
+-- ADMINISTRADOR
+DROP USER IF EXISTS 'administrador'@'localhost';
+CREATE USER 'administrador'@'localhost' IDENTIFIED BY 'passwordadministrador';
+GRANT SELECT, INSERT, UPDATE ON renegade.usuario TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.compra TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.comprastockmateria TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.estructura TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.materialusado TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.materiaprima TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.pedido TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.producto TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.productocarrito TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.proveedor TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.rol TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
+GRANT SELECT ON renegade.vista_carritos_usuario TO 'administrador'@'localhost';
+-- GRANT SELECT ON renegade.vista_compras TO "administrador"@"localhost";
+GRANT SELECT ON renegade.vista_stock_materia TO 'administrador'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR "administrador"@"localhost";
+SHOW GRANTS FOR "administrativo"@"localhost";
+SHOW GRANTS FOR "cliente"@"localhost";
+
