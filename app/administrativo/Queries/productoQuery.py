@@ -5,7 +5,7 @@ class Producto():
 
     def consultarListaProductos(self, tipo_usuario):
         try:
-            query = 'SELECT id, nombre, descripcion, precio, talla, stock, activo FROM producto;'
+            query = 'SELECT id, nombre, descripcion, precio, talla, stock, activo FROM vista_producto;'
             conexion = obtener_conexion(tipo_usuario)
             productos = []
 
@@ -20,7 +20,7 @@ class Producto():
 
     def consultarProducto(self, tipo_usuario, producto_id):
         try:
-            query = 'SELECT id, nombre, descripcion, precio, talla, stock, image_url, cant_min, cant_max, activo FROM producto WHERE id = %s;'
+            query = 'SELECT id, nombre, descripcion, precio, talla, stock, image_url, cant_min, cant_max, activo FROM vista_producto WHERE id = %s;'
             conexion = obtener_conexion(tipo_usuario)
             producto = None
 
@@ -74,7 +74,8 @@ class Producto():
             conexion.commit()
             cursor.close()
             return "El producto fue modificado"
-        except Exception:
+        except Exception as ex:
+            raise Exception(ex)
             return "El producto no pudo ser modificado"
 
     def agregarProducto(self, nombre, descripcion, talla, image_url, tipo_usuario):
@@ -89,7 +90,8 @@ class Producto():
             conexion.commit()
             cursor.close()
             return "El producto fue agregado"
-        except Exception:
+        except Exception as ex:
+            raise Exception(ex)
             return "El producto no pudo ser agregado"
 
     def estatus_producto(self, product_id, activo, tipo_usuario):
@@ -130,4 +132,5 @@ class Producto():
             cursor.close()
             return "Materia prima eliminada de la lista de diseño"
         except Exception as ex:
+            raise Exception(ex)
             return "No se pudo eliminar la materia prima del diseño"

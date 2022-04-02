@@ -40,9 +40,9 @@ def login_post():
         return redirect(url_for('auth.login_get'))
 
     if usuario.activo == 0:
-        flash('El usuario se encuentra inhabilitado')
+        flash('El usuario se encuentra deshabilitado')
         return redirect(url_for('auth.login_get'))
-        
+
     session['id'] = usuario.id
     g.user = usuario
     g.rol = usuario.idRol
