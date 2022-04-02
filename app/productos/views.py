@@ -144,10 +144,36 @@ def guardar_compra():
     except Exception as e:
         raise e
 
-
-
-@Productos.route("/cargar-agregar-arribo", methods=['POST', 'GET'])
+@Productos.route("/cargar-agregar-compra", methods=['POST', 'GET'])
 def cargar_agregar_compra():
+    if request.method == 'POST':
+        queries = Compras()
+        insumo = request.form.get('materias')
+        cantidad = request.form.get('cantidad')
+        materia = queries.consultar_materia_id(insumo)
+        materiaSel['insumos'].append({
+            'id': insumo,
+            'insumo': materia[1],
+            'cant': materia[3],
+            'unidad': materia[6],
+            'cantidad': cantidad,
+        })
+        folio = queries.asignarFolio()
+        fecha = date.today()
+        materias = queries.consultar_materia_select()
+        return render_template('adm/administrador/agregar-compra.html',  folio=folio, fecha=fecha,
+                               materias=materias, mateSelect=materiaSel['insumos'])
+    else:
+        queries = Compras()
+        folio = queries.asignarFolio()
+        fecha = date.today()
+
+        materias = queries.consultar_materia_select()
+        return render_template('adm/administrador/agregar-compra.html', folio=folio,
+                               fecha=fecha, materias=materias, mateSelect=materiaSel['insumos'])
+        
+@Productos.route("/cargar-agregar-arribo", methods=['POST', 'GET'])
+def cargar_agregar_arribo():
     if request.method == 'POST':
         queries = Compras()
         insumo = request.form.get('materias')
@@ -168,6 +194,7 @@ def cargar_agregar_compra():
         materias = queries.consultar_materia_select()
         return render_template('adm/administrador/agregar-compra.html',  folio=folio, fecha=fecha,
                                materias=materias, mateSelect=mateSelect['insumos'], proveedores=proveedores)
+    
     else:
         queries = Compras()
         folio = queries.asignarFolio()
