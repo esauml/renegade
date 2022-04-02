@@ -139,12 +139,8 @@ def consultar_compra_get(id):
     except Exception as e:
         raise e
 
-<<<<<<< HEAD
 
 @Productos.route("/cargar-agregar-compra", methods=['POST', 'GET'])
-=======
-@Productos.route('/cargar-agregar-compra', methods=['POST','GET'])
->>>>>>> oscar
 def cargar_agregar_compra():
     if request.method == 'POST':
         queries = Compras()
