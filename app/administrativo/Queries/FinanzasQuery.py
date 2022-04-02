@@ -70,4 +70,25 @@ class QueriesFinanzas():
             raise Exception(e)
     
     def top_10_productos_vendidos():
-        return 0    
+        try:
+            query = '\
+                select idProducto, \
+                    (select nombre from Producto where id = IdProducto), \
+                    sum(precio) \
+                from ProductoCarrito where idCarrito in (\
+                    select id from carrito where id in (\
+                        select idCarrito from Venta\
+                    )\
+                ) group by idProducto;'
+            conexion = obtener_conexion(USER_TYPE)
+            ganancia_anual = 0
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (id,))
+                ganancia_anual = cursor.fetchall()
+
+            cursor.close()
+            return ganancia_anual
+            
+        except Exception as e:
+            raise Exception(e)  
