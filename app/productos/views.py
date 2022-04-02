@@ -6,17 +6,10 @@ from app.productos.compras import Compras
 from . import Productos
 from ..site import UsuarioQueries
 from datetime import date
-<<<<<<< HEAD
-mateSelect = {}
-mateSelect['insumos'] = []
-
-
-=======
 mateSelect={}
 mateSelect['insumos']=[]
 materiaSel={}
 materiaSel['insumos']=[]
->>>>>>> oscar
 @Productos.before_request
 def before_request_administrador():
     if 'id' in session:
