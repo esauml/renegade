@@ -4,7 +4,7 @@ from ...config import USUARIO_ADMINISTATIVO as USER_TYPE
 
 class QueriesFinanzas():
     
-    def ganancia_anual():
+    def ganancia_anual(self):
         try:
             query = '\
                 select ifnull(sum(precio), 0) from ProductoCarrito where idCarrito in (\
@@ -25,7 +25,7 @@ class QueriesFinanzas():
         except Exception as e:
             raise Exception(e)
     
-    def ganancia_mes_actual():
+    def ganancia_mes_actual(self):
         try:
             query = '\
                 select ifnull(sum(precio), 0) from ProductoCarrito where idCarrito in (\
@@ -46,7 +46,7 @@ class QueriesFinanzas():
         except Exception as e:
             raise Exception(e)
 
-    def ganancia_meses_anio():
+    def ganancia_meses_anio(self):
         try:
             query = '\
                 select Month(fecha) index_meses, \
@@ -69,7 +69,7 @@ class QueriesFinanzas():
         except Exception as e:
             raise Exception(e)
     
-    def top_10_productos_vendidos():
+    def top_10_productos_vendidos(self):
         try:
             query = '\
                 select idProducto, \
