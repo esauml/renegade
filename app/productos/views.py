@@ -6,10 +6,10 @@ from app.productos.compras import Compras
 from . import Productos
 from ..site import UsuarioQueries
 from datetime import date
-mateSelect = {}
-mateSelect['insumos'] = []
-
-
+mateSelect={}
+mateSelect['insumos']=[]
+materiaSel={}
+materiaSel['insumos']=[]
 @Productos.before_request
 def before_request_administrador():
     if 'id' in session:
@@ -131,9 +131,49 @@ def consultar_compra_get(id):
         return render_template('adm/administrador/detalle-compra.html', compra=compra, materias=materia)
     except Exception as e:
         raise e
+    
+@Productos.route('/guardarCompra', methods=['POST'])
+def guardar_compra():
+    compra = Compras()
+    folio = request.form.get('folio')
+    fecha = request.form.get('fecha')
+    try:
+        compra.insertar_compra( folio, fecha, materiaSel['insumos'])
+        materiaSel['insumos']=[]
+        return redirect(url_for('productos.getComprasNo'))
+    except Exception as e:
+        raise e
 
-@Productos.route('/cargar-agregar-compra', methods=['POST','GET'])
+@Productos.route("/cargar-agregar-compra", methods=['POST', 'GET'])
 def cargar_agregar_compra():
+    if request.method == 'POST':
+        queries = Compras()
+        insumo = request.form.get('materias')
+        cantidad = request.form.get('cantidad')
+        materia = queries.consultar_materia_id(insumo)
+        materiaSel['insumos'].append({
+            'id': insumo,
+            'insumo': materia[1],
+            'cant': materia[3],
+            'unidad': materia[6],
+            'cantidad': cantidad,
+        })
+        folio = queries.asignarFolio()
+        fecha = date.today()
+        materias = queries.consultar_materia_select()
+        return render_template('adm/administrador/agregar-compra.html',  folio=folio, fecha=fecha,
+                               materias=materias, mateSelect=materiaSel['insumos'])
+    else:
+        queries = Compras()
+        folio = queries.asignarFolio()
+        fecha = date.today()
+
+        materias = queries.consultar_materia_select()
+        return render_template('adm/administrador/agregar-compra.html', folio=folio,
+                               fecha=fecha, materias=materias, mateSelect=materiaSel['insumos'])
+        
+@Productos.route("/cargar-agregar-arribo", methods=['POST', 'GET'])
+def cargar_agregar_arribo():
     if request.method == 'POST':
         queries = Compras()
         insumo = request.form.get('materias')
@@ -154,6 +194,7 @@ def cargar_agregar_compra():
         materias = queries.consultar_materia_select()
         return render_template('adm/administrador/agregar-compra.html',  folio=folio, fecha=fecha,
                                materias=materias, mateSelect=mateSelect['insumos'], proveedores=proveedores)
+    
     else:
         queries = Compras()
         folio = queries.asignarFolio()
