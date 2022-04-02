@@ -14,7 +14,7 @@ def before_request_administrativo():
         model = UsuarioQueries()
         id = session['id']
         usuario = model.consultar_cliente_por_id(id)
-        if usuario.idRol == 1 or usuario.idRol == 2:
+        if usuario.idRol == 1:
             flash('No cuentas con permisos para consultar este módulo')
             return render_template('login.html')
         g.user = usuario
@@ -24,6 +24,13 @@ def before_request_administrativo():
 
 @administrativo.route("/consultar-rendimiento", methods=['GET'])
 def consultar_ventas_get():
+    model = UsuarioQueries()
+    id = session['id']
+    usuario = model.consultar_cliente_por_id(id)
+    if usuario.idRol == 1 or usuario.idRol == 2:
+        flash('No cuentas con permisos para consultar este módulo')
+        return render_template('login.html')
+
     query = QueriesFinanzas()
     
     monthly = query.ganancia_mes_actual()

@@ -40,6 +40,10 @@ def login_post():
         flash('El usuario y/o la contraseña son incorrectos')
         return redirect(url_for('auth.login_get'))
 
+    if usuario.activo == 0:
+        flash('El usuario se encuentra deshabilitado')
+        return redirect(url_for('auth.login_get'))
+
     session['id'] = usuario.id
     g.user = usuario
     g.rol = usuario.idRol
@@ -47,7 +51,7 @@ def login_post():
 
     if(usuario.idRol == 2):
         flash(mensaje)
-        return redirect(url_for('administrativo.consultar_ventas_get'))
+        return redirect(url_for('administrativo.producto.productos'))
 
     if(usuario.idRol == 3):
         flash(mensaje)

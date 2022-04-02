@@ -37,12 +37,12 @@
                                     catalogos</a>
                                 {% endif %}
                                 {% if g.user.idRol == 2%}
-                                <a href="/productos"
+                                <a href="{{ url_for('administrativo.producto.productos') }}"
                                     class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
                                     catalogos Administrador</a>
                                 {% endif %}
                                 {% if g.user.idRol == 3%}
-                                <a href="/productos"
+                                <a href="{{ url_for('administrativo.consultar_ventas_get') }}"
                                     class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
                                     catalogos Administrativo</a>
                                 {% endif %}
