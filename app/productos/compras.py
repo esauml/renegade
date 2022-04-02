@@ -1,3 +1,4 @@
+from ast import USub
 from ..bd import obtener_conexion
 from ..config import USUARIO_ADMIN
 import uuid
@@ -5,10 +6,10 @@ import uuid
 
 class Compras():
 
-    def consultar_compras(self, tipo_usuario):
+    def consultar_compras(self):
         try:
             query = 'SELECT * FROM vista_compras_surtidas;'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             materiasprimas = []
 
             with conexion.cursor() as cursor:
@@ -20,10 +21,10 @@ class Compras():
         except Exception as ex:
             raise Exception(ex)
 
-    def consultar_compras_nosurtidas(self, tipo_usuario):
+    def consultar_compras_nosurtidas(self):
         try:
             query = 'SELECT * FROM vista_compras_nosurtidas;'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             materiasprimas = []
 
             with conexion.cursor() as cursor:
@@ -34,8 +35,8 @@ class Compras():
             return materiasprimas
         except Exception as ex:
             raise Exception(ex)
-
-    def consultar_compra_id(self, tipo_usuario, id):
+        
+    def consultar_compra_id(self, id):
         try:
             query = 'SELECT * FROM vista_compras_surtidas WHERE idOrdenCompra=%s;'
             conexion = obtener_conexion(USUARIO_ADMIN)
@@ -50,10 +51,10 @@ class Compras():
         except Exception as ex:
             raise Exception(ex)
 
-    def consultar_compranosurtida_id(self, tipo_usuario, id):
+    def consultar_compranosurtida_id(self,  id):
         try:
             query = 'SELECT * FROM vista_compras_nosurtidas WHERE id=%s;'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             materia = None
 
             with conexion.cursor() as cursor:
@@ -65,7 +66,7 @@ class Compras():
         except Exception as ex:
             raise Exception(ex)
 
-    def consultar_materias_compra(self, tipo_usuario, id):
+    def consultar_materias_compra(self, id):
         try:
             query = 'SELECT * FROM vista_lista_materias_compradas WHERE idOrdenCompra=%s;'
             conexion = obtener_conexion(USUARIO_ADMIN)
@@ -79,23 +80,23 @@ class Compras():
             return materiasprimas
         except Exception as ex:
             raise Exception(ex)
-
-    def consultar_materias_compranosurtidas(self, tipo_usuario, id):
+    
+    def consultar_materias_compranosurtidas(self, id):
         try:
             query = 'SELECT * FROM vista_materias_nosurtidas WHERE id=%s;'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             materiasprimas = []
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (id,))
+                cursor.execute(query,(id,))
                 materiasprimas = cursor.fetchall()
 
             cursor.close()
             return materiasprimas
         except Exception as ex:
             raise Exception(ex)
-
-    def consultar_materia_select(self, tipo_usuario):
+    
+    def consultar_materia_select(self):
         try:
             query = 'SELECT * FROM MateriaPrima;'
             conexion = obtener_conexion(USUARIO_ADMIN)
@@ -109,8 +110,8 @@ class Compras():
             return materiasprimas
         except Exception as ex:
             raise Exception(ex)
-
-    def consultar_proveedor_select(self, tipo_usuario):
+    
+    def consultar_proveedor_select(self):
         try:
             query = 'SELECT * FROM Proveedor;'
             conexion = obtener_conexion(USUARIO_ADMIN)
@@ -125,10 +126,10 @@ class Compras():
         except Exception as ex:
             raise Exception(ex)
 
-    def consultar_materia_id(self, tipo_usuario, id):
+    def consultar_materia_id(self, id):
         try:
             query = 'SELECT * FROM MateriaPrima WHERE id=%s;'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             materia = None
 
             with conexion.cursor() as cursor:
@@ -140,15 +141,15 @@ class Compras():
         except Exception as ex:
             raise Exception(ex)
 
-    def asignarFolio(self, tipo_usuario):
+    def asignarFolio(self):
         folio = str(uuid.uuid4())
         return folio
 
-    def insertarCompraStockMateria(tipo_usuario, idOrdenCompra, materia):
+    def insertarCompraStockMateria( idOrdenCompra, materia):
         try:
             query = 'INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad, costo) \
                     values (%s,%s,%s,%s);'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
 
             with conexion.cursor() as cursor:
                 cursor.execute(
@@ -176,13 +177,13 @@ class Compras():
             raise Exception(ex)
         return
 
-    def insertar_compra(self, tipo_usuario, folio, fecha, listaMaterias):
+    def insertar_compra(self, folio, fecha, listaMaterias):
         try:
             query = 'INSERT INTO Compra (folio, fechaCompra) \
                     values (%s,%s);'
             query2 = 'INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) \
                     values (%s,%s,%s);'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             with conexion.cursor() as cursor:
                 cursor.execute(query, (folio, fecha))
             valCompraStockMateria = []

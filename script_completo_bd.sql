@@ -190,7 +190,11 @@ from StockMateriaPrima as stk inner join MateriaPrima as m on stk.idMateriaPrima
                               
 select * from vista_stock_materia;
 
-
+DROP VIEW IF EXISTS vista_carritos_usuario;
+CREATE VIEW vista_carritos_usuario as(
+SELECT v.id as idVenta,v.folio,v.total,v.fecha,v.idCarrito, c.status,u.id  as idUsuario FROM venta as v INNER JOIN carrito as c ON c.id=v.idCarrito
+	INNER JOIN usuario as u ON c.idUsuario=u.id
+);
 
 drop view if exists vista_lista_materias_compradas;
 create view vista_lista_materias_compradas as

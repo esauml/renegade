@@ -83,7 +83,7 @@ def guardar():
 @Productos.route('/compras-nosurtidas', methods=['GET'])
 def getComprasNo():
     compra = Compras()
-    compras = compra.consultar_compras_nosurtidas(USUARIO_ADMIN)
+    compras = compra.consultar_compras_nosurtidas()
     
     print(compras)
     return render_template("adm/administrador/compras-no-surtidas.html", compras=compras)
@@ -108,8 +108,8 @@ def compra_nosurtida(id):
     print(compra_id)
     # consulta
     try:
-        compra = queries.consultar_compranosurtida_id(USUARIO_ADMIN, compra_id)
-        materia=queries.consultar_materias_compranosurtidas(USUARIO_ADMIN, compra_id)
+        compra = queries.consultar_compranosurtida_id(compra_id)
+        materia=queries.consultar_materias_compranosurtidas(compra_id)
         print (materia)
         return render_template('adm/administrador/detalle-compra-nosurtida.html', compra=compra,materias=materia)
     except Exception as e:
@@ -131,9 +131,22 @@ def consultar_compra_get(id):
         return render_template('adm/administrador/detalle-compra.html', compra=compra, materias=materia)
     except Exception as e:
         raise e
+    
+@Productos.route('/guardarCompra', methods=['POST'])
+def guardar_compra():
+    compra = Compras()
+    folio = request.form.get('folio')
+    fecha = request.form.get('fecha')
+    try:
+        compra.insertar_compra( folio, fecha, materiaSel['insumos'])
+        materiaSel['insumos']=[]
+        return redirect(url_for('productos.getComprasNo'))
+    except Exception as e:
+        raise e
 
 
-@Productos.route("/cargar-agregar-compra", methods=['POST', 'GET'])
+
+@Productos.route("/cargar-agregar-arribo", methods=['POST', 'GET'])
 def cargar_agregar_compra():
     if request.method == 'POST':
         queries = Compras()
@@ -183,7 +196,7 @@ def guardar_arribo():
     listaMaterias = mateSelect['insumos']
     try:
         print (folio, fecha)
-        compra.insertar_compra(tipo_usuario=USUARIO_ADMIN, folio=folio, fecha=fecha, proveedor=proveedor, listaMaterias=listaMaterias)
+        compra.insertar_compra(folio=folio, fecha=fecha, proveedor=proveedor, listaMaterias=listaMaterias)
         mateSelect['insumos']=[]
         return redirect(url_for('productos.getCompras'))
     except Exception as e:
