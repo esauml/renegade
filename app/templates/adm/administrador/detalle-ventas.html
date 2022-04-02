@@ -1,0 +1,95 @@
+{% extends "adm/layout.html" %}
+
+
+<!-- Content -->
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">
+    Detalle de Orden de Compra surtida
+</h1>
+<!-- Form Card -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            Compra
+        </h6>
+    </div>
+    <div class="card-body">
+        <form id="form">
+
+            <input type="hidden" name="accion" id="accion" value="consultar">
+            <input type="hidden" name="idEditable" id="idEditable" value="0">
+            <input type="hidden" name="id" id="id" value={{ compra[0] }}>
+
+            <!-- Folio -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="folio">Folio</label>
+                <div class="col-4">
+                    <input disabled="true"
+                        {% if compra %} value={{ compra[1] }} {% endif %}
+                        type="text" placeholder="folio" class="form-control" name="folio" id="folio" />
+                </div>
+            </div>
+
+            <!-- Fecha -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="fecha">Fecha</label>
+                <div class="col-4">
+                    <input disabled="true"
+                        {% if compra %} value={{ compra[2] }} {% endif %}
+                        type="text" placeholder="fecha" class="form-control" name="fecha" id="fecha" />
+                </div>
+            </div>
+            {%if materias%}  
+                
+                    <!-- Productos -->
+                    <table class="table table-active text-center">
+                        <tr>
+                            <th>
+                                Insumo
+                            </th>
+                            <th>
+                                Cantidad
+                            </th>
+                            <th>
+                                Unidad
+                            </th>
+                            <th>
+                                Costo
+                            </th> 
+                            <th>
+                                Proveedor
+                            </th>                                                          
+                        </tr>
+                        {%for materia in materias%}
+                            <tr>
+                                <td>{{materia[1]}}</td>
+                                <td>{{materia[2]}}</td>
+                                <td>{{materia[3]}}</td>
+                                <td>{{materia[4]}}</td>
+                                <td>{{materia[5]}}</td>
+                            </tr>
+                        {%endfor%}
+                    </table>
+                
+            {%endif%}
+            <br>
+            <!-- Total -->
+            <div class="form-group form-row">
+                <label class="col-1 col-form-label" for="total">Total Gastos</label>
+                <div class="col-4">
+                    <input disabled="true"
+                    
+                        {% if compra %} value=${{ compra[5] }} {% endif %}
+                        type="text" placeholder="" class="form-control" name="total" id="total" />
+                </div>
+            </div>           
+
+        
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}

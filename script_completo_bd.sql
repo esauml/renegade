@@ -512,6 +512,9 @@ GRANT SELECT, INSERT, UPDATE ON renegade.proveedor TO "administrador"@"localhost
 GRANT SELECT, INSERT, UPDATE ON renegade.rol TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.arriboinsumos TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.arribomateria TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.stockmateriaprima TO "administrador"@"localhost";
 GRANT INSERT  ON renegade.venta TO "administrador"@"localhost";
 GRANT SELECT ON renegade.vista_carritos_usuario TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_stock_materia TO 'administrador'@'localhost';
@@ -527,4 +530,9 @@ FLUSH PRIVILEGES;
 SHOW GRANTS FOR "administrador"@"localhost";
 SHOW GRANTS FOR "administrativo"@"localhost";
 SHOW GRANTS FOR "cliente"@"localhost";
+
+set SQL_SAFE_UPDATES = 0;
+update producto set precio = rand() * 100;
+update producto set precio = format(precio, 2);
+set SQL_SAFE_UPDATES = 1;
 

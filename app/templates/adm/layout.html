@@ -57,8 +57,16 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
+            
+            <!-- Ordenes Compra -->
+            
             <div class="sidebar-heading">Compras</div>
             <!-- Ordenes Compra -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('productos.cargar_agregar_arribo') }}">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Entradas</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('productos.getCompras') }}">
                     <i class="fa-solid fa-tags"></i>
@@ -66,7 +74,7 @@
             </li>
             <!-- Ordenes Venta -->
             <li class="nav-item">
-                <a class="nav-link" href="ordenes-venta.html">
+                <a class="nav-link" href="{{ url_for('administrador.ventas.getVentas') }}">
                     <i class="fa-solid fa-money-check-dollar"></i>
                     <span>Venta</span></a>
             </li>

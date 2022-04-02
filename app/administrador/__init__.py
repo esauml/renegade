@@ -9,9 +9,11 @@ from ..config import USUARIO_ADMIN
 from ..cliente.clienteQueries import Cliente
 from ..site import UsuarioQueries
 from .RoutesUsuario import usuario
+from .RoutesVentas import ventas
 
 administrador = Blueprint('administrador', __name__)
 administrador.register_blueprint(usuario)
+administrador.register_blueprint(ventas)
 
 
 @administrador.before_request
@@ -82,3 +84,5 @@ def actualizar_proveedor_post():
 
     flash('Se actualizó correctamente al proveedor.')
     return redirect(url_for('administrador.consultar_proveedores'))
+
+
