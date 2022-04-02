@@ -6,17 +6,10 @@ from app.productos.compras import Compras
 from . import Productos
 from ..site import UsuarioQueries
 from datetime import date
-<<<<<<< HEAD
 mateSelect = {}
 mateSelect['insumos'] = []
 
 
-=======
-mateSelect={}
-mateSelect['insumos']=[]
-materiaSel={}
-materiaSel['insumos']=[]
->>>>>>> oscar
 @Productos.before_request
 def before_request_administrador():
     if 'id' in session:
@@ -90,8 +83,7 @@ def guardar():
 @Productos.route('/compras-nosurtidas', methods=['GET'])
 def getComprasNo():
     compra = Compras()
-    compras = compra.consultar_compras_nosurtidas(USUARIO_ADMIN)
-    
+    compras = compra.    
     print(compras)
     return render_template("adm/administrador/compras-no-surtidas.html", compras=compras)
 
@@ -115,8 +107,8 @@ def compra_nosurtida(id):
     print(compra_id)
     # consulta
     try:
-        compra = queries.consultar_compranosurtida_id(USUARIO_ADMIN, compra_id)
-        materia=queries.consultar_materias_compranosurtidas(USUARIO_ADMIN, compra_id)
+        compra = queries.compra_id)
+        materia=queries.compra_id)
         print (materia)
         return render_template('adm/administrador/detalle-compra-nosurtida.html', compra=compra,materias=materia)
     except Exception as e:
@@ -139,12 +131,7 @@ def consultar_compra_get(id):
     except Exception as e:
         raise e
 
-<<<<<<< HEAD
-
-@Productos.route("/cargar-agregar-compra", methods=['POST', 'GET'])
-=======
 @Productos.route('/cargar-agregar-compra', methods=['POST','GET'])
->>>>>>> oscar
 def cargar_agregar_compra():
     if request.method == 'POST':
         queries = Compras()
@@ -176,7 +163,6 @@ def cargar_agregar_compra():
         return render_template('adm/administrador/agregar-compra.html', folio=folio,
                                fecha=fecha, materias=materias, mateSelect=mateSelect['insumos'], proveedores=proveedores)
 
-<<<<<<< HEAD
 
 @Productos.route('/quitar-materia', methods=['POST'])
 def quitar_materia():
@@ -184,8 +170,6 @@ def quitar_materia():
 
     mateSelect['insumos'].pop(id)
     return redirect(url_for('productos.cargar_agregar_compra'))
-=======
->>>>>>> oscar
 
         
 @Productos.route('/guardarArribo', methods=['POST'])
@@ -197,7 +181,7 @@ def guardar_arribo():
     listaMaterias = mateSelect['insumos']
     try:
         print (folio, fecha)
-        compra.insertar_compra(tipo_usuario=USUARIO_ADMIN, folio=folio, fecha=fecha, proveedor=proveedor, listaMaterias=listaMaterias)
+        compra.insertar_compra(folio=folio, fecha=fecha, proveedor=proveedor, listaMaterias=listaMaterias)
         mateSelect['insumos']=[]
         return redirect(url_for('productos.getCompras'))
     except Exception as e:
