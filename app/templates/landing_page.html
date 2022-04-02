@@ -30,9 +30,27 @@
                                 <p class="animate__animated animate__fadeInUp">
                                     Empresa de ropa 100 % mexicana
                                 </p>
+                                {% if g.user %}
+                                {% if g.user.idRol == 1%}
+                                <a href="{{ url_for('cliente.CLIENTE_PRODUCTOS.listado_productos') }}"
+                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
+                                    catalogos 1</a>
+                                {% endif %}
+                                {% if g.user.idRol == 2%}
+                                <a href="/productos"
+                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
+                                    catalogos Administrador</a>
+                                {% endif %}
+                                {% if g.user.idRol == 3%}
+                                <a href="/productos"
+                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
+                                    catalogos Administrativo</a>
+                                {% endif %}
+                                {% else %}
                                 <a href="{{ url_for('auth.login_get') }}"
                                     class="btn-get-started animate__animated animate__fadeInUp scrollto">Iniciar
                                     sesión</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

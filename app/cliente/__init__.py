@@ -49,6 +49,7 @@ def detalle_carrito_usuario(id):
     productos = queries.detalle_consulta_mis_ventas(id)
     return render_template("cliente/detalle-carrito.html",productos=productos)
 
+
 @cliente.route('/mi-informacion')
 def miInformacion():
     return render_template("/cliente/infoUsuario.html")

@@ -47,7 +47,18 @@
                 <br>
             </div>
         </div>
+        {% if g.user %}
+        {%if g.user.id%}
+        <hr>
+        <a class="dropdown-item" href="{{ url_for('auth.logout') }}" data-toggle="modal" data-target="#logoutModal">
+            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+            Logout
+        </a>
+        {%endif%}
+        {%endif%}
     </div>
+
+
 </body>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
