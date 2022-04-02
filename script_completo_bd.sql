@@ -490,6 +490,9 @@ GRANT SELECT, INSERT, UPDATE ON renegade.proveedor TO "administrador"@"localhost
 GRANT SELECT, INSERT, UPDATE ON renegade.rol TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.arriboinsumos TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.arribomateria TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.stockmateriaprima TO "administrador"@"localhost";
 GRANT SELECT ON renegade.vista_carritos_usuario TO 'administrador'@'localhost';
 -- GRANT SELECT ON renegade.vista_compras TO "administrador"@"localhost";
 GRANT SELECT ON renegade.vista_stock_materia TO 'administrador'@'localhost';
