@@ -528,3 +528,8 @@ SHOW GRANTS FOR "administrador"@"localhost";
 SHOW GRANTS FOR "administrativo"@"localhost";
 SHOW GRANTS FOR "cliente"@"localhost";
 
+set SQL_SAFE_UPDATES = 0;
+update producto set precio = rand() * 100;
+update producto set precio = format(precio, 2);
+set SQL_SAFE_UPDATES = 1;
+
