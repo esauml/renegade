@@ -8,6 +8,7 @@ from .RoutesAdminProducto import producto
 administrativo = Blueprint('administrativo', __name__)
 administrativo.register_blueprint(producto)
 
+
 @administrativo.before_request
 def before_request_administrativo():
     if 'id' in session:
@@ -22,18 +23,33 @@ def before_request_administrativo():
         flash('Es necesario inicar sesión para consultar este módulo')
         return render_template('login.html')
 
+
 @administrativo.route("/consultar-rendimiento", methods=['GET'])
 def consultar_ventas_get():
     query = QueriesFinanzas()
-    
+
     monthly = query.ganancia_mes_actual()
     yearly = query.ganancia_anual()
-    monthes_earnings = query.ganancia_meses_anio()
-    aux = query.top_10_productos_vendidos()
-    top10 = [0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0]
-    
-    for i in aux:
-        top10[i[0]] = i[1]
-    
-    return render_template('adm/index.html', monthly = monthly, yearly = yearly, monthes_earnings = monthes_earnings, top10 = top10)
+    aux_monthes_earnings = query.ganancia_meses_anio()
+    aux_top_10 = query.top_10_productos_vendidos()
+
+    monthes_earnings = [0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0]
+
+    top10_labels = "["
+    top10_values = []
+
+    print(aux_top_10)
+
+    for i in aux_top_10:
+        if i != aux_top_10[len(aux_top_10)-1]:
+            top10_labels += "\"" + str(i[1]) + "\","
+        else:
+            top10_labels += "\"" + str(i[1]) + "\""
+        top10_values.append(i[2])
+    top10_labels += "]"
+
+    for i in aux_monthes_earnings:
+        monthes_earnings[i[0]] = i[1]
+
+    return render_template('adm/index.html', monthly=monthly, yearly=yearly, monthes_earnings=monthes_earnings, top10_labels=top10_labels, top10_values=top10_values, top10=aux_top_10)
