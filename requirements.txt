@@ -9,3 +9,4 @@ pymysql
 email_validator
 flask_security
 SQLAlchemy
+cryptography

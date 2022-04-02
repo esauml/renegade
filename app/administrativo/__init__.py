@@ -25,9 +25,3 @@ def before_request_administrativo():
 @administrativo.route("/consultar-ventas", methods=['GET'])
 def consultar_ventas_get():
     return render_template('adm/index.html')
-
-
-@administrativo.route("/consultar-rendimiento", methods=['GET'])
-def consultar_rendimiento_get():
-    # calculo de rendimiento
-    return
