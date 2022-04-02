@@ -507,7 +507,6 @@ GRANT SELECT ON renegade.vista_materias_nosurtidas TO 'administrador'@'localhost
 GRANT SELECT ON renegade.vista_detalle_carrito TO 'administrador'@'localhost';
 
 FLUSH PRIVILEGES;
-select * from materiaprima;
 
 SHOW GRANTS FOR "administrador"@"localhost";
 SHOW GRANTS FOR "administrativo"@"localhost";

@@ -31,8 +31,6 @@ class QueriesCarrito():
 
             # append productos_carrito into carrito
             carrito = carrito + (productos_carrito,)
-            print(carrito)
-
             return carrito
         except Exception as ex:
             raise Exception(ex)
