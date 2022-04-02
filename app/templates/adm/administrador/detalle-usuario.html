@@ -12,42 +12,23 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">
-        Detalle de Producto
+        Detalle de Usuario
     </h1>
     <!-- Form Card -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
-                Producto N. {{ producto[0] }}
+                Usuario N. {{ usuario[0] }}
                 <div class="float-right">
                     <button id="btnEditar"
                             type="submit" form="form" value="update" formmethod="post"
-                            formaction="{{ url_for('administrativo.producto.modificar_producto') }}"
+                            formaction="{{ url_for('administrador.usuario.modificar_usuario', id_usuario=usuario[0]) }}"
                             class="btn btn-primary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-info-circle"></i>
                         </span>
                         <span class="text">Editar</span>
                     </button>
-                    {% if producto[9] == 1 %}
-                        <button type="submit" form="form" formmethod="post"
-                                formaction="{{ url_for('administrativo.producto.eliminar_producto') }}"
-                                class="btn btn-danger btn-icon-split">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-lock"></i>
-                            </span>
-                            <span class="text">Bloquear</span>
-                        </button>
-                    {% else %}
-                        <button type="submit" form="form" formmethod="post"
-                                formaction="{{ url_for('administrativo.producto.eliminar_producto') }}"
-                                class="btn btn-success btn-icon-split">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-lock-open"></i>
-                            </span>
-                            <span class="text">Desbloquear</span>
-                        </button>
-                    {% endif %}
                 </div>
             </h6>
         </div>
@@ -55,187 +36,47 @@
             <form id="form">
                 <input type="hidden" name="accion" id="accion" value="consultar">
                 <input type="hidden" name="idEditable" id="idEditable" value="0">
-                <input type="hidden" name="id" id="id" value="{{ producto[0] }}">
-                <input type="hidden" name="status" id="status" value="{% if producto[9] == 1 %}0{% else %}1{% endif %}">
 
-                <!-- Nombre -->
                 <div class="form-group form-row">
-                    <label class="col-1 col-form-label" for="nombre">Nombre</label>
+                    <label class="col-3 col-form-label" for="rol_id">Rol</label>
                     <div class="col">
-                        <input
-                                {% if producto %} value="{{ producto[1] }}" {% endif %}
-                                                  type="text" placeholder="Nombre" class="form-control" name="nombre"
-                                                  id="nombre"/>
-                    </div>
-                </div>
-
-                <!-- Descripcion -->
-                <div class="form-group form-row">
-                    <label class="col-1 col-form-label" for="descripcion">Descripcion</label>
-                    <div class="col">
-                        <input
-                                {% if producto %} value="{{ producto[2] }}" {% endif %}
-                                                  type="text" class="form-control" name="descripcion" id="descripcion"/>
-                    </div>
-                </div>
-
-                <!-- Precio -->
-                <div class="form-group form-row">
-                    <label class="col-1 col-form-label" for="precio">Precio</label>
-                    <div class="col">
-                        <input
-                                {% if producto %} value="{{ producto[3] }}" {% endif %}
-                                                  type="text" disabled class="form-control" name="precio" id="precio"/>
-                    </div>
-                </div>
-
-                <!-- Talla -->
-                <div class="form-group form-row">
-                    <label class="col-1 col-form-label" for="talla">Talla</label>
-                    <div class="col">
-                        <input
-                                {% if producto %} value="{{ producto[4] }}" {% endif %}
-                                                  type="text" class="form-control" name="talla" id="talla"/>
-                    </div>
-                </div>
-
-                <!-- Talla -->
-                <div class="form-group form-row">
-                    <label class="col-1 col-form-label" for="stock">Stock</label>
-                    <div class="col">
-                        <input
-                                {% if producto %} value="{{ producto[5] }}" {% endif %}
-                                                  type="text" disabled class="form-control" name="stock" id="stock"/>
+                        <select class="form-control" name="rol_id" id="rol_id" required>
+                            {% for rol in roles %}
+                                <option {% if usuario[4] == rol[0] %} selected {% endif %}
+                                                                      value="{{ rol[0] }}">{{ rol[1] }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-group form-row">
-                    <label class="col-1 col-form-label" for="image_url">URL de Imagen</label>
+                    <label class="col-3 col-form-label" for="nombres">Nombres</label>
                     <div class="col">
-                        <input
-                                {% if producto %} value="{{ producto[6] }}" {% endif %}
-                                                  type="text" class="form-control" name="image_url" id="image_url"/>
+                        <input type="text" class="form-control" name="nombres" id="nombres" value="{{ usuario[1] }}" required/>
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="form-group form-row">
+                    <label class="col-3 col-form-label" for="apellidos">Apellidos</label>
                     <div class="col">
-                        <div class="form-group form-row">
-                            <label class="col-2 col-form-label" for="cant_min">Stock Minimo</label>
-                            <div class="col">
-                                <input
-                                        {% if producto %} value="{{ producto[7] }}" {% endif %}
-                                                          type="number" min="0" class="form-control" name="cant_min"
-                                                          id="cant_min"/>
-                            </div>
-                        </div>
+                        <input type="text" class="form-control" name="apellidos" id="apellidos" value="{{ usuario[2] }}" required/>
                     </div>
+                </div>
+
+                <div class="form-group form-row">
+                    <label class="col-3 col-form-label" for="correo">Correo</label>
                     <div class="col">
-                        <div class="form-group form-row">
-                            <label class="col-2 col-form-label" for="cant_max">Stock Maximo</label>
-                            <div class="col">
-                                <input
-                                        {% if producto %} value="{{ producto[8] }}" {% endif %}
-                                                          type="number" min="0" class="form-control" name="cant_min"
-                                                          id="cant_max"/>
-                            </div>
-                        </div>
+                        <input type="email" class="form-control" name="correo" id="correo" value="{{ usuario[3] }}" required/>
+                    </div>
+                </div>
+
+                <div class="form-group form-row">
+                    <label class="col-3 col-form-label" for="password">Password</label>
+                    <div class="col">
+                        <input type="text" class="form-control" name="password" id="password"/>
                     </div>
                 </div>
             </form>
-            <div class="row mb-2">
-                <div class="col">
-                    <h3>Diseño del producto</h3>
-                </div>
-                <div class="col text-right">
-                    <button type="button" class="btn btn-success btn-icon-split" data-toggle="modal"
-                            data-target="#agregarMaterialModal">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                        <span class="text">Agregar materia prima al diseño</span>
-                    </button>
-                    <div class="modal fade" id="agregarMaterialModal" tabindex="-1"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <form action="{{ url_for('administrativo.producto.agregar_materia_estructura') }}"
-                                  method="POST"
-                                  class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">
-                                        Agregar Materia prima al diseño del Producto
-                                    </h5>
-                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group form-row">
-                                    <input type="hidden" name="product_id" id="product_id" value="{{ producto[0] }}">
-                                        <label class="col-3 col-form-label" for="materia_id">Materia Prima</label>
-                                        <div class="col">
-                                            <select class="form-control" name="materia_id" id="materia_id" required>
-                                                {% for materia in materias %}
-                                                    <option value="{{ materia[0] }}">{{ materia[1] }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group form-row">
-                                        <label class="col-3 col-form-label" for="descripcion"
-                                               required>Descripción</label>
-                                        <div class="col">
-                                            <input type="text" class="form-control" name="descripcion"
-                                                   id="descripcion"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group form-row">
-                                        <label class="col-3 col-form-label" for="cantidad">Cantidad</label>
-                                        <div class="col">
-                                            <input type="number" min="0.25" step="0.25" class="form-control"
-                                                   name="cantidad" id="cantidad" required/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar
-                                    </button>
-                                    <button class="btn btn-primary" type="submit">Guardar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <form id="del_estructura"></form>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Descripción</th>
-                    <th>Materia</th>
-                    <th>Cantidad</th>
-                    <th class="col-1"></th>
-                </tr>
-                </thead>
-                <tbody>
-                {% if estructura %}
-                    {% for materia in estructura %}
-                        <tr>
-                            <td>{{ materia[1] }}</td>
-                            <td>{{ materia[2] }}</td>
-                            <td>{{ materia[3] }}</td>
-                            <td class="text-center">
-                                <button type="submit" form="del_estructura"
-                                        formaction="{{ url_for('administrativo.producto.eliminar_materia_estructura', product_id=materia[4], pieza_id=materia[0]) }}"
-                                        formmethod="POST" class="btn btn-danger">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                </tbody>
-            </table>
         </div>
     </div>
 

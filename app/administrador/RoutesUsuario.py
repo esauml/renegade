@@ -22,37 +22,66 @@ def before_request_administrativo():
 
 @usuario.route("/usuarios", methods=['GET'])
 def usuarios():
-    return render_template('adm/index.html')
+    query = Usuario()
+    usuarios = query.consultar_usuarios(USUARIO_ADMIN)
+    roles = query.consultar_roles(USUARIO_ADMIN)
+    return render_template('adm/administrador/catalogo-usuarios.html', usuarios=usuarios, roles=roles)
 
 @usuario.route("/usuario/<id_usuario>", methods=['GET'])
 def detalle_usuario(id_usuario):
-    return render_template('adm/index.html')
+    query = Usuario()
+    u = query.consultar_usuario(id_usuario, USUARIO_ADMIN)
+    roles = query.consultar_roles(USUARIO_ADMIN)
+    return render_template('adm/administrador/detalle-usuario.html', usuario=u, roles=roles)
 
 @usuario.route("/usuarios/agregar", methods=['POST'])
 def agregar_usuarios():
-    nombre = request.form.get('nombre')
-    apellidos = request.form.get('apellidos')
-    email = request.form.get('email')
-    password = request.form.get('password')
+    query = Usuario()
 
-    model = UsuarioQueries()
-    usuario_email = model.consultar_por_email(email)
+    nombre = request.form.get('nombres')
+    apellidos = request.form.get('apellidos')
+    email = request.form.get('correo')
+    password = request.form.get('password')
+    rol_id = request.form.get('rol_id')
+
+    usuario_email = query.consultar_por_email(email, USUARIO_ADMIN)
 
     if usuario_email:
         flash('El correo electrónico ya fue registrado.')
-        return redirect(url_for('auth.signup_get'))
+        return redirect(url_for('administrador.usuario.usuarios'))
 
-    model.registro_usuario(USUARIO_ADMIN, nombre, apellidos, email, password)
+    query.agregar_usuario(nombre, apellidos, email, password, rol_id, USUARIO_ADMIN)
     flash('Se registró correctamente al usario.')
-    return redirect(url_for('auth.login_get'))
+    return redirect(url_for('administrador.usuario.usuarios'))
 
-@usuario.route("/usuarios/modificar/<id_usuario>", methods=['GET'])
+@usuario.route("/usuarios/modificar/<id_usuario>", methods=['POST'])
 def modificar_usuario(id_usuario):
-    return render_template('adm/index.html')
+    query = Usuario()
+
+    nombre = request.form.get('nombres')
+    apellidos = request.form.get('apellidos')
+    email = request.form.get('correo')
+    password = request.form.get('password')
+    rol_id = request.form.get('rol_id')
+    usuario_email = query.consultar_por_email(email, USUARIO_ADMIN)
+
+    if usuario_email:
+        flash('El correo electrónico ya fue registrado.')
+        return redirect(url_for('administrador.usuario.detalle_usuario', id_usuario=id_usuario))
+
+    if password == '':
+        query.modificar_usuario(id_usuario, nombre, apellidos, email, rol_id, USUARIO_ADMIN)
+    else:
+        query.modificar_usuario_w_pd(id_usuario, nombre, apellidos, email, password, rol_id, USUARIO_ADMIN)
+
+    flash('Se modificó correctamente al usario.')
+    return redirect(url_for('administrador.usuario.detalle_usuario', id_usuario=id_usuario))
 
 
-@usuario.route("/usuario/estatus", methods=['GET'])
-def consultar_rendimiento_get():
-    # calculo de rendimiento
-    return
+@usuario.route("/usuario/<id_usuario>/estatus", methods=['POST'])
+def estatus_usuario(id_usuario):
+    status = request.form.get('status')
+    query = Usuario()
+    query.estatus_usuario(id_usuario, status, USUARIO_ADMIN)
+    return redirect(url_for('administrador.usuario.usuarios'))
 

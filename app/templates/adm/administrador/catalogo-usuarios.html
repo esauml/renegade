@@ -13,7 +13,7 @@
 {% block content %}
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">
-        Producto
+        Usuario
     </h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -35,7 +35,7 @@
                     <div class="modal fade" id="agregarProductoModal" tabindex="-1"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
-                            <form action="{{ url_for('administrativo.producto.agregar_producto') }}" method="POST"
+                            <form action="{{ url_for('administrador.usuario.agregar_usuarios') }}" method="POST"
                                   class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">
@@ -46,11 +46,24 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+
+                                    <div class="form-group form-row">
+                                        <label class="col-3 col-form-label" for="rol_id">Rol</label>
+                                        <div class="col">
+                                            <select class="form-control" name="rol_id" id="rol_id" required>
+                                                {% for rol in roles %}
+                                                    <option value="{{ rol[0] }}">{{ rol[1] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <!-- Nombre -->
                                     <div class="form-group form-row">
                                         <label class="col-3 col-form-label" for="nombres">Nombres</label>
                                         <div class="col">
-                                            <input type="text" class="form-control" name="nombres" id="nombres"/>
+                                            <input type="text" class="form-control" name="nombres" id="nombres"
+                                                   required/>
                                         </div>
                                     </div>
 
@@ -58,7 +71,8 @@
                                     <div class="form-group form-row">
                                         <label class="col-3 col-form-label" for="apellidos">Apellidos</label>
                                         <div class="col">
-                                            <input type="text" class="form-control" name="apellidos" id="apellidos"/>
+                                            <input type="text" class="form-control" name="apellidos" id="apellidos"
+                                                   required/>
                                         </div>
                                     </div>
 
@@ -66,14 +80,16 @@
                                     <div class="form-group form-row">
                                         <label class="col-3 col-form-label" for="correo">Correo</label>
                                         <div class="col">
-                                            <input type="email" class="form-control" name="correo" id="correo"/>
+                                            <input type="email" class="form-control" name="correo" id="correo"
+                                                   required/>
                                         </div>
                                     </div>
 
                                     <div class="form-group form-row">
                                         <label class="col-3 col-form-label" for="password">Password</label>
                                         <div class="col">
-                                            <input type="text" class="form-control" name="password" id="password"/>
+                                            <input type="text" class="form-control" name="password" id="password"
+                                                   required/>
                                         </div>
                                     </div>
                                 </div>
@@ -93,36 +109,57 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Talla</th>
-                        <th>Stock</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
                         <th>Activo</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% if productos %}
-                        {% for producto in productos %}
-                            <tr data-materia-id="{{ producto[0] }}">
-                                <td>{{ producto[1] }}</td>
-                                <td>{{ producto[2] }}</td>
-                                <td>{{ producto[3] }}</td>
-                                <td>{{ producto[4] }}</td>
-                                <td>{{ producto[5] }}</td>
+                    {% if usuarios %}
+                        {% for usuario in usuarios %}
+                            <!--u.id,nombres,apellidos,correo,active,idRol, r.name-->
+                            <tr data-materia-id="{{ usuario[0] }}">
+                                <td>{{ usuario[1] }}</td>
+                                <td>{{ usuario[2] }}</td>
+                                <td>{{ usuario[3] }}</td>
+                                <td>{{ usuario[6] }}</td>
                                 <td>
-                                    {% if producto[6] == 1 %}
+                                    {% if usuario[4] == 1 %}
                                         Activo
                                     {% else %}
                                         Inactivo
                                     {% endif %}
                                 </td>
-                                <td>
-                                    <a href="{{ url_for('administrativo.producto.detalle_producto', product_id=producto[0]) }}">
-                                        <i class="fa-solid fa-eye"></i>
-                                        Detalle
-                                    </a>
+                                <td class="text-center">
+                                    <form id="detalle"></form>
+                                    <form>
+                                        <input type="hidden" name="status"
+                                               value="{% if usuario[4] == 1 %}0{% else %}1{% endif %}">
+
+                                        <div class="btn-group" role="group">
+                                            <button type="submit" class="btn btn-primary" form="detalle"
+                                                    formaction="{{ url_for('administrador.usuario.detalle_usuario', id_usuario=usuario[0]) }}"
+                                                    formmethod="GET">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </button>
+                                            {% if usuario[4] == 1 %}
+                                                <button type="submit" class="btn btn-danger"
+                                                        formaction="{{ url_for('administrador.usuario.estatus_usuario', id_usuario=usuario[0]) }}"
+                                                        formmethod="POST">
+                                                    <i class="fa-solid fa-lock"></i>
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" class="btn btn-success"
+                                                        formaction="{{ url_for('administrador.usuario.estatus_usuario', id_usuario=usuario[0]) }}"
+                                                        formmethod="POST">
+                                                    <i class="fa-solid fa-lock-open"></i>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}

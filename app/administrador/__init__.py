@@ -8,8 +8,10 @@ from .proveedoresQueries import ProveedoresQueries as QueryProveedores
 from ..config import USUARIO_ADMIN
 from ..cliente.clienteQueries import Cliente
 from ..site import UsuarioQueries
+from .RoutesUsuario import usuario
 
 administrador = Blueprint('administrador', __name__)
+administrador.register_blueprint(usuario)
 
 
 @administrador.before_request

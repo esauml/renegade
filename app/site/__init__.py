@@ -47,7 +47,7 @@ def login_post():
 
     if(usuario.idRol == 2):
         flash(mensaje)
-        return redirect('/productos')
+        return redirect(url_for('administrativo.consultar_ventas_get'))
 
     if(usuario.idRol == 3):
         flash(mensaje)
