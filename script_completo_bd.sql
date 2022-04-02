@@ -187,7 +187,7 @@ from StockMateriaPrima as stk inner join MateriaPrima as m on stk.idMateriaPrima
 							  inner join arriboInsumos as a on a.id=stk.idArriboInsumos
                               inner join arriboMateria as aM on aM.idMateriaPrima = m.id
                               inner join Proveedor as p on a.idProveedor = p.id);
-                              
+
 DROP VIEW IF EXISTS vista_carritos_usuario;
 CREATE VIEW vista_carritos_usuario as(
 SELECT v.id as idVenta,v.folio,v.total,v.fecha,v.idCarrito, c.status,u.id  as idUsuario FROM venta as v INNER JOIN carrito as c ON c.id=v.idCarrito
@@ -199,20 +199,20 @@ SELECT v.id as idVenta,v.folio,v.total,v.fecha,v.idCarrito, c.status,u.id  as id
 drop view if exists vista_lista_materias_compradas;
 create view vista_lista_materias_compradas as
 (
-	
-select 
+
+select
 	a.idOrdenCompra,
     m.nombre as materia,
     aM.cantidad,
-    concat(m.cantidad,' ',m.unidad) as unidad,    
+    concat(m.cantidad,' ',m.unidad) as unidad,
     aM.costo,
     p.nombre
 from arriboInsumos as a inner join arriboMateria as aM on a.id=aM.idArriboInsumos
 					   inner join MateriaPrima as m on aM.idMateriaPrima = m.id
                        inner join Proveedor as p on p.id=a.idProveedor
-); 
+);
 
-				
+
 drop view if exists vista_compras_nosurtidas;
 create view vista_compras_nosurtidas as
 (
@@ -229,7 +229,7 @@ from compra as com inner join CompraStockMateria as comStk on com.id=comStk.idOr
 
 drop view if exists vista_materias_nosurtidas;
 create view vista_materias_nosurtidas as(
-select 
+select
 	com.id,
     m.nombre as insumo,
     comStk.cantidad,
@@ -238,11 +238,11 @@ from CompraStockMateria as comStk inner join Compra as com on com.id=comStk.idOr
 				   inner join MateriaPrima as m on comStk.idMateriaPrima = m.id
                    WHERE com.surtida = 0
 );
-                   
+
 
 drop view if exists vista_compras_surtidas;
 create view vista_compras_surtidas as (
-	select 
+	select
 	a.idOrdenCompra,
     com.folio,
     com.fechaCompra,
@@ -256,6 +256,12 @@ from arriboInsumos as a inner join arriboMateria as aM on a.id=aM.idArriboInsumo
                        group by a.idOrdenCompra
 );
 
+DROP VIEW IF EXISTS vista_detalle_carrito;
+CREATE VIEW vista_detalle_carrito  AS (
+SELECT carrito.id as idCarrito, carrito.status, idUsuario, p.cantidad, p.precio, nombre, descripcion, talla, image_url FROM carrito
+                    INNER JOIN productocarrito p on carrito.id = p.idCarrito
+                    INNER JOIN renegade.producto p2 on p.idProducto = p2.id
+                    WHERE carrito.status = 0);
 
 -- INSERCION DATOS--
 
@@ -333,30 +339,30 @@ INSERT INTO arriboMateria (idArriboInsumos, idMateriaPrima, cantidad, costo) VAL
 
 -- INSERCIONES STOCKCOMPRA --
 INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES
-(1, 1, 2), 
+(1, 1, 2),
 (1, 2, 2),
 (2, 3, 2),
 (3, 4, 5),
-(4, 5, 1), 
+(4, 5, 1),
 (4, 6, 2);
 
-INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES 
+INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES
 (5, 1, 1),
 (5, 2, 2),
 (5, 3, 3),
 (6, 4, 1),
 (6, 5, 1),
 (5, 6, 1);
-INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES 
+INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES
 (7, 2, 1);
 
 -- INSERCIONES STOCKMATERIA --
 INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idArriboInsumos) VALUES
-(100,1,1), 
+(100,1,1),
 (100,2,1),
 (20,3,2),
 (500,4,3),
-(100,5,4), 
+(100,5,4),
 (100,6,4);
 
 -- INSERCIONES PRODUCTO --
@@ -453,8 +459,8 @@ GRANT SELECT, INSERT, UPDATE ON renegade.usuario TO 'cliente'@'localhost';
 GRANT SELECT, INSERT ON renegade.carrito TO 'cliente'@'localhost';
 GRANT SELECT, INSERT, UPDATE, DELETE ON renegade.productocarrito TO 'cliente'@'localhost';
 GRANT SELECT ON renegade.vista_carritos_usuario TO 'cliente'@'localhost';
--- GRANT SELECT ON renegade.vista_detalle_carrito TO 'cliente'@'localhost'; --
 GRANT SELECT ON renegade.producto TO 'cliente'@'localhost';
+GRANT SELECT ON renegade.vista_detalle_carrito TO 'cliente'@'localhost';
 FLUSH PRIVILEGES;
 
 -- Administrativo
@@ -473,6 +479,7 @@ GRANT SELECT, INSERT, UPDATE ON renegade.productocarrito TO "administrativo"@"lo
 GRANT SELECT, INSERT, UPDATE ON renegade.proveedor TO "administrativo"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrativo"@"localhost";
 -- GRANT SELECT ON renegade.vista_estructura_materia TO "administrativo"@"localhost"; --
+GRANT SELECT ON renegade.vista_detalle_carrito TO 'administrativo'@'localhost';
 
 -- ADMINISTRADOR
 DROP USER IF EXISTS 'administrador'@'localhost';
@@ -490,13 +497,14 @@ GRANT SELECT, INSERT, UPDATE ON renegade.proveedor TO "administrador"@"localhost
 GRANT SELECT, INSERT, UPDATE ON renegade.rol TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
+GRANT INSERT  ON renegade.venta TO "administrador"@"localhost";
 GRANT SELECT ON renegade.vista_carritos_usuario TO 'administrador'@'localhost';
--- GRANT SELECT ON renegade.vista_compras TO "administrador"@"localhost";
 GRANT SELECT ON renegade.vista_stock_materia TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_compras_surtidas TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_lista_materias_compradas TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_compras_nosurtidas TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_materias_nosurtidas TO 'administrador'@'localhost';
+GRANT SELECT ON renegade.vista_detalle_carrito TO 'administrador'@'localhost';
 
 FLUSH PRIVILEGES;
 select * from materiaprima;
