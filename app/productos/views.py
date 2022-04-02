@@ -6,10 +6,17 @@ from app.productos.compras import Compras
 from . import Productos
 from ..site import UsuarioQueries
 from datetime import date
+<<<<<<< HEAD
 mateSelect = {}
 mateSelect['insumos'] = []
 
 
+=======
+mateSelect={}
+mateSelect['insumos']=[]
+materiaSel={}
+materiaSel['insumos']=[]
+>>>>>>> oscar
 @Productos.before_request
 def before_request_administrador():
     if 'id' in session:
@@ -132,8 +139,12 @@ def consultar_compra_get(id):
     except Exception as e:
         raise e
 
+<<<<<<< HEAD
 
 @Productos.route("/cargar-agregar-compra", methods=['POST', 'GET'])
+=======
+@Productos.route('/cargar-agregar-compra', methods=['POST','GET'])
+>>>>>>> oscar
 def cargar_agregar_compra():
     if request.method == 'POST':
         queries = Compras()
@@ -165,6 +176,7 @@ def cargar_agregar_compra():
         return render_template('adm/administrador/agregar-compra.html', folio=folio,
                                fecha=fecha, materias=materias, mateSelect=mateSelect['insumos'], proveedores=proveedores)
 
+<<<<<<< HEAD
 
 @Productos.route('/quitar-materia', methods=['POST'])
 def quitar_materia():
@@ -172,10 +184,12 @@ def quitar_materia():
 
     mateSelect['insumos'].pop(id)
     return redirect(url_for('productos.cargar_agregar_compra'))
+=======
+>>>>>>> oscar
 
         
-@Productos.route('/guardarCompra', methods=['POST'])
-def guardar_compra():
+@Productos.route('/guardarArribo', methods=['POST'])
+def guardar_arribo():
     compra = Compras()
     folio = request.form.get('folio')
     fecha = request.form.get('fecha')
