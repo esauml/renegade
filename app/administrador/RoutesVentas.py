@@ -25,3 +25,9 @@ def getVentas():
     query = Venta()
     ventas = query.consultar_ventas()
     return render_template('adm/administrador/catalogo-ventas.html', ventas=ventas)
+
+@ventas.route("/detalle-venta/<id>", methods=['GET'])
+def getDetalleVentas(id):
+    query = Venta()
+    ventas = query.detalle_consulta_venta(id)
+    return render_template('adm/administrador/detalle-ventas.html', ventas=ventas)

@@ -13,34 +13,14 @@
 {% block content %}
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">
-    Compras
+    Ventas
 </h1>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">
-            Listado Compras            
+            Listado Ventas
         </h6>
-        <form id="formAdd">
-            <button id="btnAgregar" 
-                type="submit" form="formAdd" value="add" formmethod="get" formaction="/cargar-agregar-compra"
-                class="btn btn-primary btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-plus-circle"></i>
-                </span>
-                <span class="text">Agregar</span>
-            </button>
-        </form>
-        <form id="form-no-surtidas">
-            <button id="btnNosurtidas" 
-                type="submit" form="form-no-surtidas" value="add" formmethod="get" formaction="/compras-nosurtidas"
-                class="btn btn-info btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-plus-circle"></i>
-                </span>
-                <span class="text">No surtidas</span>
-            </button>
-        </form>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -51,50 +31,25 @@
                             Folio
                         </th>
                         <th>
-                            Fecha de compra
+                            Total
                         </th>
                         <th>
-                            Cantidad de insumos
+                            fecha
                         </th>
                         <th>
-                            Total de productos
                         </th>
-                        <th>
-                            Total de gastos
-                        </th>                        
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>
-                            Folio
-                        </th>
-                        <th>
-                            Fecha de compra
-                        </th>
-                        <th>
-                            Cantidad de insumos
-                        </th>
-                        <th>
-                            Total de productos
-                        </th>
-                        <th>
-                            Total de gastos
-                        </th>  
-                    </tr>
-                </tfoot>
                 <tbody>
-                    {% if compras %}
-                    {% for compra in compras %}
+                    {% if ventas %}
+                    {% for item in ventas %}
 
-                    <tr data-compra-id="{{ compra[0] }}">
-                        <td>{{ compra[1] }}</td>
-                        <td>{{ compra[2] }}</td>
-                        <td>{{ compra[3] }}</td>
-                        <td>{{ compra[4] }}</td>
-                        <td>{{ compra[5] }}</td>
+                    <tr data-compra-id="{{ item[0] }}">
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>{{ item[3] }}</td>
                         <td>
-                            <a href="/detalle-compra/{{ compra[0] }}">
+                            <a href="{{ url_for('administrador.ventas.getDetalleVentas', id=item[4]) }}">
                                 <i class="fa-solid fa-eye"></i>
                                 Detalle
                             </a>
