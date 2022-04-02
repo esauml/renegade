@@ -16,7 +16,7 @@ class QueriesFinanzas():
             ganancia_anual = 0
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (id,))
+                cursor.execute(query)
                 ganancia_anual = cursor.fetchall()
 
             cursor.close()
@@ -37,7 +37,7 @@ class QueriesFinanzas():
             ganancia_anual = 0
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (id,))
+                cursor.execute(query)
                 ganancia_anual = cursor.fetchall()
 
             cursor.close()
@@ -60,7 +60,7 @@ class QueriesFinanzas():
             ganancia_anual = 0
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (id,))
+                cursor.execute(query)
                 ganancia_anual = cursor.fetchall()
 
             cursor.close()
@@ -84,7 +84,7 @@ class QueriesFinanzas():
             ganancia_anual = 0
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (id,))
+                cursor.execute(query)
                 ganancia_anual = cursor.fetchall()
 
             cursor.close()
