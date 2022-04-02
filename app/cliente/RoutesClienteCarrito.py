@@ -23,7 +23,7 @@ def carrito_productos():
         raise e
 
 @cliente_carrito_blueprint.route("/cliente/eliminar-producto-carrito", methods=['POST'])
-def carrito_productos():
+def eliminar_producto_carrito():
 
     carrito = request.form.get('id_carrito')
     producto = request.form.get('id_producto')
