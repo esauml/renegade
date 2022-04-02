@@ -3,7 +3,7 @@ from multiprocessing import context
 from ..bd import obtener_conexion
 import uuid
 from datetime import datetime
-from ..config import USUARIO_CLIENTE
+from ..config import USUARIO_CLIENTE, USUARIO_ADMIN
 from .Queries.Productos import QueriesProducto as QueryProductos
 
 
@@ -40,7 +40,7 @@ class Cliente():
     def eliminar_producto(self, id):
         try:
             query = 'UPDATE usuario SET activo = 0 WHERE id = %s'
-            conexion = obtener_conexion(USUARIO_CLIENTE)
+            conexion = obtener_conexion(USUARIO_ADMIN)
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (id,))
@@ -66,7 +66,7 @@ class Cliente():
             carrito = self.obtener_carrito_activo_cliente(id_cliente)
             total = self.calcular_total_carrito_compra(carrito[0])
             query = 'INSERT INTO venta(folio, total, fecha, idCarrito) VALUES (%s, %s, %s, %s);'
-            conexion = obtener_conexion(USUARIO_CLIENTE)
+            conexion = obtener_conexion(USUARIO_ADMIN)
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (folio, total, fecha, carrito[0]))
@@ -99,7 +99,7 @@ class Cliente():
         try:
             carrito = self.obtener_carrito_activo_cliente(id_cliente)
             query = 'UPDATE carrito SET status = 0 WHERE id = %s;'
-            conexion = obtener_conexion(USUARIO_CLIENTE)
+            conexion = obtener_conexion(USUARIO_ADMIN)
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (carrito[0]))
@@ -112,7 +112,7 @@ class Cliente():
     def activar_carrito_por_cliente(self, id_cliente):
         try:
             query = 'INSERT INTO carrito(status, idUsuario) VALUES (1,%s);'
-            conexion = obtener_conexion(USUARIO_CLIENTE)
+            conexion = obtener_conexion(USUARIO_ADMIN)
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (id_cliente))
@@ -128,7 +128,7 @@ class Cliente():
                     INNER JOIN productocarrito p on carrito.id = p.idCarrito WHERE idCarrito = %s  \
                     GROUP BY idProducto) AS total;'
 
-            conexion = obtener_conexion(USUARIO_CLIENTE)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             total = []
 
             with conexion.cursor() as cursor:
@@ -140,11 +140,11 @@ class Cliente():
         except Exception as ex:
             raise Exception(ex)
 
-    def consulta_mis_ventas(self, tipo_usuario, idCliente):
+    def consulta_mis_ventas(self, idCliente):
         try:
             query = 'SELECT * FROM vista_carritos_usuario WHERE idUsuario={} AND status=0'.format(
                 idCliente)
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             carritos = []
 
             with conexion.cursor() as cursor:

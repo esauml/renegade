@@ -78,7 +78,7 @@ def signup_post():
         flash('El correo electrónico ya fue registrado.')
         return redirect(url_for('auth.signup_get'))
 
-    model.registro_usuario(USUARIO_ADMIN, nombre, apellidos, email, password)
+    model.registro_usuario(nombre, apellidos, email, password)
     flash('Se registró correctamente al usario.')
     return redirect(url_for('auth.login_get'))
 

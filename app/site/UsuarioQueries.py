@@ -5,10 +5,10 @@ from werkzeug.security import generate_password_hash
 
 class UsuarioQueries():
 
-    def registro_usuario(self, tipo_usuario, nombre, apellidos, email, password):
+    def registro_usuario(self, nombre, apellidos, email, password):
         try:
             query = 'INSERT INTO Usuario(nombres, apellidos, correo, password, active, idRol) VALUES (%s, %s, %s, %s, 1, 1)'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (nombre, apellidos, email,

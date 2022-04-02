@@ -48,14 +48,14 @@ def consultar_ventas_get():
 # @roles_required('cliente')
 def consultar_mis_compras():
     queries=Query()
-    carritos = queries.consulta_mis_ventas(USUARIO_CLIENTE,g.user.id)
+    carritos = queries.consulta_mis_ventas(g.user.id)
     return render_template("/cliente/miscompras.html",carritos=carritos)
 
 @cliente.route("/detalle-carrito-usuario/<id>", methods=['GET'])
 # @roles_required('cliente')
 def detalle_carrito_usuario(id):
     queries=Query()
-    productos = queries.detalle_consulta_mis_ventas(USUARIO_CLIENTE,id)
+    productos = queries.detalle_consulta_mis_ventas(id)
     return render_template("cliente/detalle-carrito.html",productos=productos)
 
 
