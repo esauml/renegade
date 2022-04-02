@@ -83,7 +83,8 @@ def guardar():
 @Productos.route('/compras-nosurtidas', methods=['GET'])
 def getComprasNo():
     compra = Compras()
-    compras = compra.    
+    compras = compra.consultar_compras_nosurtidas()
+    
     print(compras)
     return render_template("adm/administrador/compras-no-surtidas.html", compras=compras)
 
@@ -107,8 +108,8 @@ def compra_nosurtida(id):
     print(compra_id)
     # consulta
     try:
-        compra = queries.compra_id)
-        materia=queries.compra_id)
+        compra = queries.consultar_compranosurtida_id(compra_id)
+        materia=queries.consultar_materias_compranosurtidas(compra_id)
         print (materia)
         return render_template('adm/administrador/detalle-compra-nosurtida.html', compra=compra,materias=materia)
     except Exception as e:
