@@ -79,7 +79,7 @@ class Cliente():
     def obtener_carrito_activo_cliente(self, id_cliente):
         try:
             query = 'SELECT id, status, idUsuario FROM carrito WHERE idUsuario = %s AND status = 1;'
-            conexion = obtener_conexion(USUARIO_CLIENTE)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             carrito = []
 
             with conexion.cursor() as cursor:
@@ -143,7 +143,7 @@ class Cliente():
     def consulta_mis_ventas(self, idCliente):
         try:
             query = 'SELECT * FROM vista_carritos_usuario WHERE idUsuario=%s AND status=0'
-            conexion = obtener_conexion(USUARIO_ADMIN)
+            conexion = obtener_conexion(USUARIO_CLIENTE)
             carritos = []
 
             with conexion.cursor() as cursor:
@@ -209,7 +209,7 @@ class Cliente():
     def descontar_stock(self, nueva_cantidad, id_producto):
         try:
             query = 'UPDATE renegade.producto SET stock = %s WHERE id = %s;'
-            conexion = obtener_conexion(USUARIO_CLIENTE)
+            conexion = obtener_conexion(USUARIO_ADMIN)
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (nueva_cantidad, id_producto))
@@ -219,10 +219,10 @@ class Cliente():
         except Exception as e:
             raise Exception(e)
         
-    def detalle_consulta_mis_ventas(self,tipo_usuario,idCarrito):
+    def detalle_consulta_mis_ventas(self,idCarrito):
         try:
             query='SELECT * FROM vista_detalle_carrito WHERE idCarrito=%s'
-            conexion= obtener_conexion(tipo_usuario)
+            conexion= obtener_conexion(USUARIO_CLIENTE)
             productos=[]
             
             with conexion.cursor() as cursor:

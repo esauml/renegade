@@ -13,7 +13,7 @@
 {% block content %}
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">
-    Compras
+    Ordenes de compra pendientes
 </h1>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -29,16 +29,6 @@
                     <i class="fas fa-plus-circle"></i>
                 </span>
                 <span class="text">Agregar</span>
-            </button>
-        </form>
-        <form id="form-no-surtidas">
-            <button id="btnNosurtidas" 
-                type="submit" form="form-no-surtidas" value="add" formmethod="get" formaction="/compras-nosurtidas"
-                class="btn btn-info btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-plus-circle"></i>
-                </span>
-                <span class="text">No surtidas</span>
             </button>
         </form>
     </div>
@@ -58,10 +48,7 @@
                         </th>
                         <th>
                             Total de productos
-                        </th>
-                        <th>
-                            Total de gastos
-                        </th>                        
+                        </th>                     
                     </tr>
                 </thead>
                 <tfoot>
@@ -77,9 +64,6 @@
                         </th>
                         <th>
                             Total de productos
-                        </th>
-                        <th>
-                            Total de gastos
                         </th>  
                     </tr>
                 </tfoot>
@@ -92,9 +76,8 @@
                         <td>{{ compra[2] }}</td>
                         <td>{{ compra[3] }}</td>
                         <td>{{ compra[4] }}</td>
-                        <td>{{ compra[5] }}</td>
                         <td>
-                            <a href="/detalle-compra/{{ compra[0] }}">
+                            <a href="/compra-nosurtida/{{ compra[0] }}">
                                 <i class="fa-solid fa-eye"></i>
                                 Detalle
                             </a>

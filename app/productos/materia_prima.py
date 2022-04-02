@@ -1,12 +1,12 @@
 from ..bd import obtener_conexion
-
+from ..config import USUARIO_ADMIN
 
 class MateriaPrima():
 
-    def consultar_materias_primas(self, tipo_usuario):
+    def consultar_materias_primas(self):
         try:
             query = 'SELECT * FROM vista_stock_materia;'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             materiasprimas = []
 
             with conexion.cursor() as cursor:
@@ -18,10 +18,10 @@ class MateriaPrima():
         except Exception as ex:
             raise Exception(ex)
 
-    def consultar_materia_prima_id(self, tipo_usuario, id):
+    def consultar_materia_prima_id(self, id):
         try:
             query = 'SELECT * FROM vista_stock_materia WHERE id=%s;'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
             materia = None
 
             with conexion.cursor() as cursor:
@@ -33,10 +33,10 @@ class MateriaPrima():
         except Exception as ex:
             raise Exception(ex)
 
-    def actualizar_materia(self, tipo_usuario, nombre, descripcion, id):
+    def actualizar_materia(self, nombre, descripcion, id):
         try:
             query = 'UPDATE MateriaPrima SET nombre = %s, descripcion = %s WHERE id = %s;'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (nombre, descripcion, id))
@@ -46,11 +46,11 @@ class MateriaPrima():
         except Exception as ex:
             raise Exception(ex)
 
-    def guardar_materia(self, tipo_usuario, nombre, descripcion, cantidad, unidad):
+    def guardar_materia(self, nombre, descripcion, cantidad, unidad):
         try:
             query = 'INSERT INTO MateriaPrima (nombre, descripcion, cantidad, unidad) \
                     values (%s,%s,%s,%s);'
-            conexion = obtener_conexion(tipo_usuario)
+            conexion = obtener_conexion(USUARIO_ADMIN)
 
             with conexion.cursor() as cursor:
                 cursor.execute(query, (nombre, descripcion, cantidad, unidad))

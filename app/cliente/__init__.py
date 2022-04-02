@@ -37,35 +37,17 @@ def index():
     return render_template('/landing_page.html')
 
 
-@cliente.route("/carrito-compras", methods=['GET'])
-# @roles_required('cliente')
-def consultar_ventas_get():
-    # current_user()
-    # consulta de carrito en BD
-    return 0
-
 @cliente.route("/mis-compras", methods=['GET'])
-# @roles_required('cliente')
 def consultar_mis_compras():
     queries=Query()
     carritos = queries.consulta_mis_ventas(g.user.id)
     return render_template("/cliente/miscompras.html",carritos=carritos)
 
 @cliente.route("/detalle-carrito-usuario/<id>", methods=['GET'])
-# @roles_required('cliente')
 def detalle_carrito_usuario(id):
     queries=Query()
     productos = queries.detalle_consulta_mis_ventas(id)
     return render_template("cliente/detalle-carrito.html",productos=productos)
-
-
-
-@cliente.route("/agregar-producto-carrito", methods=['POST'])
-# @roles_required('cliente')
-def agregar_producto_carrito_post():
-    # id producto
-    # cantidad
-    return 0
 
 
 @cliente.route('/mi-informacion')
@@ -78,7 +60,7 @@ def actualizar_Cliente():
     queries = Query()
     queries.actualizarUsuario(nombre=request.form.get("nombres"), apellidos=request.form.get("apellidos"),
                                         email=request.form.get("correo"),
-                                        id=request.form.get("idCliente"), tipo_usuario=USUARIO_CLIENTE)
+                                        id=request.form.get("idCliente"))
     return redirect(url_for('cliente.miInformacion'))
 
 

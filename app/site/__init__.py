@@ -55,7 +55,7 @@ def login_post():
 
     if(usuario.idRol == 1):
         flash(mensaje)
-        return redirect(url_for('cliente.miInformacion'))
+        return redirect(url_for('cliente.CLIENTE_PRODUCTOS.listado_productos'))
 
 
 @auth.route('/signup', methods=['GET'])

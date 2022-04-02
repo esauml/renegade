@@ -22,7 +22,7 @@
 
                     <div class="carousel-item active">
                         <div class="carousel-background"><img
-                                src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F14%2F2019%2F10%2F07%2FZara20new20collection201-2000.jpg&q=60"
+                                src="https://www.ipp.edu.pe/blog/wp-content/uploads/2020/02/historia-diseno-de-moda.jpg"
                                 alt=""></div>
                         <div class="carousel-container">
                             <div class="carousel-content">
@@ -30,9 +30,27 @@
                                 <p class="animate__animated animate__fadeInUp">
                                     Empresa de ropa 100 % mexicana
                                 </p>
+                                {% if g.user %}
+                                {% if g.user.idRol == 1%}
+                                <a href="{{ url_for('cliente.CLIENTE_PRODUCTOS.listado_productos') }}"
+                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
+                                    catalogos 1</a>
+                                {% endif %}
+                                {% if g.user.idRol == 2%}
+                                <a href="/productos"
+                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
+                                    catalogos Administrador</a>
+                                {% endif %}
+                                {% if g.user.idRol == 3%}
+                                <a href="/productos"
+                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
+                                    catalogos Administrativo</a>
+                                {% endif %}
+                                {% else %}
                                 <a href="{{ url_for('auth.login_get') }}"
                                     class="btn-get-started animate__animated animate__fadeInUp scrollto">Iniciar
                                     sesión</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -96,14 +114,12 @@
                     <div class="carousel-inner" role="listbox">
 
                         <div class="carousel-item active">
-                            <div class="background">
-                                <img class="" src="https://i.ytimg.com/vi/f2VoBvJartg/maxresdefault.jpg" alt="">
-                            </div>
+
                             <div class="carousel-container">
                                 <div class="container">
 
                                     <div class="section-title">
-                                        <h2>Revisa algunos de nuestros productos...</h2>
+                                        <h2>Somos Renegade</h2>
                                     </div>
 
                                     <div class="row portfolio-container">
@@ -111,12 +127,12 @@
                                         <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                                             <div class=" shadow ">
                                                 <div class="card-title text-center text-light">
-                                                    Mision
+                                                    <strong> Mision</strong>
                                                 </div>
                                                 <div class="card-body text-light text-justify">
-                                                    garantizar a sus clientes productos que reflejen su misma pasión por
-                                                    la moda,
-                                                    capaz de acoplarse a diferentes gustos y personalidades.
+                                                    Garantizar a nuestro clientes productos que reflejen su misma pasión
+                                                    por
+                                                    la moda.
                                                 </div>
                                             </div>
                                         </div>
@@ -124,21 +140,18 @@
                                         <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                                             <div class="shadow">
                                                 <div class="card-title text-light text-center">
-                                                    Vision
+                                                    <strong> Vision</strong>
                                                 </div>
                                                 <div class="card-body text-light text-justify">
-                                                    Ser una empresa líder en la confección, comercialización y
-                                                    distribución de prendas de vestir,
-                                                    que pueda llegar a clientes de todo el mundo facilitándoles
-                                                    diferentes diseños y
-                                                    modas de acuerdo a sus gustos y tendencias a precios asequibles
+                                                    Ser una empresa líder en México en la confección, comercialización y
+                                                    distribución de prendas de vestir.
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                                             <div class="shadow">
                                                 <div class="card-title text-light text-center">
-                                                    Valores
+                                                    <strong> Valores </strong>
                                                 </div>
                                                 <div class="card-body text-light text-justify">
                                                     Honestidad e integridad Pasión y Entusiasmo Compromiso
@@ -155,62 +168,6 @@
                     </div>
                 </div>
         </section>
-
-        <section id="" class="portfolio section-bg">
-            <div class="container">
-
-                <div class="section-title">
-                    <h2>CONTACTO</h2>
-                </div>
-
-                <div class="row portfolio-container">
-
-                    <div class="col-2 portfolio-item filter-app"></div>
-
-                    <div class="col-4 portfolio-item filter-app">
-                        <div class="card shadow">
-                            <div style="padding-bottom: 150px;"></div>
-                            <div class="card-body" style="padding-bottom: 210px;">
-                                <h5 class="card-title">INFORMACION DE CONTACTO</h5>
-                                <h4 class="text-primary"></span>Correo:</h4>
-                                <h5 class="text-secondary">CONTACTO@RENEGADE.COM</h5>
-                                <h4 class="text-primary"></span>TELEFONO:</h4>
-                                <h5 class="text-secondary">0180015135468</h5>
-                                <h4 class="text-primary"></span>DIRECCION:</h4>
-                                <h5 class="text-secondary">Enrique Segoviano</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-5 portfolio-item filter-app">
-                        <div class=" text-center">
-                            <div class="card shadow ">
-                                <div class="card-body">
-                                    <h5 class="card-title">Envianos tus comentarios</h5>
-                                    <form action="">
-                                        <label for="Nombre">Nombre:</label>
-                                        <input class="form-control" type="text" name="Nombre">
-                                        <label for="Felefono Celular">Telefono: </label>
-                                        <input class="form-control" type="text" name="Telefono celular">
-                                        <label for="correo">Correo: </label>
-                                        <input class="form-control" type="text" name="correo">
-                                        <label for="mensaje">Mensaje:</label>
-                                        <input class="form-control" style="height: 250px;" type="text" name="mensaje">
-                                        <br>
-                                        <input type="submit">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-3 portfolio-item filter-app">
-                        <div class="portfolio-wrap"></div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
     </main>
 </body>
 
