@@ -80,6 +80,15 @@ def guardar():
     return redirect(url_for('productos.getAllMateria'))
 
 
+@Productos.route('/compras-nosurtidas', methods=['GET'])
+def getComprasNo():
+    compra = Compras()
+    compras = compra.consultar_compras_nosurtidas(USUARIO_ADMIN)
+    
+    print(compras)
+    return render_template("adm/administrador/compras-no-surtidas.html", compras=compras)
+
+
 @Productos.route('/getCompras', methods=['GET'])
 def getCompras():
     compra = Compras()
@@ -88,6 +97,24 @@ def getCompras():
     print(compras)
     return render_template("adm/administrador/compras.html", compras=compras)
 
+
+    
+@Productos.route('/compra-nosurtida/<id>', methods=['GET'])
+def compra_nosurtida(id):
+    # inputs
+    compra_id = id
+    # init query handler
+    queries = Compras()
+    print(compra_id)
+    # consulta
+    try:
+        compra = queries.consultar_compranosurtida_id(USUARIO_ADMIN, compra_id)
+        materia=queries.consultar_materias_compranosurtidas(USUARIO_ADMIN, compra_id)
+        print (materia)
+        return render_template('adm/administrador/detalle-compra-nosurtida.html', compra=compra,materias=materia)
+    except Exception as e:
+        raise e
+    
 
 @Productos.route("/detalle-compra/<id>", methods=['GET'])
 def consultar_compra_get(id):
@@ -145,3 +172,23 @@ def quitar_materia():
 
     mateSelect['insumos'].pop(id)
     return redirect(url_for('productos.cargar_agregar_compra'))
+
+        
+@Productos.route('/guardarCompra', methods=['POST'])
+def guardar_compra():
+    compra = Compras()
+    folio = request.form.get('folio')
+    fecha = request.form.get('fecha')
+    proveedor = request.form.get('proveedores')
+    listaMaterias = mateSelect['insumos']
+    try:
+        print (folio, fecha)
+        compra.insertar_compra(tipo_usuario=USUARIO_ADMIN, folio=folio, fecha=fecha, proveedor=proveedor, listaMaterias=listaMaterias)
+        mateSelect['insumos']=[]
+        return redirect(url_for('productos.getCompras'))
+    except Exception as e:
+        raise e
+    
+    
+    
+    

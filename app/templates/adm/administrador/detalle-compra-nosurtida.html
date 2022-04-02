@@ -6,7 +6,7 @@
 
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">
-    Detalle de Orden de Compra surtida
+    Detalle de Orden de Compra no surtida
 </h1>
 <!-- Form Card -->
 <div class="card shadow mb-4">
@@ -54,13 +54,8 @@
                             </th>
                             <th>
                                 Unidad
-                            </th>
-                            <th>
-                                Costo
-                            </th> 
-                            <th>
-                                Proveedor
-                            </th>                                                          
+                            </th>                         
+                                                                                      
                         </tr>
                         {%for materia in materias%}
                             <tr>
@@ -74,17 +69,7 @@
                     </table>
                 
             {%endif%}
-            <br>
-            <!-- Total -->
-            <div class="form-group form-row">
-                <label class="col-1 col-form-label" for="total">Total Gastos</label>
-                <div class="col-4">
-                    <input disabled="true"
-                    
-                        {% if compra %} value=${{ compra[5] }} {% endif %}
-                        type="text" placeholder="" class="form-control" name="total" id="total" />
-                </div>
-            </div>           
+            <br>        
 
         
         </form>
