@@ -11,12 +11,12 @@ class Cliente():
 
     def consultarCliente(self, id):
         try:
-            query = 'SELECT * FROM usuario WHERE id={}'.format(1)
+            query = 'SELECT * FROM usuario WHERE id=%s'
             conexion = obtener_conexion(USUARIO_CLIENTE)
             usuario = []
 
             with conexion.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, (id,))
                 usuario = cursor.fetchall()
 
             cursor.close()
@@ -142,13 +142,12 @@ class Cliente():
 
     def consulta_mis_ventas(self, tipo_usuario, idCliente):
         try:
-            query = 'SELECT * FROM vista_carritos_usuario WHERE idUsuario={} AND status=0'.format(
-                idCliente)
+            query = 'SELECT * FROM vista_carritos_usuario WHERE idUsuario=%s AND status=0'
             conexion = obtener_conexion(tipo_usuario)
             carritos = []
 
             with conexion.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, (idCliente,))
                 carritos = cursor.fetchall()
 
             conexion.commit()
@@ -222,12 +221,12 @@ class Cliente():
         
     def detalle_consulta_mis_ventas(self,tipo_usuario,idCarrito):
         try:
-            query='SELECT * FROM vista_detalle_carrito WHERE idCarrito={}'.format(idCarrito)
+            query='SELECT * FROM vista_detalle_carrito WHERE idCarrito=%s'
             conexion= obtener_conexion(tipo_usuario)
             productos=[]
             
             with conexion.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, (idCarrito,))
                 productos = cursor.fetchall()
             
             conexion.commit()
