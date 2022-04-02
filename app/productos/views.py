@@ -172,7 +172,6 @@ def cargar_agregar_compra():
         return render_template('adm/administrador/agregar-compra.html', folio=folio,
                                fecha=fecha, materias=materias, mateSelect=mateSelect['insumos'], proveedores=proveedores)
 
-<<<<<<< HEAD
 
 @Productos.route('/quitar-materia', methods=['POST'])
 def quitar_materia():
@@ -180,8 +179,6 @@ def quitar_materia():
 
     mateSelect['insumos'].pop(id)
     return redirect(url_for('productos.cargar_agregar_compra'))
-=======
->>>>>>> oscar
 
         
 @Productos.route('/guardarArribo', methods=['POST'])
