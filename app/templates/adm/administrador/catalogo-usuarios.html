@@ -1,0 +1,174 @@
+{% extends "adm/layout.html" %}
+
+<!-- Init when having tables hola-->
+{% block ScriptJS %}
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable();
+        });
+    </script>
+{% endblock ScriptJS %}
+
+<!-- Content -->
+{% block content %}
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">
+        Usuario
+    </h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="row">
+                <div class="col-6 m-0 font-weight-bold text-primary">
+                    <h6>
+                        Listado de Usuarios
+                    </h6>
+                </div>
+                <div class="col-6 text-right">
+                    <button type="button" class="btn btn-success btn-icon-split" data-toggle="modal"
+                            data-target="#agregarProductoModal">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Agregar</span>
+                    </button>
+                    <div class="modal fade" id="agregarProductoModal" tabindex="-1"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <form action="{{ url_for('administrador.usuario.agregar_usuarios') }}" method="POST"
+                                  class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">
+                                        Agregar un nuevo Usuario
+                                    </h5>
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="form-group form-row">
+                                        <label class="col-3 col-form-label" for="rol_id">Rol</label>
+                                        <div class="col">
+                                            <select class="form-control" name="rol_id" id="rol_id" required>
+                                                {% for rol in roles %}
+                                                    <option value="{{ rol[0] }}">{{ rol[1] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Nombre -->
+                                    <div class="form-group form-row">
+                                        <label class="col-3 col-form-label" for="nombres">Nombres</label>
+                                        <div class="col">
+                                            <input type="text" class="form-control" name="nombres" id="nombres"
+                                                   required/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Descripcion -->
+                                    <div class="form-group form-row">
+                                        <label class="col-3 col-form-label" for="apellidos">Apellidos</label>
+                                        <div class="col">
+                                            <input type="text" class="form-control" name="apellidos" id="apellidos"
+                                                   required/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Talla -->
+                                    <div class="form-group form-row">
+                                        <label class="col-3 col-form-label" for="correo">Correo</label>
+                                        <div class="col">
+                                            <input type="email" class="form-control" name="correo" id="correo"
+                                                   required/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group form-row">
+                                        <label class="col-3 col-form-label" for="password">Password</label>
+                                        <div class="col">
+                                            <input type="text" class="form-control" name="password" id="password"
+                                                   required/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar
+                                    </button>
+                                    <button class="btn btn-primary" type="submit">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Activo</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if usuarios %}
+                        {% for usuario in usuarios %}
+                            <!--u.id,nombres,apellidos,correo,active,idRol, r.name-->
+                            <tr data-materia-id="{{ usuario[0] }}">
+                                <td>{{ usuario[1] }}</td>
+                                <td>{{ usuario[2] }}</td>
+                                <td>{{ usuario[3] }}</td>
+                                <td>{{ usuario[6] }}</td>
+                                <td>
+                                    {% if usuario[4] == 1 %}
+                                        Activo
+                                    {% else %}
+                                        Inactivo
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <form id="detalle"></form>
+                                    <form>
+                                        <input type="hidden" name="status"
+                                               value="{% if usuario[4] == 1 %}0{% else %}1{% endif %}">
+
+                                        <div class="btn-group" role="group">
+                                            <button type="submit" class="btn btn-primary" form="detalle"
+                                                    formaction="{{ url_for('administrador.usuario.detalle_usuario', id_usuario=usuario[0]) }}"
+                                                    formmethod="GET">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </button>
+                                            {% if usuario[4] == 1 %}
+                                                <button type="submit" class="btn btn-danger"
+                                                        formaction="{{ url_for('administrador.usuario.estatus_usuario', id_usuario=usuario[0]) }}"
+                                                        formmethod="POST">
+                                                    <i class="fa-solid fa-lock"></i>
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" class="btn btn-success"
+                                                        formaction="{{ url_for('administrador.usuario.estatus_usuario', id_usuario=usuario[0]) }}"
+                                                        formmethod="POST">
+                                                    <i class="fa-solid fa-lock-open"></i>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
