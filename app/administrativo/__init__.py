@@ -31,10 +31,6 @@ def consultar_ventas_get():
         return render_template('/login.html')
 
     query = QueriesFinanzas()
-<<<<<<< HEAD
-=======
-
->>>>>>> master
     monthly = query.ganancia_mes_actual()
     yearly = query.ganancia_anual()
     aux_monthes_earnings = query.ganancia_meses_anio()
