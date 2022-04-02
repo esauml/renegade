@@ -12,7 +12,7 @@ def before_request_administrativo():
         id = session['id']
         usuario = model.consultar_cliente_por_id(id)
         print(id)
-        if usuario.idRol == 1 or usuario.idRol == 3:
+        if usuario.idRol == 1:
             flash('No cuentas con permisos para consultar este módulo')
             return render_template('login.html')
         g.user = usuario
@@ -23,5 +23,5 @@ def before_request_administrativo():
 @ventas.route("/catalogo_ventas", methods=['GET'])
 def getVentas():
     query = Venta()
-    ventas = query.consultar_ventas(USUARIO_ADMIN)
+    ventas = query.consultar_ventas()
     return render_template('adm/administrador/catalogo-ventas.html', ventas=ventas)
