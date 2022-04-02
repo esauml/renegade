@@ -27,3 +27,4 @@
 2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "[36mGET /static/vendor/datatables/jquery.dataTables.min.js HTTP/1.1[0m" 304 -
 2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "[36mGET /static/vendor/datatables/dataTables.bootstrap4.min.js HTTP/1.1[0m" 304 -
 2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "GET /static/img/undraw_profile.svg HTTP/1.1" 200 -
+2022-04-02 03:27:43 DEBUG     Se inicia correctamente aplicación
