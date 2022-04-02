@@ -187,7 +187,7 @@ from StockMateriaPrima as stk inner join MateriaPrima as m on stk.idMateriaPrima
 							  inner join arriboInsumos as a on a.id=stk.idArriboInsumos
                               inner join arriboMateria as aM on aM.idMateriaPrima = m.id
                               inner join Proveedor as p on a.idProveedor = p.id);
-                              
+
 DROP VIEW IF EXISTS vista_carritos_usuario;
 CREATE VIEW vista_carritos_usuario as(
 SELECT v.id as idVenta,v.folio,v.total,v.fecha,v.idCarrito, c.status,u.id  as idUsuario FROM venta as v INNER JOIN carrito as c ON c.id=v.idCarrito
@@ -199,20 +199,20 @@ SELECT v.id as idVenta,v.folio,v.total,v.fecha,v.idCarrito, c.status,u.id  as id
 drop view if exists vista_lista_materias_compradas;
 create view vista_lista_materias_compradas as
 (
-	
-select 
+
+select
 	a.idOrdenCompra,
     m.nombre as materia,
     aM.cantidad,
-    concat(m.cantidad,' ',m.unidad) as unidad,    
+    concat(m.cantidad,' ',m.unidad) as unidad,
     aM.costo,
     p.nombre
 from arriboInsumos as a inner join arriboMateria as aM on a.id=aM.idArriboInsumos
 					   inner join MateriaPrima as m on aM.idMateriaPrima = m.id
                        inner join Proveedor as p on p.id=a.idProveedor
-); 
+);
 
-				
+
 drop view if exists vista_compras_nosurtidas;
 create view vista_compras_nosurtidas as
 (
@@ -229,7 +229,7 @@ from compra as com inner join CompraStockMateria as comStk on com.id=comStk.idOr
 
 drop view if exists vista_materias_nosurtidas;
 create view vista_materias_nosurtidas as(
-select 
+select
 	com.id,
     m.nombre as insumo,
     comStk.cantidad,
@@ -238,11 +238,11 @@ from CompraStockMateria as comStk inner join Compra as com on com.id=comStk.idOr
 				   inner join MateriaPrima as m on comStk.idMateriaPrima = m.id
                    WHERE com.surtida = 0
 );
-                   
+
 
 drop view if exists vista_compras_surtidas;
 create view vista_compras_surtidas as (
-	select 
+	select
 	a.idOrdenCompra,
     com.folio,
     com.fechaCompra,
@@ -256,6 +256,23 @@ from arriboInsumos as a inner join arriboMateria as aM on a.id=aM.idArriboInsumo
                        group by a.idOrdenCompra
 );
 
+DROP VIEW IF EXISTS vista_detalle_carrito;
+CREATE VIEW vista_detalle_carrito  AS (
+SELECT carrito.id as idCarrito, carrito.status, idUsuario, p.cantidad, p.precio, nombre, descripcion, talla, image_url FROM carrito
+                    INNER JOIN productocarrito p on carrito.id = p.idCarrito
+                    INNER JOIN renegade.producto p2 on p.idProducto = p2.id
+                    WHERE carrito.status = 0);
+
+drop view if exists vista_estructura_materia;
+
+create view vista_estructura_materia as
+    select e.id,
+           e.descripcion,
+           m.nombre                          as nombreMateriaPrima,
+           concat(e.cantidad, ' ', m.unidad) as cantidad,
+           e.idProducto
+    from estructura e
+             join materiaprima m on e.idMateriaPrima = m.id;
 
 -- INSERCION DATOS--
 
@@ -333,57 +350,57 @@ INSERT INTO arriboMateria (idArriboInsumos, idMateriaPrima, cantidad, costo) VAL
 
 -- INSERCIONES STOCKCOMPRA --
 INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES
-(1, 1, 2), 
+(1, 1, 2),
 (1, 2, 2),
 (2, 3, 2),
 (3, 4, 5),
-(4, 5, 1), 
+(4, 5, 1),
 (4, 6, 2);
 
-INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES 
+INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES
 (5, 1, 1),
 (5, 2, 2),
 (5, 3, 3),
 (6, 4, 1),
 (6, 5, 1),
 (5, 6, 1);
-INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES 
+INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES
 (7, 2, 1);
 
 -- INSERCIONES STOCKMATERIA --
 INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idArriboInsumos) VALUES
-(100,1,1), 
+(100,1,1),
 (100,2,1),
 (20,3,2),
 (500,4,3),
-(100,5,4), 
+(100,5,4),
 (100,6,4);
 
 -- INSERCIONES PRODUCTO --
 INSERT INTO renegade.producto(nombre, descripcion, precio, talla, image_url, activo)
 VALUES ('Playera lisa', 'Playera de cuello de redondo perfecta para salidades casuales', 0, 'Unitalla',
-        'https://optimabasicos.com/wp-content/uploads/2019/06/35464-00109.jpg', 1),
+        'https://ss261.liverpool.com.mx/sm/1111851382.jpg', 1),
        ('Camiseta de tirantes', 'La primavera ya comenzó, con esta camiseta podrás pasar las tardes sin tanto calor', 0,
-        'Unitalla', 'https://www.ecamisetas.com/articulos/gr/camisetas-para-hombre-6545.jpg', 1),
+        'Unitalla', 'https://ss205.liverpool.com.mx/sm/S22398688.jpg', 1),
        ('Pants sport', '¿Listo para descanar el fin de semana? Checa este pants, super cómodo', 0, 'Unitalla',
-        'https://img.joomcdn.net/5d49eb3480653a1a1b8cd3b788510a52100bbf84_original.jpeg', 1),
+        'https://ss251.liverpool.com.mx/sm/S25466970.jpg', 1),
        ('Falda básica', 'Práctica y super cómoda falda !', 0, 'Unitalla',
-        'https://static.mujerhoy.com/www/multimedia/202006/13/media/cortadas/falda-mini-negra-zara-kKeG--600x900@MujerHoy.jpg',
+        'https://ss555.liverpool.com.mx/sm/1114196423.jpg',
         1),
        ('Chaleco de vestir', 'Un chaleco sencillo y elegante', 0, 'Unitalla',
-        'https://ss246.liverpool.com.mx/xl/1074032512.jpg', 1),
+        'https://ss246.liverpool.com.mx/sm/1074031919.jpg', 1),
        ('Calcentines de vestir', '¿Un evento importante? No olvides tus calcetines', 0, 'Unitalla',
-        'https://www.dim.com/dw/image/v2/AARR_PRD/on/demandware.static/-/Sites-dim-master/default/dw3a1ea463/DIM_05QV_0HZ_01.jpg?sw=600&sh=600&sm=fit',
+        'https://ss282.liverpool.com.mx/sm/1108219641.jpg',
         1),
        ('Shorts sport', 'Shorts perfectos para ejercitarte', 0, 'Unitalla',
-        'https://www.iciw.com/bilder/artiklar/liten/11935-001_S.jpg?m=1643615888', 1),
+        'https://ss205.liverpool.com.mx/sm/1113901514.jpg', 1),
        ('Vestido casual', 'Presume tu figura con nuestro diseño exclusico Renegade', 0, 'Unitalla',
-        'https://http2.mlstatic.com/D_NQ_NP_845013-MLM43775222401_102020-O.jpg', 1),
+        'https://ss545.liverpool.com.mx/sm/S21535104.jpg', 1),
        ('Sudadera casual', '¿Un poco de frío? Checa esta sudadera genial', 0, 'Unitalla',
-        'https://cdn.shopify.com/s/files/1/0047/9163/1961/products/sudadera-blanca-para-sublimar-con-cangurera-y-capucha-D_NQ_NP_679100-MLM40194407561_122019-F_530x@2x.jpg?v=1600902284',
+        'https://ss205.liverpool.com.mx/sm/S25048775.jpg',
         1),
        ('Bufanda', 'Protegete del invierno con nuestro diseño exclusivo', 0, 'Unitalla',
-        'https://www.regalopublicidad.com/images/rmlsw/458c6a74432200aea729c076e1c5/610-460/bufanda-de-poliester-para-el-frio.jpg',
+        'https://ss213.liverpool.com.mx/sm/1110764583.jpg',
         1);
 
 -- INSERCIONES Estructura --
@@ -453,8 +470,8 @@ GRANT SELECT, INSERT, UPDATE ON renegade.usuario TO 'cliente'@'localhost';
 GRANT SELECT, INSERT ON renegade.carrito TO 'cliente'@'localhost';
 GRANT SELECT, INSERT, UPDATE, DELETE ON renegade.productocarrito TO 'cliente'@'localhost';
 GRANT SELECT ON renegade.vista_carritos_usuario TO 'cliente'@'localhost';
--- GRANT SELECT ON renegade.vista_detalle_carrito TO 'cliente'@'localhost'; --
 GRANT SELECT ON renegade.producto TO 'cliente'@'localhost';
+GRANT SELECT ON renegade.vista_detalle_carrito TO 'cliente'@'localhost';
 FLUSH PRIVILEGES;
 
 -- Administrativo
@@ -473,6 +490,11 @@ GRANT SELECT, INSERT, UPDATE ON renegade.productocarrito TO "administrativo"@"lo
 GRANT SELECT, INSERT, UPDATE ON renegade.proveedor TO "administrativo"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrativo"@"localhost";
 -- GRANT SELECT ON renegade.vista_estructura_materia TO "administrativo"@"localhost"; --
+GRANT SELECT ON renegade.vista_detalle_carrito TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.venta TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.arriboinsumos TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.arribomateria TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.venta TO "administrativo"@"localhost";
 
 -- ADMINISTRADOR
 DROP USER IF EXISTS 'administrador'@'localhost';
@@ -493,18 +515,24 @@ GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.arriboinsumos TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.arribomateria TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.stockmateriaprima TO "administrador"@"localhost";
+GRANT INSERT  ON renegade.venta TO "administrador"@"localhost";
 GRANT SELECT ON renegade.vista_carritos_usuario TO 'administrador'@'localhost';
--- GRANT SELECT ON renegade.vista_compras TO "administrador"@"localhost";
 GRANT SELECT ON renegade.vista_stock_materia TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_compras_surtidas TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_lista_materias_compradas TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_compras_nosurtidas TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_materias_nosurtidas TO 'administrador'@'localhost';
-
+GRANT SELECT ON renegade.vista_detalle_carrito TO 'administrador'@'localhost';
+GRANT SELECT ON renegade.arriboinsumos TO 'administrador'@'localhost';
+GRANT SELECT ON renegade.arribomateria TO 'administrador'@'localhost';
 FLUSH PRIVILEGES;
-select * from materiaprima;
 
 SHOW GRANTS FOR "administrador"@"localhost";
 SHOW GRANTS FOR "administrativo"@"localhost";
 SHOW GRANTS FOR "cliente"@"localhost";
+
+set SQL_SAFE_UPDATES = 0;
+update producto set precio = rand() * 100;
+update producto set precio = format(precio, 2);
+set SQL_SAFE_UPDATES = 1;
 

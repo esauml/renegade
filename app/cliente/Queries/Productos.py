@@ -37,12 +37,12 @@ class QueriesProducto():
 
     def consultar_producto_por_id(self, USER_TYPE, id):
         try:
-            query = 'SELECT * from producto where id=%s'
+            query = 'SELECT id, nombre, descripcion, precio, talla, cant_min, cant_max, stock, image_url, activo FROM renegade.producto WHERE id=%s AND activo = 1;'
             conexion = obtener_conexion(USER_TYPE)
             producto = None
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (id,))
+                cursor.execute(query, (id))
                 producto = cursor.fetchone()
 
             cursor.close()

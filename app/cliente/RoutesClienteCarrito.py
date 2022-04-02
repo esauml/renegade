@@ -16,8 +16,6 @@ def carrito_productos():
 
     try:
         carrito_usuario = query.carrito_usuario(USER_TYPE, cliente)
-
-        print(carrito_usuario)
         return render_template('/cliente/micarrito.html', carrito=carrito_usuario)
     except Exception as e:
         raise e

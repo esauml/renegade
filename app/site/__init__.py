@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session, g
 from werkzeug.security import check_password_hash
-# from flask_security import login_required
-
 from .UsuarioQueries import UsuarioQueries
 from ..config import USUARIO_ADMIN
-
+import logging
+from flask import current_app as app
 
 auth = Blueprint('auth', __name__)
 
@@ -40,6 +39,10 @@ def login_post():
         flash('El usuario y/o la contraseña son incorrectos')
         return redirect(url_for('auth.login_get'))
 
+    if usuario.activo == 0:
+        flash('El usuario se encuentra inhabilitado')
+        return redirect(url_for('auth.login_get'))
+        
     session['id'] = usuario.id
     g.user = usuario
     g.rol = usuario.idRol
@@ -47,7 +50,7 @@ def login_post():
 
     if(usuario.idRol == 2):
         flash(mensaje)
-        return redirect('/productos')
+        return redirect(url_for('administrativo.producto.productos'))
 
     if(usuario.idRol == 3):
         flash(mensaje)
@@ -79,7 +82,9 @@ def signup_post():
         return redirect(url_for('auth.signup_get'))
 
     model.registro_usuario(nombre, apellidos, email, password)
+    model.crear_nuevo_carrito(email)
     flash('Se registró correctamente al usario.')
+    app.logger.debug('Se registra un nuevo usuario')
     return redirect(url_for('auth.login_get'))
 
 
@@ -89,4 +94,5 @@ def logout():
     session.pop('id', None)
     g.user = None
     g.rol = None
+    app.logger.debug('Se cierra sesión')
     return render_template('landing_page.html')

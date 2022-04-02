@@ -7,7 +7,7 @@ class QueriesCarrito():
 
     def carrito_usuario(self, USER_TYPE, id_usuario):
         try:
-            query_carrito = 'SELECT * FROM Carrito where idUsuario=%s and status=1;'
+            query_carrito = 'SELECT id, status, idUsuario FROM Carrito where idUsuario=%s and status=1;'
             conexion = obtener_conexion(USER_TYPE)
             carrito = []
             productos_carrito = []
@@ -31,7 +31,6 @@ class QueriesCarrito():
 
             # append productos_carrito into carrito
             carrito = carrito + (productos_carrito,)
-
             return carrito
         except Exception as ex:
             raise Exception(ex)

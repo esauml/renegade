@@ -38,7 +38,6 @@ def consultar_producto_get(id):
 
         stock = 0  # default for now
 
-        print(producto_por_id)
         return render_template('cliente/detalle-producto.html', producto=producto_por_id)
     except Exception as e:
         raise e

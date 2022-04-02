@@ -29,9 +29,8 @@
                         </span>
                         <span class="text">Editar</span>
                     </button>
-                    {% if producto[6] == 1 %}
-                        <button id="btnEliminar"
-                                type="submit" form="form" value="delete" formmethod="post"
+                    {% if producto[9] == 1 %}
+                        <button type="submit" form="form" formmethod="post"
                                 formaction="{{ url_for('administrativo.producto.eliminar_producto') }}"
                                 class="btn btn-danger btn-icon-split">
                             <span class="icon text-white-50">
@@ -40,8 +39,7 @@
                             <span class="text">Bloquear</span>
                         </button>
                     {% else %}
-                        <button id="btnEliminar"
-                                type="submit" form="form" value="delete" formmethod="post"
+                        <button type="submit" form="form" formmethod="post"
                                 formaction="{{ url_for('administrativo.producto.eliminar_producto') }}"
                                 class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">

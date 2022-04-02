@@ -1,0 +1,30 @@
+2022-04-02 02:11:44 DEBUG     Se inicia correctamente aplicación
+2022-04-02 02:13:18 INFO      * Detected change in 'C:\\Users\\conta\\Desktop\\Sistema\\app\\site\\__init__.py', reloading
+2022-04-02 02:13:19 DEBUG     Se inicia correctamente aplicación
+2022-04-02 02:13:30 INFO      * Detected change in 'C:\\Users\\conta\\Desktop\\Sistema\\app\\site\\__init__.py', reloading
+2022-04-02 02:13:31 DEBUG     Se inicia correctamente aplicación
+2022-04-02 02:13:48 INFO      * Detected change in 'C:\\Users\\conta\\Desktop\\Sistema\\app\\site\\__init__.py', reloading
+2022-04-02 02:13:49 DEBUG     Se inicia correctamente aplicación
+2022-04-02 02:14:11 INFO      * Detected change in 'C:\\Users\\conta\\Desktop\\Sistema\\app\\site\\__init__.py', reloading
+2022-04-02 02:14:12 DEBUG     Se inicia correctamente aplicación
+2022-04-02 02:14:15 INFO      * Detected change in 'C:\\Users\\conta\\Desktop\\Sistema\\app\\cliente\\__init__.py', reloading
+2022-04-02 02:14:16 DEBUG     Se inicia correctamente aplicación
+2022-04-02 02:14:23 INFO      * Detected change in 'C:\\Users\\conta\\Desktop\\Sistema\\app\\cliente\\__init__.py', reloading
+2022-04-02 02:14:24 DEBUG     Se inicia correctamente aplicación
+2022-04-02 02:14:30 DEBUG    Se cierra sesión
+2022-04-02 02:14:30 INFO     127.0.0.1 - - [02/Apr/2022 02:14:30] "GET /logout HTTP/1.1" 200 -
+2022-04-02 02:14:30 INFO     127.0.0.1 - - [02/Apr/2022 02:14:30] "GET /static/css/landing-page.css HTTP/1.1" 200 -
+2022-04-02 02:14:31 INFO     127.0.0.1 - - [02/Apr/2022 02:14:31] "GET /login HTTP/1.1" 200 -
+2022-04-02 02:14:31 INFO     127.0.0.1 - - [02/Apr/2022 02:14:31] "GET /static/css/login.css HTTP/1.1" 200 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "[32mPOST /login HTTP/1.1[0m" 302 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "GET /cliente/listado-productos HTTP/1.1" 200 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "GET /static/css/sb-admin-2.min.css HTTP/1.1" 200 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "GET /static/vendor/datatables/dataTables.bootstrap4.min.css HTTP/1.1" 200 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "[36mGET /static/vendor/jquery/jquery.min.js HTTP/1.1[0m" 304 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "[36mGET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1[0m" 304 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "[36mGET /static/vendor/jquery-easing/jquery.easing.min.js HTTP/1.1[0m" 304 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "[36mGET /static/js/sb-admin-2.min.js HTTP/1.1[0m" 304 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "[36mGET /static/vendor/datatables/jquery.dataTables.min.js HTTP/1.1[0m" 304 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "[36mGET /static/vendor/datatables/dataTables.bootstrap4.min.js HTTP/1.1[0m" 304 -
+2022-04-02 02:14:37 INFO     127.0.0.1 - - [02/Apr/2022 02:14:37] "GET /static/img/undraw_profile.svg HTTP/1.1" 200 -
+2022-04-02 03:11:36 DEBUG     Se inicia correctamente aplicación
