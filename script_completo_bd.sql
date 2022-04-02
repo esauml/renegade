@@ -173,7 +173,6 @@ CREATE TABLE IF NOT EXISTS Pedido
 
 -- VISTAS --
 drop view if exists vista_stock_materia;
-<<<<<<< HEAD
 create view vista_stock_materia as (
 	select
 	m.id,
@@ -291,62 +290,6 @@ select * from vista_compras_surtidas where id= 1;
 
 
 
-=======
-create view vista_stock_materia as
-(
-select m.id,
-       m.nombre,
-       m.descripcion,
-       concat(stk.cantidad, ' ', m.unidad) as stock,
-       com.folio,
-       com.fechaCompra,
-       p.nombre                            as Proveedor
-
-from StockMateriaPrima as stk
-         inner join MateriaPrima as m on stk.idMateriaPrima = m.id
-         inner join Compra as com on com.id = stk.idOrdenCompra
-         inner join CompraStockMateria as comStk on comStk.idMateriaPrima = m.id
-         inner join Proveedor as p on com.idProveedor = p.id);
-
-
-drop view if exists vista_estructura_materia;
-
-create view vista_estructura_materia as
-select e.id,
-       e.descripcion,
-       m.nombre                          as nombreMateriaPrima,
-       concat(e.cantidad, ' ', m.unidad) as cantidad,
-       e.idProducto
-from estructura e
-         join materiaprima m on e.idMateriaPrima = m.id;
-
-DROP VIEW IF EXISTS vista_detalle_carrito;
-CREATE VIEW vista_detalle_carrito AS
-(
-SELECT carrito.id as idCarrito,
-       carrito.status,
-       idUsuario,
-       p.cantidad,
-       p.precio,
-       nombre,
-       descripcion,
-       talla,
-       image_url
-FROM carrito
-         INNER JOIN productocarrito p on carrito.id = p.idCarrito
-         INNER JOIN renegade.producto p2 on p.idProducto = p2.id
-WHERE carrito.status = 0);
-
-
-DROP VIEW IF EXISTS vista_carritos_usuario;
-CREATE VIEW vista_carritos_usuario as
-(
-SELECT v.id as idVenta, v.folio, v.total, v.fecha, v.idCarrito, c.status, u.id as idUsuario
-FROM venta as v
-         INNER JOIN carrito as c ON c.id = v.idCarrito
-         INNER JOIN usuario as u ON c.idUsuario = u.id
-    );
->>>>>>> master
 
 -- INSERCION DATOS--
 
@@ -377,19 +320,11 @@ VALUES ('Samper', 'Ricardo Flores', '477-487-00-10', 'ricardo-sanpersanper@sampe
        ('Optimo', 'Juan Pascal', '477-855-04-07', 'juan-pascal@optimo.com');
 
 -- INSERCIONES COMPRA --
-<<<<<<< HEAD
 INSERT INTO compra (folio, fechaCompra) VALUES
 ('f7a64a95-af4e-4590-a9d4-6d671418e07c', '2022/03/30'),
 ('bb9c7ae0-8337-4b55-ba5d-94e35d17d775', '2022/04/1'),
 ('921267b5-2844-452e-9fb6-fd19da9948f6', '2022/04/1'),
 ('061de155-b634-4aff-bd6f-b28b4340670e', '2022/04/2');
-=======
-INSERT INTO compra (folio, idProveedor, fechaCompra)
-VALUES ('f7a64a95-af4e-4590-a9d4-6d671418e07c', 1, '2022/03/30'),
-       ('bb9c7ae0-8337-4b55-ba5d-94e35d17d775', 2, '2022/04/1'),
-       ('921267b5-2844-452e-9fb6-fd19da9948f6', 3, '2022/04/1'),
-       ('061de155-b634-4aff-bd6f-b28b4340670e', 4, '2022/04/2');
->>>>>>> master
 
 INSERT INTO compra (folio, fechaCompra) VALUES
 ('000000-00000-0002-00001-6d671418e07c', '2022/03/31'),
@@ -406,7 +341,6 @@ VALUES ('Rollo de tela negra', 'Tela para el diseño de playeras', 50, 'metros')
        ('Paquete de resortes', 'Resortes multiusos', 100, 'unidades'),
        ('Paquete de cremalleras', 'Botones para ropa', 50, 'unidades');
 
-<<<<<<< HEAD
 -- INSERCIONES DE ARRIBO --
 describe arriboInsumos;
 INSERT INTO arriboInsumos (idProveedor, fechaArribo, folioArribo, idOrdenCompra) VALUES
@@ -414,16 +348,6 @@ INSERT INTO arriboInsumos (idProveedor, fechaArribo, folioArribo, idOrdenCompra)
 (2, '2022/03/30', '0000000-0000-0000-0001-b28b4340670e', 2),
 (3, '2022/03/30', '0000000-0000-0000-0002-b28b4340670e', 3),
 (4, '2022/03/30', '0000000-0000-0000-0003-b28b4340670e', 4);
-=======
--- INSERCIONES STOCKCOMPRA --
-INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad, costo)
-VALUES (1, 1, 2, 1250),
-       (1, 2, 2, 1250),
-       (2, 3, 2, 500),
-       (3, 4, 5, 750),
-       (4, 5, 1, 350),
-       (4, 6, 2, 500);
->>>>>>> master
 
 UPDATE compra set surtida=1 where compra.id=1;
 UPDATE compra set surtida=1 where compra.id=2;
