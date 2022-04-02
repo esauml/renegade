@@ -30,7 +30,12 @@ def consultar_ventas_get():
     monthly = query.ganancia_mes_actual()
     yearly = query.ganancia_anual()
     monthes_earnings = query.ganancia_meses_anio()
-    top10 = query.top_10_productos_vendidos()
+    aux = query.top_10_productos_vendidos()
+    top10 = [0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0]
+    
+    for i in aux:
+        top10[i[0]] = i[1]
     
     return render_template('adm/index.html', monthly = monthly, yearly = yearly, monthes_earnings = monthes_earnings, top10 = top10)
 
