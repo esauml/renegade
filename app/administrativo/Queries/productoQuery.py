@@ -28,6 +28,7 @@ class Producto():
                 cursor.execute(query, (producto_id,))
                 producto = cursor.fetchone()
 
+            self.actualizarPrecio(producto_id, producto[3], tipo_usuario)
             cursor.close()
             return producto
         except Exception as ex:
@@ -134,3 +135,16 @@ class Producto():
         except Exception as ex:
             raise Exception(ex)
             return "No se pudo eliminar la materia prima del diseño"
+
+    def actualizarPrecio(self, producto_id, precio, tipo_usuario):
+        try:
+            query = 'UPDATE Producto SET precio = %s WHERE id = %s;'
+            conexion = obtener_conexion(tipo_usuario)
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (precio, producto_id))
+
+            conexion.commit()
+            cursor.close()
+        except Exception as ex:
+            raise Exception(ex)
