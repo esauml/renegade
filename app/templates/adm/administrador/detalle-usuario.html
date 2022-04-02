@@ -1,0 +1,83 @@
+{% extends "adm/layout.html" %}
+
+<!-- Init only when having tables -->
+{% block ScriptJS %}
+    <script>
+
+    </script>
+{% endblock ScriptJS %}
+
+<!-- Content -->
+{% block content %}
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">
+        Detalle de Usuario
+    </h1>
+    <!-- Form Card -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Usuario N. {{ usuario[0] }}
+                <div class="float-right">
+                    <button id="btnEditar"
+                            type="submit" form="form" value="update" formmethod="post"
+                            formaction="{{ url_for('administrador.usuario.modificar_usuario', id_usuario=usuario[0]) }}"
+                            class="btn btn-primary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                        <span class="text">Editar</span>
+                    </button>
+                </div>
+            </h6>
+        </div>
+        <div class="card-body">
+            <form id="form">
+                <input type="hidden" name="accion" id="accion" value="consultar">
+                <input type="hidden" name="idEditable" id="idEditable" value="0">
+
+                <div class="form-group form-row">
+                    <label class="col-3 col-form-label" for="rol_id">Rol</label>
+                    <div class="col">
+                        <select class="form-control" name="rol_id" id="rol_id" required>
+                            {% for rol in roles %}
+                                <option {% if usuario[4] == rol[0] %} selected {% endif %}
+                                                                      value="{{ rol[0] }}">{{ rol[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group form-row">
+                    <label class="col-3 col-form-label" for="nombres">Nombres</label>
+                    <div class="col">
+                        <input type="text" class="form-control" name="nombres" id="nombres" value="{{ usuario[1] }}" required/>
+                    </div>
+                </div>
+
+                <div class="form-group form-row">
+                    <label class="col-3 col-form-label" for="apellidos">Apellidos</label>
+                    <div class="col">
+                        <input type="text" class="form-control" name="apellidos" id="apellidos" value="{{ usuario[2] }}" required/>
+                    </div>
+                </div>
+
+                <div class="form-group form-row">
+                    <label class="col-3 col-form-label" for="correo">Correo</label>
+                    <div class="col">
+                        <input type="email" class="form-control" name="correo" id="correo" value="{{ usuario[3] }}" required/>
+                    </div>
+                </div>
+
+                <div class="form-group form-row">
+                    <label class="col-3 col-form-label" for="password">Password</label>
+                    <div class="col">
+                        <input type="text" class="form-control" name="password" id="password"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -5,6 +5,8 @@ from flask import Blueprint, redirect, render_template, request, flash, g, sessi
 from .clienteQueries import Cliente as Query
 from ..site import UsuarioQueries
 from ..config import USUARIO_CLIENTE
+import logging
+from flask import current_app as app
 
 # routes import
 from .RoutesClienteCarrito import cliente_carrito_blueprint as carrito
@@ -49,6 +51,7 @@ def detalle_carrito_usuario(id):
     productos = queries.detalle_consulta_mis_ventas(id)
     return render_template("cliente/detalle-carrito.html",productos=productos)
 
+
 @cliente.route('/mi-informacion')
 def miInformacion():
     return render_template("/cliente/infoUsuario.html")
@@ -91,5 +94,6 @@ def generar_venta_post():
         return render_template("/cliente/micarrito.html", productos=[])
     
     flash('Uno o varios productos exceden el máximo de nuestros inventarios.')
+    app.logger.debug('Se genera nueva venta')
     return render_template("/cliente/micarrito.html", productos=[])
 

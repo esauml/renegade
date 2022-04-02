@@ -38,7 +38,7 @@
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fa-solid fa-r"></i>
                 </div>
@@ -47,11 +47,13 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Dashboard -->
+            {% if g.user.idRol == 3 %}
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/consultar-rendimiento">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
+            {% endif %}
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
@@ -107,7 +109,7 @@
             <div class="sidebar-heading">Admininistrador</div>
             <!-- Materia Prima -->
             <li class="nav-item">
-                <a class="nav-link" href="administrar-usuarios.html">
+                <a class="nav-link" href="{{ url_for('administrador.usuario.usuarios') }}">
                     <i class="fa-solid fa-user-group"></i>
                     <span>Usuarios</span></a>
             </li>
@@ -247,8 +249,6 @@
     <!-- Page level plugins -->
     <script src="../../static/vendor/chart.js/Chart.min.js"></script>
     <!-- Page level custom scripts -->
-    <script src="../../static/js/demo/chart-area-demo.js"></script>
-    <script src="../../static/js/demo/chart-pie-demo.js"></script>
     <!-- DATA TABLES -->
     <script src="../../static/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
