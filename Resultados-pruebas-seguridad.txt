@@ -1,0 +1,88 @@
+PS C:\Users\conta> bandit -r C:\Users\conta\Desktop\Sistema\app\
+[main]  INFO    profile include tests: None
+[main]  INFO    profile exclude tests: None
+[main]  INFO    cli include tests: None
+[main]  INFO    cli exclude tests: None
+[main]  INFO    running on Python 3.10.2
+Run started:2022-04-01 20:49:16.208904
+
+Test results:
+>> Issue: [B105:hardcoded_password_string] Possible hardcoded password: 'my_secret_key'
+   Severity: Low   Confidence: Medium
+   CWE: CWE-259 (https://cwe.mitre.org/data/definitions/259.html)
+   Location: C:\Users\conta\Desktop\Sistema\app\__init__.py:23:21
+   More Info: https://bandit.readthedocs.io/en/1.7.4/plugins/b105_hardcoded_password_string.html
+22
+23          app.secret_key = 'my_secret_key'
+24
+25          return app
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Low
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   Location: C:\Users\conta\Desktop\Sistema\app\administrativo\Queries\productoQuery.py:23:20
+   More Info: https://bandit.readthedocs.io/en/1.7.4/plugins/b608_hardcoded_sql_expressions.html
+22              try:
+23                  query = 'SELECT * FROM producto WHERE id={}'.format(producto_id)
+24                  conexion = obtener_conexion(tipo_usuario)
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Low
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   Location: C:\Users\conta\Desktop\Sistema\app\cliente\Queries\Productos.py:24:20
+   More Info: https://bandit.readthedocs.io/en/1.7.4/plugins/b608_hardcoded_sql_expressions.html
+23              try:
+24                  query = "SELECT * from producto where nombre LIKE '%" + \
+25                      criteria + " %' or descripcion LIKE '%" + criteria + "%'"
+26                  conexion = obtener_conexion(USER_TYPE)
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Low
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   Location: C:\Users\conta\Desktop\Sistema\app\cliente\clienteQueries.py:14:20
+   More Info: https://bandit.readthedocs.io/en/1.7.4/plugins/b608_hardcoded_sql_expressions.html
+13              try:
+14                  query = 'SELECT * FROM usuario WHERE id={}'.format(1)
+15                  conexion = obtener_conexion(USUARIO_CLIENTE)
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Low
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   Location: C:\Users\conta\Desktop\Sistema\app\cliente\clienteQueries.py:145:20
+   More Info: https://bandit.readthedocs.io/en/1.7.4/plugins/b608_hardcoded_sql_expressions.html
+144             try:
+145                 query = 'SELECT * FROM vista_carritos_usuario WHERE idUsuario={} AND status=0'.format(
+146                     idCliente)
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Low
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   Location: C:\Users\conta\Desktop\Sistema\app\cliente\clienteQueries.py:225:18
+   More Info: https://bandit.readthedocs.io/en/1.7.4/plugins/b608_hardcoded_sql_expressions.html
+224             try:
+225                 query='SELECT * FROM vista_detalle_carrito WHERE idCarrito={}'.format(idCarrito)
+226                 conexion= obtener_conexion(tipo_usuario)
+
+--------------------------------------------------
+
+Code scanned:
+        Total lines of code: 1278
+        Total lines skipped (#nosec): 0
+
+Run metrics:
+        Total issues (by severity):
+                Undefined: 0
+                Low: 1
+                Medium: 5
+                High: 0
+        Total issues (by confidence):
+                Undefined: 0
+                Low: 5
+                Medium: 1
+                High: 0
+Files skipped (0):

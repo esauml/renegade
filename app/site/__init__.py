@@ -51,11 +51,11 @@ def login_post():
 
     if(usuario.idRol == 3):
         flash(mensaje)
-        return redirect('/productos')
+        return redirect(url_for('administrativo.consultar_ventas_get'))
 
     if(usuario.idRol == 1):
         flash(mensaje)
-        return redirect(url_for('cliente.miInformacion'))
+        return redirect(url_for('cliente.CLIENTE_PRODUCTOS.listado_productos'))
 
 
 @auth.route('/signup', methods=['GET'])
@@ -78,7 +78,7 @@ def signup_post():
         flash('El correo electrónico ya fue registrado.')
         return redirect(url_for('auth.signup_get'))
 
-    model.registro_usuario(USUARIO_ADMIN, nombre, apellidos, email, password)
+    model.registro_usuario(nombre, apellidos, email, password)
     flash('Se registró correctamente al usario.')
     return redirect(url_for('auth.login_get'))
 

@@ -20,20 +20,18 @@ class Producto():
 
     def consultar_producto_por_id(self, tipo_usuario, id):
         try:
-            query = 'SELECT prod.id, prod.nombre, descripcion, precio, activo, mp.nombre, pmp.cantidad \
-                    FROM producto prod \
-                        INNER JOIN producto_materia_prima pmp ON prod.id = pmp.producto_id \
-                        INNER JOIN materia_prima mp on pmp.mataria_prima_id = mp.id \
-                    WHERE prod.id = %s'
+            query = 'SELECT p.id, p.nombre, p.descripcion, p.precio, activo, m.nombre, m.cantidad FROM producto p \
+                     INNER JOIN estructura e on p.id = e.idProducto \
+                     INNER JOIN materiaprima m on e.idMateriaPrima = m.id \
+                     WHERE p.id = %s'
             conexion = obtener_conexion(tipo_usuario)
             producto = None
 
             with conexion.cursor() as cursor:
-                cursor.execute(query, (id,))
+                cursor.execute(query, (id))
                 producto = cursor.fetchone()
 
             cursor.close()
-            # TODO self.calcular_cantidad_disponible_por_producto(producto[0]).
             return producto
         except Exception as ex:
             raise Exception(ex)

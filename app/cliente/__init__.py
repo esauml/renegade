@@ -25,7 +25,7 @@ def before_request_cliente():
         usuario = model.consultar_cliente_por_id(id)
         if usuario.idRol == 2 or usuario.idRol == 3:
             flash('No cuentas con permisos para consultar este módulo')
-            return render_template('login.html')
+            return render_template('/login.html')
         g.user = usuario
     else:
         flash('Es necesario inicar sesión para consultar este módulo')
@@ -34,7 +34,7 @@ def before_request_cliente():
 
 @cliente.route("/index", methods=["GET"])
 def index():
-    return render_template('landing_page.html')
+    return render_template('/landing_page.html')
 
 
 @cliente.route("/carrito-compras", methods=['GET'])
@@ -47,8 +47,17 @@ def consultar_ventas_get():
 @cliente.route("/mis-compras", methods=['GET'])
 # @roles_required('cliente')
 def consultar_mis_compras():
-    
-    return render_template("cliente/miscompras.html")
+    queries=Query()
+    carritos = queries.consulta_mis_ventas(g.user.id)
+    return render_template("/cliente/miscompras.html",carritos=carritos)
+
+@cliente.route("/detalle-carrito-usuario/<id>", methods=['GET'])
+# @roles_required('cliente')
+def detalle_carrito_usuario(id):
+    queries=Query()
+    productos = queries.detalle_consulta_mis_ventas(id)
+    return render_template("cliente/detalle-carrito.html",productos=productos)
+
 
 
 @cliente.route("/agregar-producto-carrito", methods=['POST'])
@@ -61,7 +70,7 @@ def agregar_producto_carrito_post():
 
 @cliente.route('/mi-informacion')
 def miInformacion():
-    return render_template("cliente/infoUsuario.html")
+    return render_template("/cliente/infoUsuario.html")
 
 
 @cliente.route('/actualizar-cliente', methods=["POST"])
@@ -93,7 +102,13 @@ def profile_post():
 @cliente.route("/generar-venta", methods=['POST'])
 def generar_venta_post():
     queries = Query()
-    queries.generar_venta(g.user.id)
-    flash('Su compra se registro exitosamente.')
+    puede_comprar = queries.puede_comprar(g.user.id)
+
+    if puede_comprar:
+        queries.generar_venta(g.user.id)
+        flash('Su compra se registro exitosamente.')
+        return render_template("/cliente/micarrito.html", productos=[])
+    
+    flash('Uno o varios productos exceden el máximo de nuestros inventarios.')
     return render_template("/cliente/micarrito.html", productos=[])
 

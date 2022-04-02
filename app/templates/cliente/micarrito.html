@@ -1,5 +1,23 @@
 {% extends "cliente/layout.html" %}
 
+{% block ScriptJS %}
+<script>
+
+    let subtotales = document.getElementsByClassName('front-sub-total');
+    let total = 0;
+    [...subtotales].forEach(e => {
+        console.log(`Value: ${e}`)
+        total += parseFloat(e.innerHTML);
+    });
+
+    let totalElement = document.getElementById('front-total')
+    console.log("total: " + total);
+    console.log('totalElement');
+    totalElement.innerHTML = `Total: ${total}`;
+
+</script>
+{% endblock ScriptJS %}
+
 {% block content %}
 
 <h1>MI CARRITO DE COMPRAS</h1>
@@ -12,8 +30,11 @@
     </div>
 </div>
 <hr>
+<h2><span id="front-total"></span></h2>
+<hr>
 <div class="container">
     <div class="row">
+
         {% if carrito|length > 0 %}
         {% for item in carrito[3] %}
         <div class="col-6">
@@ -32,7 +53,7 @@
                                 <h5>Precio Unidad: ${{ item[7] }}</h5>
                                 <hr>
                                 <h4>Cantidad: {{ item[2] }}</h4>
-                                <h5>Sub-tota.: ${{ item[3] }}</h5>
+                                <h5>Sub-total: $<span class="front-sub-total">{{ item[3] }}</span></h5>
                             </div>
 
                         </div>

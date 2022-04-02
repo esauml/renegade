@@ -10,6 +10,7 @@ import uuid
 from datetime import date
 mateSelect={}
 mateSelect['insumos']=[]
+
 @Productos.before_request
 def before_request_administrador():
     if 'id' in session:
