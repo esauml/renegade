@@ -40,26 +40,42 @@ CREATE TABLE IF NOT EXISTS MateriaPrima (
 CREATE TABLE IF NOT EXISTS Compra (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     folio       VARCHAR(50) UNIQUE,
-    idProveedor INT,
     fechaCompra DATE,
-    FOREIGN KEY (idProveedor) REFERENCES Proveedor (id)
+    surtida TINYINT DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS arriboInsumos(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	idProveedor INT,
+    fechaArribo date,
+    folioArribo VARCHAR(50) UNIQUE,
+    idOrdenCompra int,
+    FOREIGN KEY (idProveedor) REFERENCES Proveedor (id),
+    FOREIGN KEY (idOrdenCompra) REFERENCES Compra (id)
+);
+
+CREATE TABLE IF NOT EXISTS arriboMateria(
+    idArriboInsumos INT,
+    idMateriaPrima INT,
+    cantidad INT,
+    costo FLOAT,
+    FOREIGN KEY (idArriboInsumos) REFERENCES arriboInsumos (id),
+    FOREIGN KEY (idMateriaPrima) REFERENCES MateriaPrima (id)
+);
 
 CREATE TABLE IF NOT EXISTS StockMateriaPrima (
     id             INT AUTO_INCREMENT PRIMARY KEY,
     cantidad       FLOAT,
     idMateriaPrima INT,
-    idOrdenCompra  INT,
+    idArriboInsumos	   INT,
     FOREIGN KEY (idMateriaPrima) REFERENCES MateriaPrima (id),
-    FOREIGN KEY (idOrdenCompra) REFERENCES Compra (id)
+    FOREIGN KEY (idArriboInsumos) REFERENCES arriboInsumos (id)
 );
 
 CREATE TABLE IF NOT EXISTS CompraStockMateria (
     idOrdenCompra  INT,
     idMateriaPrima INT,
     cantidad       INT,
-    costo          FLOAT,
     PRIMARY KEY (idOrdenCompra, idMateriaPrima),
     FOREIGN KEY (idMateriaPrima) REFERENCES MateriaPrima (id),
     FOREIGN KEY (idOrdenCompra) REFERENCES Compra (id)
@@ -135,6 +151,8 @@ CREATE TABLE IF NOT EXISTS Pedido (
     FOREIGN KEY (idUsuario) REFERENCES Usuario (id)
 );
 
+
+
 -- VISTAS --
 drop view if exists vista_stock_materia;
 create view vista_stock_materia as (
@@ -143,14 +161,117 @@ create view vista_stock_materia as (
 	m.nombre,
     m.descripcion,
     concat(stk.cantidad,' ',m.unidad) as stock,
+    a.folioArribo as folio,
+    a.fechaArribo as fechaCompra,
+    p.nombre as Proveedor,
+	aM.costo as costo
+from StockMateriaPrima as stk inner join MateriaPrima as m on stk.idMateriaPrima = m.id
+							  inner join arriboInsumos as a on a.id=stk.idArriboInsumos
+                              inner join arriboMateria as aM on aM.idMateriaPrima = m.id
+                              inner join Proveedor as p on a.idProveedor = p.id);
+                              
+select * from vista_stock_materia;
+
+
+
+drop view if exists vista_lista_materias_compradas;
+create view vista_lista_materias_compradas as
+(
+	
+select 
+	a.idOrdenCompra,
+    m.nombre as materia,
+    aM.cantidad,
+    concat(m.cantidad,' ',m.unidad) as unidad,    
+    aM.costo,
+    p.nombre
+from arriboInsumos as a inner join arriboMateria as aM on a.id=aM.idArriboInsumos
+					   inner join MateriaPrima as m on aM.idMateriaPrima = m.id
+                       inner join Proveedor as p on p.id=a.idProveedor
+); 
+
+select * from vista_lista_materias_compradas;
+
+select 
+	a.idOrdenCompra,
     com.folio,
     com.fechaCompra,
-    p.nombre as Proveedor
+    count(m.id)*am.cantidad as totalProductos,
+    sum(am.cantidad*am.costo) as total,
+    p.nombre
+from arriboInsumos as a inner join arriboMateria as aM on a.id=aM.idArriboInsumos
+					   inner join MateriaPrima as m on aM.idMateriaPrima = m.id
+                       inner join Proveedor as p on p.id=a.idProveedor
+                       inner join Compra as com on com.id=a.idOrdenCompra
+                       group by a.idOrdenCompra;
 
-from StockMateriaPrima as stk inner join MateriaPrima as m on stk.idMateriaPrima = m.id
-							  inner join Compra as com on com.id=stk.idOrdenCompra
-                              inner join CompraStockMateria as comStk on comStk.idMateriaPrima = m.id
-                              inner join Proveedor as p on com.idProveedor = p.id);
+                       
+                       
+select * from vista_compras_nosurtidas;
+drop view if exists vista_compras_nosurtidas;
+create view vista_compras_nosurtidas as
+(
+select com.id,
+	   com.folio,
+       com.fechaCompra,
+       count(comStk.idMateriaPrima) as productos,
+       sum(comStk.cantidad) as totalProductos
+from compra as com inner join CompraStockMateria as comStk on com.id=comStk.idOrdenCompra
+				   inner join MateriaPrima as m on comStk.idMateriaPrima = m.id
+                   WHERE com.surtida = 0
+                   group by com.id
+);
+
+drop view if exists vista_materias_nosurtidas;
+create view vista_materias_nosurtidas as(
+select 
+	com.id,
+    m.nombre as insumo,
+    comStk.cantidad,
+    concat(m.cantidad,' ',m.unidad) as unidad
+from CompraStockMateria as comStk inner join Compra as com on com.id=comStk.idOrdenCompra
+				   inner join MateriaPrima as m on comStk.idMateriaPrima = m.id
+                   WHERE com.surtida = 0
+);
+                   
+
+
+select * from vista_compras_nosurtidas;
+                   
+select * from v	ista_compras_surtidas;
+drop view if exists vista_compras_surtidas;
+create view vista_compras_surtidas as (
+	select 
+	a.idOrdenCompra,
+    com.folio,
+    com.fechaCompra,
+    count(m.id) as productos,
+    count(m.id)*am.cantidad as totalProductos,
+    sum(am.cantidad*am.costo) as total
+from arriboInsumos as a inner join arriboMateria as aM on a.id=aM.idArriboInsumos
+					   inner join MateriaPrima as m on aM.idMateriaPrima = m.id
+                       inner join Proveedor as p on p.id=a.idProveedor
+                       inner join Compra as com on com.id=a.idOrdenCompra
+                       group by a.idOrdenCompra
+);
+
+select
+	  com.id,
+	  com.folio,
+      com.fechacompra,
+      count(comStk.idMateriaPrima) as productos,
+      sum(comStk.cantidad) as totalProductos,
+      sum(aM.costo*aM.cantidad) as total
+from CompraStockMateria as comStk inner join Compra as com on com.id=comStk.idOrdenCompra 
+								  INNER JOIN arriboInsumos as a on com.id = a.idOrdenCompra
+                                  inner join arriboMateria as aM on a.id = aM.idArriboInsumos
+ WHERE com.surtida =1 group by com.id;
+
+select * from vista_compras_surtidas where id= 1;
+
+
+
+
 
 -- INSERCION DATOS--
 
@@ -177,12 +298,17 @@ INSERT INTO proveedor (nombre, contacto, telefono, correo) VALUES
 ('Optimo', 'Juan Pascal', '477-855-04-07','juan-pascal@optimo.com');
 
 -- INSERCIONES COMPRA --
-INSERT INTO compra (folio,idProveedor, fechaCompra) VALUES
-('f7a64a95-af4e-4590-a9d4-6d671418e07c', 1,'2022/03/30'),
-('bb9c7ae0-8337-4b55-ba5d-94e35d17d775', 2,'2022/04/1'),
-('921267b5-2844-452e-9fb6-fd19da9948f6', 3,'2022/04/1'),
-('061de155-b634-4aff-bd6f-b28b4340670e', 4,'2022/04/2');
+INSERT INTO compra (folio, fechaCompra) VALUES
+('f7a64a95-af4e-4590-a9d4-6d671418e07c', '2022/03/30'),
+('bb9c7ae0-8337-4b55-ba5d-94e35d17d775', '2022/04/1'),
+('921267b5-2844-452e-9fb6-fd19da9948f6', '2022/04/1'),
+('061de155-b634-4aff-bd6f-b28b4340670e', '2022/04/2');
 
+INSERT INTO compra (folio, fechaCompra) VALUES
+('000000-00000-0002-00001-6d671418e07c', '2022/03/31'),
+('000000-00000-0002-00002-6d671418e07c', '2022/03/31'),
+('000000-00000-0002-00003-6d671418e07c', '2022/03/31');
+select * from compra;
 -- INSERSCIONES CATALOGO MATERIA PRIMA --
 INSERT INTO MateriaPrima (nombre, descripcion, cantidad, unidad) VALUES
 ('Rollo de tela negra', 'Tela para el diseño de playeras', 50, 'metros'),
@@ -193,19 +319,66 @@ INSERT INTO MateriaPrima (nombre, descripcion, cantidad, unidad) VALUES
 ('Paquete de resortes', 'Resortes multiusos', 100, 'unidades'),
 ('Paquete de cremalleras', 'Botones para ropa', 50 , 'unidades');
 
--- INSERCIONES STOCKCOMPRA --
-INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad, costo) VALUES
-(1, 1, 2, 1250), (1, 2, 2, 1250),
-(2, 3, 2, 500),
-(3, 4, 5, 750),
-(4, 5, 1, 350), (4, 6, 2, 500);
+-- INSERCIONES DE ARRIBO --
+describe arriboInsumos;
+INSERT INTO arriboInsumos (idProveedor, fechaArribo, folioArribo, idOrdenCompra) VALUES
+(1, '2022/03/30', '0000000-0000-0000-0000-b28b4340670e', 1),
+(2, '2022/03/30', '0000000-0000-0000-0001-b28b4340670e', 2),
+(3, '2022/03/30', '0000000-0000-0000-0002-b28b4340670e', 3),
+(4, '2022/03/30', '0000000-0000-0000-0003-b28b4340670e', 4);
 
+UPDATE compra set surtida=1 where compra.id=1;
+UPDATE compra set surtida=1 where compra.id=2;
+UPDATE compra set surtida=1 where compra.id=3;
+UPDATE compra set surtida=1 where compra.id=4;
+
+-- INSERCIONES ARRIBOMATERIA --
+DESCRIBE arriboMateria;
+INSERT INTO arriboMateria (idArriboInsumos, idMateriaPrima, cantidad, costo) VALUES
+(1, 1, 2, 350),
+(1, 2, 2, 550),
+(2, 3, 2, 550),
+(3,4,5, 600),
+(4,5,1, 500),
+(4, 6, 2, 700);
+
+
+
+
+
+describe CompraStockMateria;
+-- INSERCIONES STOCKCOMPRA --
+INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES
+(1, 1, 2), 
+(1, 2, 2),
+(2, 3, 2),
+(3, 4, 5),
+(4, 5, 1), 
+(4, 6, 2);
+
+select * from materiaprima;
+INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES 
+(5, 1, 1),
+(5, 2, 2),
+(5, 3, 3),
+(6, 4, 1),
+(6, 5, 1),
+(5, 6, 1);
+INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) VALUES 
+(7, 2, 1);
+select * from stockMateriaprima;
+select * from materiaprima;
+select * from arriboInsumos;
+select * from arriboMateria;
+describe StockMateriaPrima;
 -- INSERCIONES STOCKMATERIA --
-INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) VALUES
-(100,1,1), (100,2,1),
+INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idArriboInsumos) VALUES
+(100,1,1), 
+(100,2,1),
 (20,3,2),
 (500,4,3),
-(100,5,4), (100,6,4);
+(100,5,4), 
+(100,6,4);
 
 -- INSERCIONES PRODUCTO --
 INSERT INTO renegade.producto(nombre, descripcion, precio, talla, image_url, activo) VALUES

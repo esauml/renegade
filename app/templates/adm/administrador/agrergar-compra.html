@@ -1,0 +1,146 @@
+{% extends "adm/layout.html" %}
+
+
+<!-- Content -->
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">
+    Nueva Orden de Compra
+</h1>
+<!-- Form Card -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            Compra
+            <div class="float-right">
+                <button id="btnAgregar" type="submit" form="form-compra" value="add" formmethod="post"
+                    formaction="/guardarCompra" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-plus-circle"></i>
+                    </span>
+                    <span class="text">Guardar</span>
+                </button>
+            </div>
+        </h6>
+    </div>
+    <div class="card-body">
+        <form id="form-compra" method="post" action="/guardarCompra">
+            <!-- Folio -->
+            <div class="form-group form-row">
+                <label class="col-md-auto col-form-label" for="folio"><strong>Folio: </strong> {{folio}}</label>
+                <div class="col-4">
+                    
+                    <input hidden value="{{folio}}" type="text" placeholder="folio"
+                        class="form-control" name="folio" id="folio" />
+                </div>
+            </div>
+
+            <!-- Fecha --> 
+            <div class="form-group form-row">
+                <label class="col-md-auto  col-form-label" for="fecha"><strong>Fecha: </strong>{{fecha}}</label>
+                <div class="col-4">
+                    <input hidden value="{{fecha}}" type="date" placeholder="fecha"
+                        class="form-control" name="fecha" id="fecha" />
+                </div>
+            </div>            
+        </form>
+        <form id="form-insumo" method="POST" action="/cargar-agregar-compra">
+            <table style="text-align: center;">
+                <tr>
+                    <th>
+                        Insumos
+                    </th>
+                    <th>
+                        Cantidad
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group form-row">
+                            <div class="col-md-auto">
+                                <select class="custom-select" name="materias" id="materias">
+                                    {%if materias%}
+                                    {%for materia in materias%}
+                                    <option value="{{materia[0]}}">{{materia[1]}} {{materia[3]}} {{materia[4]}}</option>
+                                    {%endfor%}
+                                    {%endif%}
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group form-row">
+                            <div class="col-md-auto">
+                                <input type="number" min="1" placeholder="0" class="form-control" name="cantidad"
+                                    id="cantidad" />
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group form-row">
+                            <div class="col-md-auto">
+                                <button id="btnAgregar" form="form-insumo" type="submit" value="add"
+                                    class="btn btn-primary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span class="text">Agregar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        {%if mateSelect%}
+        <!-- Productos -->
+        <table class="table table-active text-center">
+            <tr>
+                <th>
+                    Insumo
+                </th>
+                <th>
+                    Cantidad
+                </th>
+                <th>
+                    Costo
+                </th>
+            </tr>
+            
+
+            {%for i in range(mateSelect|length) %}
+                
+            <tr>
+                <td>{{mateSelect[i]['insumo']}} {{mateSelect[i]['cant']}} {{mateSelect[i]['unidad']}}</td>
+                <td>{{mateSelect[i]['cantidad']}}</td>
+                <td>{{mateSelect[i]['costo']}}</td>
+                
+
+                <td>
+                    <form method="post" action="/quitar-materia" >
+                        <input type="hidden" value="{{i}}" name="iterador" id="iterador">
+                        <button id="btnQuitar" type="submit"
+                        class="btn btn-danger btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-minus-circle"></i>
+                            </span>
+                            <span class="text">Quitar</span>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {%endfor%}
+        </table>
+
+        {%endif%}
+
+    </div>
+</div>
+
+
+{% endblock content %}
+

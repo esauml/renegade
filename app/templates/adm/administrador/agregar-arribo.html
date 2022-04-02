@@ -15,7 +15,7 @@
             Compra
             <div class="float-right">
                 <button id="btnAgregar" type="submit" form="form-compra" value="add" formmethod="post"
-                    formaction="/guardar-materia" class="btn btn-primary btn-icon-split">
+                    formaction="/guardarCompra" class="btn btn-primary btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus-circle"></i>
                     </span>
@@ -25,27 +25,27 @@
         </h6>
     </div>
     <div class="card-body">
-        <form id="form-compra" method="post" action="/registrar-compra">
-            <input type="hidden" value="{{mateSelect}}" name="listaInsumos" id="listaInsumos">
+        <form id="form-compra" method="post" action="/guardarCompra">
             <!-- Folio -->
             <div class="form-group form-row">
-                <label class="col-1 col-form-label" for="folio">Folio</label>
+                <label class="col-md-auto col-form-label" for="folio"><strong>Folio: </strong> {{folio}}</label>
                 <div class="col-4">
-                    <input disabled="true" {% if folio %} value={{folio}} {% endif %} type="text" placeholder="folio"
+                    
+                    <input hidden value="{{folio}}" type="text" placeholder="folio"
                         class="form-control" name="folio" id="folio" />
                 </div>
             </div>
 
-            <!-- Fecha -->
+            <!-- Fecha --> 
             <div class="form-group form-row">
-                <label class="col-1 col-form-label" for="fecha">Fecha</label>
+                <label class="col-md-auto  col-form-label" for="fecha"><strong>Fecha: </strong>{{fecha}}</label>
                 <div class="col-4">
-                    <input disabled="true" {% if fecha %} value={{fecha}} {% endif %} type="date" placeholder="fecha"
+                    <input hidden value="{{fecha}}" type="date" placeholder="fecha"
                         class="form-control" name="fecha" id="fecha" />
                 </div>
             </div>
             <div class="form-group form-row">
-                <label class="col-1 col-form-label" for="proveedores">Proveedor</label>
+                <label class="col-1 col-form-label" for="proveedores"><strong>Proveedor</strong></label>
                 <div class="col-md-auto">
                     <select class="custom-select" name="proveedores" id="proveedores">
                         {%if proveedores%}
