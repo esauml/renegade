@@ -295,6 +295,17 @@ CREATE VIEW vista_detalle_carrito AS
              INNER JOIN renegade.producto p2 on p.idProducto = p2.id
     WHERE carrito.status = 0);
 
+drop view if exists vista_estructura_materia;
+
+create view vista_estructura_materia as
+    select e.id,
+           e.descripcion,
+           m.nombre                          as nombreMateriaPrima,
+           concat(e.cantidad, ' ', m.unidad) as cantidad,
+           e.idProducto
+    from estructura e
+             join materiaprima m on e.idMateriaPrima = m.id;
+
 -- INSERCION DATOS--
 
 USE renegade;
@@ -521,6 +532,10 @@ GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrativo"@"localhost"
 GRANT SELECT ON renegade.vista_estructura_materia TO "administrativo"@"localhost"; --
 GRANT SELECT ON renegade.vista_detalle_carrito TO 'administrativo'@'localhost';
 GRANT SELECT ON renegade.vista_producto TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.venta TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.arriboinsumos TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.arribomateria TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.venta TO "administrativo"@"localhost";
 
 -- ADMINISTRADOR
 DROP USER IF EXISTS 'administrador'@'localhost';
@@ -539,6 +554,10 @@ GRANT SELECT, INSERT, UPDATE ON renegade.rol TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrador"@"localhost";
 GRANT SELECT, INSERT ON renegade.venta TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.arriboinsumos TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.arribomateria TO "administrador"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON renegade.stockmateriaprima TO "administrador"@"localhost";
+GRANT INSERT  ON renegade.venta TO "administrador"@"localhost";
 GRANT SELECT ON renegade.vista_carritos_usuario TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_stock_materia TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_compras_surtidas TO 'administrador'@'localhost';
@@ -547,10 +566,16 @@ GRANT SELECT ON renegade.vista_compras_nosurtidas TO 'administrador'@'localhost'
 GRANT SELECT ON renegade.vista_materias_nosurtidas TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_detalle_carrito TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_producto TO 'administrador'@'localhost';
-
+GRANT SELECT ON renegade.arriboinsumos TO 'administrador'@'localhost';
+GRANT SELECT ON renegade.arribomateria TO 'administrador'@'localhost';
 FLUSH PRIVILEGES;
 
 SHOW GRANTS FOR "administrador"@"localhost";
 SHOW GRANTS FOR "administrativo"@"localhost";
 SHOW GRANTS FOR "cliente"@"localhost";
+
+set SQL_SAFE_UPDATES = 0;
+update producto set precio = rand() * 100;
+update producto set precio = format(precio, 2);
+set SQL_SAFE_UPDATES = 1;
 

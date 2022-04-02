@@ -1,0 +1,112 @@
+{% extends "adm/layout.html" %}
+
+<!-- Init when having tables hola-->
+{% block ScriptJS %}
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+{% endblock ScriptJS %}
+
+<!-- Content -->
+{% block content %}
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">
+    Compras
+</h1>
+<h1>{{ventas}}</h1>
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            Listado Compras            
+        </h6>
+        <form id="formAdd">
+            <button id="btnAgregar" 
+                type="submit" form="formAdd" value="add" formmethod="get" formaction="/cargar-agregar-compra"
+                class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-plus-circle"></i>
+                </span>
+                <span class="text">Agregar</span>
+            </button>
+        </form>
+        <form id="form-no-surtidas">
+            <button id="btnNosurtidas" 
+                type="submit" form="form-no-surtidas" value="add" formmethod="get" formaction="/compras-nosurtidas"
+                class="btn btn-info btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-plus-circle"></i>
+                </span>
+                <span class="text">No surtidas</span>
+            </button>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            Folio
+                        </th>
+                        <th>
+                            Fecha de compra
+                        </th>
+                        <th>
+                            Cantidad de insumos
+                        </th>
+                        <th>
+                            Total de productos
+                        </th>
+                        <th>
+                            Total de gastos
+                        </th>                        
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>
+                            Folio
+                        </th>
+                        <th>
+                            Fecha de compra
+                        </th>
+                        <th>
+                            Cantidad de insumos
+                        </th>
+                        <th>
+                            Total de productos
+                        </th>
+                        <th>
+                            Total de gastos
+                        </th>  
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% if compras %}
+                    {% for compra in compras %}
+
+                    <tr data-compra-id="{{ compra[0] }}">
+                        <td>{{ compra[1] }}</td>
+                        <td>{{ compra[2] }}</td>
+                        <td>{{ compra[3] }}</td>
+                        <td>{{ compra[4] }}</td>
+                        <td>{{ compra[5] }}</td>
+                        <td>
+                            <a href="/detalle-compra/{{ compra[0] }}">
+                                <i class="fa-solid fa-eye"></i>
+                                Detalle
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

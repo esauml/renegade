@@ -1,3 +1,6 @@
 /env
 /.vscode
 /.idea
+logs.log
+
+*.log

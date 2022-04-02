@@ -50,7 +50,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: {{ top10 }},
+      data: {{ monthes_earnings }},
     }],
   },
   options: {
@@ -121,6 +121,45 @@ var myLineChart = new Chart(ctx, {
   }
 });
 
+
+// Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#858796';
+
+// Pie Chart Example
+var ctx = document.getElementById("myPieChart");
+var myPieChart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: {{ top10_labels|safe }},
+    
+    datasets: [{
+      data: {{ top10_values }},
+      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+      hoverBorderColor: "rgba(234, 236, 244, 1)",
+    }],
+  },
+  options: {
+    maintainAspectRatio: false,
+    tooltips: {
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#858796",
+      borderColor: '#dddfeb',
+      borderWidth: 1,
+      xPadding: 15,
+      yPadding: 15,
+      displayColors: false,
+      caretPadding: 10,
+    },
+    legend: {
+      display: false
+    },
+    cutoutPercentage: 80,
+  },
+});
+
+
 </script>
 {% endblock ScriptJS %}
 
@@ -143,7 +182,7 @@ var myLineChart = new Chart(ctx, {
                             Ganancia (Mensual)
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            ${{ monthly }}
+                            ${{ monthly[0][0] }}
                         </div>
                     </div>
                     <div class="col-auto">
@@ -163,7 +202,7 @@ var myLineChart = new Chart(ctx, {
                             Ganancia (Anual)
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            ${{ yearly }}
+                            ${{ yearly[0][0] }}
                         </div>
                     </div>
                     <div class="col-auto">
@@ -182,7 +221,7 @@ var myLineChart = new Chart(ctx, {
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
-                    Earnings Overview
+                    Ganacia por mes
                 </h6>
             </div>
             <!-- Card Body -->
@@ -199,7 +238,7 @@ var myLineChart = new Chart(ctx, {
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
-                    Revenue Sources
+                    Top 10 Productos con más Ganacia
                 </h6>
                 <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -225,15 +264,11 @@ var myLineChart = new Chart(ctx, {
                     <canvas id="myPieChart"></canvas>
                 </div>
                 <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Referral
-                    </span>
+                    {% for i in top10 %}
+                      <span class="mr-2">
+                          - {{ i[1] }}
+                      </span>
+                    {% endfor %}
                 </div>
             </div>
         </div>

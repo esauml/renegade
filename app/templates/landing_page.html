@@ -7,168 +7,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Renegade</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../static/css/landing-page.css">
 </head>
 
 <body>
-    <section id="hero">
-        <div class="hero-container">
-            <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+<section id="hero">
+    <div class="hero-container">
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
-                <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
-                <div class="carousel-inner" role="listbox">
+            <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+            <div class="carousel-inner" role="listbox">
 
-                    <div class="carousel-item active">
-                        <div class="carousel-background"><img
-                                src="https://www.ipp.edu.pe/blog/wp-content/uploads/2020/02/historia-diseno-de-moda.jpg"
-                                alt=""></div>
-                        <div class="carousel-container">
-                            <div class="carousel-content">
-                                <h2 class="animate__animated animate__fadeInDown">Renegade</h2>
-                                <p class="animate__animated animate__fadeInUp">
-                                    Empresa de ropa 100 % mexicana
-                                </p>
-                                {% if g.user %}
-                                {% if g.user.idRol == 1%}
-                                <a href="{{ url_for('cliente.CLIENTE_PRODUCTOS.listado_productos') }}"
-                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
-                                    catalogos</a>
+                <div class="carousel-item active">
+                    <div class="carousel-background"><img
+                            src="https://www.ipp.edu.pe/blog/wp-content/uploads/2020/02/historia-diseno-de-moda.jpg"
+                            alt=""></div>
+                    <div class="carousel-container">
+                        <div class="carousel-content">
+                            <h2 class="animate__animated animate__fadeInDown">Renegade</h2>
+                            <p class="animate__animated animate__fadeInUp">
+                                Empresa de ropa 100 % mexicana
+                            </p>
+                            {% if g.user %}
+                                {% if g.user.idRol == 1 %}
+                                    <a href="{{ url_for('cliente.CLIENTE_PRODUCTOS.listado_productos') }}"
+                                       class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
+                                        catalogos</a>
                                 {% endif %}
-                                {% if g.user.idRol == 2%}
-                                <a href="{{ url_for('administrativo.producto.productos') }}"
-                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
-                                    catalogos Administrador</a>
+                                {% if g.user.idRol == 2 %}
+                                    <a href="{{ url_for('administrativo.producto.productos') }}"
+                                       class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
+                                        catalogos Administrador</a>
                                 {% endif %}
-                                {% if g.user.idRol == 3%}
-                                <a href="{{ url_for('administrativo.consultar_ventas_get') }}"
-                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
-                                    catalogos Administrativo</a>
+                                {% if g.user.idRol == 3 %}
+                                    <a href="{{ url_for('administrativo.consultar_ventas_get') }}"
+                                       class="btn-get-started animate__animated animate__fadeInUp scrollto">Consulta los
+                                        catalogos Administrativo</a>
                                 {% endif %}
-                                {% else %}
+                            {% else %}
                                 <a href="{{ url_for('auth.login_get') }}"
-                                    class="btn-get-started animate__animated animate__fadeInUp scrollto">Iniciar
+                                   class="btn-get-started animate__animated animate__fadeInUp scrollto">Iniciar
                                     sesión</a>
-                                {% endif %}
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</section>
+
+<main id="main">
+
+
+    <section id="portfolio" class="portfolio section-bg">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Revisa algunos de nuestros productos...</h2>
+            </div>
+
+            <div class="row portfolio-container">
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                    <div class="portfolio-wrap">
+                        <img src="https://cdn.fashiola.mx/L970433/hombre-playeras-zara-camiseta-numbers-collection.jpg"
+                             class="img-fluid shadow" alt="">
+                        <div class="portfolio-info">
+                            <h4>Consulta nuestro catálogo</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                    <div class="portfolio-wrap">
+                        <img src="https://cdn.fashiola.mx/L4945734/mujer-playeras-zara-camiseta-estampado-floral-disponible-en-mas-colores.jpg"
+                             class="img-fluid shadow" alt="">
+                        <div class="portfolio-info">
+                            <h4>Consulta nuestro catálogo</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                    <div class="portfolio-wrap">
+                        <img src="https://cdn.fashiola.mx/L540018214/zara-mujer-playeras-camiseta-basica.jpg"
+                             class="img-fluid shadow" alt="">
+                        <div class="portfolio-info">
+                            <h4>Consulta nuestro catálogo</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </section>
 
-    <main id="main">
+    <section id="hero">
+        <div class="hero-container">
+            <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"
+                 data-bs-interval="5000">
 
+                <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+                <div class="carousel-inner" role="listbox">
 
-        <section id="portfolio" class="portfolio section-bg">
-            <div class="container">
+                    <div class="carousel-item active">
 
-                <div class="section-title">
-                    <h2>Revisa algunos de nuestros productos...</h2>
-                </div>
+                        <div class="carousel-container">
+                            <div class="container">
 
-                <div class="row portfolio-container">
+                                <div class="section-title">
+                                    <h2>Somos Renegade</h2>
+                                </div>
 
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                        <div class="portfolio-wrap">
-                            <img src="https://cdn.fashiola.mx/L970433/hombre-playeras-zara-camiseta-numbers-collection.jpg"
-                                class="img-fluid shadow" alt="">
-                            <div class="portfolio-info">
-                                <h4>Consulta nuestro catálogo</h4>
-                            </div>
-                        </div>
-                    </div>
+                                <div class="row portfolio-container">
 
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                        <div class="portfolio-wrap">
-                            <img src="https://cdn.fashiola.mx/L4945734/mujer-playeras-zara-camiseta-estampado-floral-disponible-en-mas-colores.jpg"
-                                class="img-fluid shadow" alt="">
-                            <div class="portfolio-info">
-                                <h4>Consulta nuestro catálogo</h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                        <div class="portfolio-wrap">
-                            <img src="https://cdn.fashiola.mx/L540018214/zara-mujer-playeras-camiseta-basica.jpg"
-                                class="img-fluid shadow" alt="">
-                            <div class="portfolio-info">
-                                <h4>Consulta nuestro catálogo</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="hero">
-            <div class="hero-container">
-                <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"
-                    data-bs-interval="5000">
-
-                    <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
-                    <div class="carousel-inner" role="listbox">
-
-                        <div class="carousel-item active">
-
-                            <div class="carousel-container">
-                                <div class="container">
-
-                                    <div class="section-title">
-                                        <h2>Somos Renegade</h2>
+                                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                                        <div class=" shadow ">
+                                            <div class="card-title text-center text-light">
+                                                <strong> Mision</strong>
+                                            </div>
+                                            <div class="card-body text-light text-justify">
+                                                Garantizar a nuestro clientes productos que reflejen su misma pasión
+                                                por
+                                                la moda.
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="row portfolio-container">
-
-                                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                                            <div class=" shadow ">
-                                                <div class="card-title text-center text-light">
-                                                    <strong> Mision</strong>
-                                                </div>
-                                                <div class="card-body text-light text-justify">
-                                                    Garantizar a nuestro clientes productos que reflejen su misma pasión
-                                                    por
-                                                    la moda.
-                                                </div>
+                                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                                        <div class="shadow">
+                                            <div class="card-title text-light text-center">
+                                                <strong> Vision</strong>
+                                            </div>
+                                            <div class="card-body text-light text-justify">
+                                                Ser una empresa líder en México en la confección, comercialización y
+                                                distribución de prendas de vestir.
                                             </div>
                                         </div>
-
-                                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                                            <div class="shadow">
-                                                <div class="card-title text-light text-center">
-                                                    <strong> Vision</strong>
-                                                </div>
-                                                <div class="card-body text-light text-justify">
-                                                    Ser una empresa líder en México en la confección, comercialización y
-                                                    distribución de prendas de vestir.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                                            <div class="shadow">
-                                                <div class="card-title text-light text-center">
-                                                    <strong> Valores </strong>
-                                                </div>
-                                                <div class="card-body text-light text-justify">
-                                                    Honestidad e integridad Pasión y Entusiasmo Compromiso
-                                                    Profesionalismo
-                                                    Trabajo en Equipo Servicio y Satisfacción
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
+                                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                                        <div class="shadow">
+                                            <div class="card-title text-light text-center">
+                                                <strong> Valores </strong>
+                                            </div>
+                                            <div class="card-body text-light text-justify">
+                                                Honestidad e integridad Pasión y Entusiasmo Compromiso
+                                                Profesionalismo
+                                                Trabajo en Equipo Servicio y Satisfacción
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-        </section>
-    </main>
+            </div>
+    </section>
+</main>
 </body>
 
 </html>

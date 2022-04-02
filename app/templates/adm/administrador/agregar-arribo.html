@@ -6,7 +6,7 @@
 
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">
-    Nueva Orden de Compra
+    Registro de entrada de insumos
 </h1>
 <!-- Form Card -->
 <div class="card shadow mb-4">
@@ -15,7 +15,7 @@
             Compra
             <div class="float-right">
                 <button id="btnAgregar" type="submit" form="form-compra" value="add" formmethod="post"
-                    formaction="/guardarCompra" class="btn btn-primary btn-icon-split">
+                    formaction="/guardarArribo" class="btn btn-primary btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus-circle"></i>
                     </span>
@@ -25,23 +25,23 @@
         </h6>
     </div>
     <div class="card-body">
-        <form id="form-compra" method="post" action="/guardarCompra">
+        <form id="form-compra" method="post" action="/guardarArribo">
             <!-- Folio -->
             <div class="form-group form-row">
                 <label class="col-md-auto col-form-label" for="folio"><strong>Folio: </strong> {{folio}}</label>
                 <div class="col-4">
-                    
-                    <input hidden value="{{folio}}" type="text" placeholder="folio"
-                        class="form-control" name="folio" id="folio" />
+
+                    <input hidden value="{{folio}}" type="text" placeholder="folio" class="form-control" name="folio"
+                        id="folio" />
                 </div>
             </div>
 
-            <!-- Fecha --> 
+            <!-- Fecha -->
             <div class="form-group form-row">
                 <label class="col-md-auto  col-form-label" for="fecha"><strong>Fecha: </strong>{{fecha}}</label>
                 <div class="col-4">
-                    <input hidden value="{{fecha}}" type="date" placeholder="fecha"
-                        class="form-control" name="fecha" id="fecha" />
+                    <input hidden value="{{fecha}}" type="date" placeholder="fecha" class="form-control" name="fecha"
+                        id="fecha" />
                 </div>
             </div>
             <div class="form-group form-row">
@@ -57,7 +57,45 @@
                 </div>
             </div>
         </form>
-        <form id="form-insumo" method="POST" action="/cargar-agregar-compra">
+        <form id="form-compras" method="POST" action="/cargar-materias-compra">
+            <table style="text-align: center;">
+                <label class="col-1 col-form-label" for="proveedores"><strong>Orden</strong></label>
+                <tr>
+                    <th>
+                        <div class="form-group form-row">
+                            <div class="col-md-auto">
+                                <select class="custom-select" name="compras" id="compras">
+                                    {%if compras%}
+                                    {%for compra in compras%}
+                                    <option value="{{compra[0]}}">{{compra[1]}}</option>
+                                    {%endfor%}
+                                    {%endif%}
+                                </select>
+                            </div>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="form-group form-row">
+                            <div class="col-md-auto">
+                                <button id="btnConsultar" form="form-compras" type="submit" value="add"
+                                    class="btn btn-success btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span class="text">Consultar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </table>
+        </form>
+
+
+
+
+
+        <form id="form-insumo" method="POST" action="/cargar-agregar-arribo">
             <table style="text-align: center;">
                 <tr>
                     <th>
@@ -67,7 +105,7 @@
                         Cantidad
                     </th>
                     <th>
-
+                        Costo
                     </th>
                 </tr>
                 <tr>
@@ -75,9 +113,9 @@
                         <div class="form-group form-row">
                             <div class="col-md-auto">
                                 <select class="custom-select" name="materias" id="materias">
-                                    {%if materias%}
-                                    {%for materia in materias%}
-                                    <option value="{{materia[0]}}">{{materia[1]}} {{materia[3]}} {{materia[4]}}</option>
+                                    {%if materia%}
+                                    {%for materia in materia%}
+                                    <option value="{{materia['id']}}">{{materia['materia']}} {{materia['cantidad']}} {{materia['unidad']}}</option>
                                     {%endfor%}
                                     {%endif%}
                                 </select>
@@ -89,6 +127,14 @@
                             <div class="col-md-auto">
                                 <input type="number" min="1" placeholder="0" class="form-control" name="cantidad"
                                     id="cantidad" />
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group form-row">
+                            <div class="col-md-auto">
+                                <input type="number" min="1" placeholder="0" class="form-control" name="costo"
+                                    id="costo" />
                             </div>
                         </div>
                     </td>
@@ -120,23 +166,20 @@
                 </th>
                 <th>
                     Costo
-                </th>
+                </th>                 
             </tr>
-            
+
 
             {%for i in range(mateSelect|length) %}
-                
+
             <tr>
                 <td>{{mateSelect[i]['insumo']}} {{mateSelect[i]['cant']}} {{mateSelect[i]['unidad']}}</td>
                 <td>{{mateSelect[i]['cantidad']}}</td>
                 <td>{{mateSelect[i]['costo']}}</td>
-                
-
                 <td>
-                    <form method="post" action="/quitar-materia" >
+                    <form method="post" action="/quitar-materia-arribo">
                         <input type="hidden" value="{{i}}" name="iterador" id="iterador">
-                        <button id="btnQuitar" type="submit"
-                        class="btn btn-danger btn-icon-split">
+                        <button id="btnQuitar" type="submit" class="btn btn-danger btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-minus-circle"></i>
                             </span>
@@ -155,4 +198,3 @@
 
 
 {% endblock content %}
-

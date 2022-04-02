@@ -10,6 +10,10 @@ mateSelect={}
 mateSelect['insumos']=[]
 materiaSel={}
 materiaSel['insumos']=[]
+
+materiaOrden={}
+materiaOrden['materia']=[]
+
 @Productos.before_request
 def before_request_administrador():
     if 'id' in session:
@@ -178,6 +182,7 @@ def cargar_agregar_arribo():
         queries = Compras()
         insumo = request.form.get('materias')
         cantidad = request.form.get('cantidad')
+        costo = request.form.get('costo')
         materia = queries.consultar_materia_id(insumo)
         mateSelect['insumos'].append({
             'id': insumo,
@@ -185,34 +190,64 @@ def cargar_agregar_arribo():
             'cant': materia[3],
             'unidad': materia[4],
             'cantidad': cantidad,
-            'costo': materia[5]
+            'costo': costo
         })
 
         folio = queries.asignarFolio()
         fecha = date.today()
         proveedores = queries.consultar_proveedor_select()
-        materias = queries.consultar_materia_select()
-        return render_template('adm/administrador/agregar-compra.html',  folio=folio, fecha=fecha,
-                               materias=materias, mateSelect=mateSelect['insumos'], proveedores=proveedores)
+        materias = materiaOrden['materia']
+        print(materias)
+        compra = queries.consultar_compras()
+        return render_template('adm/administrador/agregar-arribo.html',  folio=folio, fecha=fecha, materia=materias,
+                                mateSelect=mateSelect['insumos'], proveedores=proveedores,
+                               compras=compra)
     
     else:
         queries = Compras()
         folio = queries.asignarFolio()
         fecha = date.today()
-
-        materias = queries.consultar_materia_select()
+        materias = materiaOrden['materia']
+        print(materias)
         proveedores = queries.consultar_proveedor_select()
-        return render_template('adm/administrador/agregar-compra.html', folio=folio,
-                               fecha=fecha, materias=materias, mateSelect=mateSelect['insumos'], proveedores=proveedores)
+        compra = queries.consultar_compras_nosurtidas()
+        return render_template('adm/administrador/agregar-arribo.html', folio=folio,
+                               fecha=fecha, materia=materias, mateSelect=mateSelect['insumos'], proveedores=proveedores,
+                               compras=compra)
+
+
+@Productos.route('/cargar-materias-compra', methods=['POST'])
+def cargar_materias_compra():
+    querie=Compras()
+    id=request.form.get('compras')
+    aux=querie.consultar_materias_orden(id)    
+    
+    for i in aux:
+        materiaOrden['materia'].append(
+            {
+                'id':i[0],
+                'materia':i[1],
+                'cantidad':i[3],
+                'unidad':i[6],
+                'idOrdenCompra':i[7]
+            }
+        )          
+    return redirect(url_for('productos.cargar_agregar_arribo'))
 
 
 @Productos.route('/quitar-materia', methods=['POST'])
 def quitar_materia():
     id = int(request.form.get('iterador'))
 
-    mateSelect['insumos'].pop(id)
+    materiaSel['insumos'].pop(id)
     return redirect(url_for('productos.cargar_agregar_compra'))
 
+
+@Productos.route('/quitar-materia-arribo', methods=['POST'])
+def quitar_materia_arribo():
+    id = int(request.form.get('iterador'))
+    mateSelect['insumos'].pop(id)
+    return redirect(url_for('productos.cargar_agregar_arribo'))
         
 @Productos.route('/guardarArribo', methods=['POST'])
 def guardar_arribo():
@@ -220,12 +255,16 @@ def guardar_arribo():
     folio = request.form.get('folio')
     fecha = request.form.get('fecha')
     proveedor = request.form.get('proveedores')
+    idOrdenCompra=materiaOrden['materia'][0]['idOrdenCompra']
     listaMaterias = mateSelect['insumos']
+    
     try:
-        print (folio, fecha)
-        compra.insertar_compra(folio=folio, fecha=fecha, proveedor=proveedor, listaMaterias=listaMaterias)
-        mateSelect['insumos']=[]
+        print (folio, fecha, idOrdenCompra)
+        print(listaMaterias)
+        compra.insertar_arribo(folio,fecha, idOrdenCompra, proveedor, listaMaterias)
+        compra.actualizarEstatusCompra(idOrdenCompra)
         return redirect(url_for('productos.getCompras'))
+    
     except Exception as e:
         raise e
     
