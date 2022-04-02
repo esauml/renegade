@@ -263,6 +263,17 @@ SELECT carrito.id as idCarrito, carrito.status, idUsuario, p.cantidad, p.precio,
                     INNER JOIN renegade.producto p2 on p.idProducto = p2.id
                     WHERE carrito.status = 0);
 
+drop view if exists vista_estructura_materia;
+
+create view vista_estructura_materia as
+    select e.id,
+           e.descripcion,
+           m.nombre                          as nombreMateriaPrima,
+           concat(e.cantidad, ' ', m.unidad) as cantidad,
+           e.idProducto
+    from estructura e
+             join materiaprima m on e.idMateriaPrima = m.id;
+
 -- INSERCION DATOS--
 
 USE renegade;
@@ -480,6 +491,10 @@ GRANT SELECT, INSERT, UPDATE ON renegade.proveedor TO "administrativo"@"localhos
 GRANT SELECT, INSERT, UPDATE ON renegade.carrito TO "administrativo"@"localhost";
 -- GRANT SELECT ON renegade.vista_estructura_materia TO "administrativo"@"localhost"; --
 GRANT SELECT ON renegade.vista_detalle_carrito TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.venta TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.arriboinsumos TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.arribomateria TO 'administrativo'@'localhost';
+GRANT SELECT ON renegade.venta TO "administrativo"@"localhost";
 
 -- ADMINISTRADOR
 DROP USER IF EXISTS 'administrador'@'localhost';
@@ -505,7 +520,8 @@ GRANT SELECT ON renegade.vista_lista_materias_compradas TO 'administrador'@'loca
 GRANT SELECT ON renegade.vista_compras_nosurtidas TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_materias_nosurtidas TO 'administrador'@'localhost';
 GRANT SELECT ON renegade.vista_detalle_carrito TO 'administrador'@'localhost';
-
+GRANT SELECT ON renegade.arriboinsumos TO 'administrador'@'localhost';
+GRANT SELECT ON renegade.arribomateria TO 'administrador'@'localhost';
 FLUSH PRIVILEGES;
 
 SHOW GRANTS FOR "administrador"@"localhost";

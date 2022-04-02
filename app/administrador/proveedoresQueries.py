@@ -62,11 +62,12 @@ class ProveedoresQueries():
 
     def consultar_materiasprimas_por_proveedor_id(self, id):
         try:
-            query = 'SELECT m.nombre, m.descripcion, c2.cantidad, c2.costo FROM proveedor p \
-                        INNER JOIN compra c on p.id = c.idProveedor \
-                        INNER JOIN comprastockmateria c2 on c.id = c2.idOrdenCompra \
-                        INNER JOIN materiaprima m on c2.idMateriaPrima = m.id \
-                        WHERE p.id = %s'
+            query = 'SELECT m.nombre, m.descripcion, a2.cantidad, a2.costo \
+                    FROM proveedor p \
+                    INNER JOIN arriboinsumos a on p.id = a.idProveedor \
+                    INNER JOIN arribomateria a2 on a.id = a2.idArriboInsumos \
+                    INNER JOIN materiaprima m on a2.idMateriaPrima = m.id \
+                    WHERE p.id = %s'
 
             conexion = obtener_conexion(USUARIO_ADMIN)
             materiasprimas = []
