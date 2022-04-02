@@ -79,6 +79,7 @@ def signup_post():
         return redirect(url_for('auth.signup_get'))
 
     model.registro_usuario(nombre, apellidos, email, password)
+    model.crear_nuevo_carrito(email)
     flash('Se registró correctamente al usario.')
     return redirect(url_for('auth.login_get'))
 

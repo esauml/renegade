@@ -1,5 +1,5 @@
 from ..bd import obtener_conexion
-from ..config import USUARIO_ADMIN
+from ..config import USUARIO_ADMIN, USUARIO_CLIENTE
 from werkzeug.security import generate_password_hash
 
 
@@ -52,5 +52,19 @@ class UsuarioQueries():
                 return Usuario(consulta[0], consulta[1], consulta[2], consulta[3], consulta[4], consulta[5], consulta[6])
 
             return None
+        except Exception as ex:
+            raise Exception(ex)
+    
+    def crear_nuevo_carrito(self, email):
+        try:
+            usuario = self.consultar_por_email(email)
+            query = 'INSERT INTO carrito(status, idUsuario) VALUES (1, %s);'
+            conexion = obtener_conexion(USUARIO_CLIENTE)
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (usuario.id))
+
+            conexion.commit()
+            cursor.close()
         except Exception as ex:
             raise Exception(ex)

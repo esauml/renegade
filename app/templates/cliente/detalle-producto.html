@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-md">
-        <img src={{ producto[6] }} class="p-3 m-2" width="600" alt="image"/>
+        <img src={{ producto[8] }} class="p-3 m-2" width="600" alt="image"/>
     </div>
     <div class="col-md-6">
         <div class="form-group p-3 m-2">
@@ -17,7 +17,7 @@
             <p>Precio : {{ producto[3] }}</p>
             <p>Talla : {{ producto[4] }}</p>
 
-            <p>Stock Disponible : {{ producto[5] }}</p>
+            <p>Stock Disponible : {{ producto[7] }}</p>
             <hr/>
             <h3 class="mt-2">Agregar a Carrito</h3>
 
@@ -30,11 +30,11 @@
                         <span class="input-group-text">0</span>
                     </div>
                     <input name="cantidad"
-                        min="0" max={{ producto[5] }} step="1"
+                        min="0" max={{ producto[7] }} step="1"
                         type="number" class="form-control" id="cantidad" placeholder="1" value="1">
 
                     <div class="input-group-append">
-                        <span class="input-group-text">{{ producto[5] }}</span>
+                        <span class="input-group-text">{{ producto[7] }}</span>
                     </div>
                 </div>
 
