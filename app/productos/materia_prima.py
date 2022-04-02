@@ -5,7 +5,7 @@ class MateriaPrima():
 
     def consultar_materias_primas(self):
         try:
-            query = 'SELECT * FROM vista_stock_materia;'
+            query = 'SELECT * FROM vista_materia_lista;'
             conexion = obtener_conexion(USUARIO_ADMIN)
             materiasprimas = []
 
@@ -20,7 +20,7 @@ class MateriaPrima():
 
     def consultar_materia_prima_id(self, id):
         try:
-            query = 'SELECT * FROM vista_stock_materia WHERE id=%s;'
+            query = 'SELECT * FROM vista_materia_lista WHERE id=%s;'
             conexion = obtener_conexion(USUARIO_ADMIN)
             materia = None
 
@@ -33,6 +33,21 @@ class MateriaPrima():
         except Exception as ex:
             raise Exception(ex)
 
+    def consultar_listamaterias_prima_id(self, id):
+        try:
+            query = 'SELECT * FROM vista_materia_lista_id WHERE id=%s;'
+            conexion = obtener_conexion(USUARIO_ADMIN)
+            materia = None
+
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (id,))
+                materia = cursor.fetchall()
+
+            cursor.close()
+            return materia
+        except Exception as ex:
+            raise Exception(ex)
+        
     def actualizar_materia(self, nombre, descripcion, id):
         try:
             query = 'UPDATE MateriaPrima SET nombre = %s, descripcion = %s WHERE id = %s;'

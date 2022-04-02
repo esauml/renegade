@@ -48,8 +48,9 @@ def consultar_producto_get(id):
     # consulta
     try:
         materia = queries.consultar_materia_prima_id(materia_id)
+        stock=queries.consultar_listamaterias_prima_id(materia_id)        
 
-        return render_template('adm/administrador/detalle-materia.html', materia=materia)
+        return render_template('adm/administrador/detalle-materia.html', materia=materia, stock=stock)
     except Exception as e:
         raise e
 
