@@ -1,7 +1,9 @@
 from ..bd import obtener_conexion
 import uuid
+
+
 class Compras():
-    
+
     def consultar_compras(self, tipo_usuario):
         try:
             query = 'SELECT * FROM vista_compras_surtidas;'
@@ -16,7 +18,7 @@ class Compras():
             return materiasprimas
         except Exception as ex:
             raise Exception(ex)
-    
+
     def consultar_compras_nosurtidas(self, tipo_usuario):
         try:
             query = 'SELECT * FROM vista_compras_nosurtidas;'
@@ -31,7 +33,7 @@ class Compras():
             return materiasprimas
         except Exception as ex:
             raise Exception(ex)
-        
+
     def consultar_compra_id(self, tipo_usuario, id):
         try:
             query = 'SELECT * FROM vista_compras_surtidas WHERE idOrdenCompra=%s;'
@@ -46,7 +48,7 @@ class Compras():
             return materia
         except Exception as ex:
             raise Exception(ex)
-    
+
     def consultar_compranosurtida_id(self, tipo_usuario, id):
         try:
             query = 'SELECT * FROM vista_compras_nosurtidas WHERE id=%s;'
@@ -61,7 +63,7 @@ class Compras():
             return materia
         except Exception as ex:
             raise Exception(ex)
-    
+
     def consultar_materias_compra(self, tipo_usuario, id):
         try:
             query = 'SELECT * FROM vista_lista_materias_compradas WHERE idOrdenCompra=%s;'
@@ -69,14 +71,14 @@ class Compras():
             materiasprimas = []
 
             with conexion.cursor() as cursor:
-                cursor.execute(query,(id,))
+                cursor.execute(query, (id,))
                 materiasprimas = cursor.fetchall()
 
             cursor.close()
             return materiasprimas
         except Exception as ex:
             raise Exception(ex)
-    
+
     def consultar_materias_compranosurtidas(self, tipo_usuario, id):
         try:
             query = 'SELECT * FROM vista_materias_nosurtidas WHERE id=%s;'
@@ -84,14 +86,14 @@ class Compras():
             materiasprimas = []
 
             with conexion.cursor() as cursor:
-                cursor.execute(query,(id,))
+                cursor.execute(query, (id,))
                 materiasprimas = cursor.fetchall()
 
             cursor.close()
             return materiasprimas
         except Exception as ex:
             raise Exception(ex)
-    
+
     def consultar_materia_select(self, tipo_usuario):
         try:
             query = 'SELECT * FROM MateriaPrima;'
@@ -106,7 +108,7 @@ class Compras():
             return materiasprimas
         except Exception as ex:
             raise Exception(ex)
-    
+
     def consultar_proveedor_select(self, tipo_usuario):
         try:
             query = 'SELECT * FROM Proveedor;'
@@ -121,12 +123,10 @@ class Compras():
             return materiasprimas
         except Exception as ex:
             raise Exception(ex)
-        
+
     def consultar_materia_id(self, tipo_usuario, id):
         try:
-            query = 'SELECT m.*, com.costo FROM MateriaPrima  as m inner join \
-                CompraStockMateria as com on m.id=com.idMateriaPrima\
-                WHERE id=%s;'
+            query = 'SELECT * FROM MateriaPrima WHERE id=%s;'
             conexion = obtener_conexion(tipo_usuario)
             materia = None
 
@@ -138,78 +138,102 @@ class Compras():
             return materia
         except Exception as ex:
             raise Exception(ex)
-    
-    
+
     def asignarFolio(self, tipo_usuario):
         folio = str(uuid.uuid4())
-        return folio;
-    
+        return folio
+
     def insertarCompraStockMateria(tipo_usuario, idOrdenCompra, materia):
-        try:            
+        try:
             query = 'INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad, costo) \
                     values (%s,%s,%s,%s);'
             conexion = obtener_conexion(tipo_usuario)
-            
+
             with conexion.cursor() as cursor:
-                cursor.execute(query, (idOrdenCompra,materia['id'], materia['cantidad'], materia['costo']))
-            
+                cursor.execute(
+                    query, (idOrdenCompra, materia['id'], materia['cantidad'], materia['costo']))
+
             conexion.commit()
             cursor.close()
         except Exception as ex:
             raise Exception(ex)
         return
-    
+
     def insertarStockMateria(tipo_usuario, idOrdenCompra, idMateriaPrima, cantidad):
-        try:            
+        try:
             query = 'INSERT INTO StockMateria (cantidad, idMateriaPrima, idOrdenCompra) \
                     values (%s,%s,%s);'
             conexion = obtener_conexion(tipo_usuario)
-            
+
             with conexion.cursor() as cursor:
-                cursor.execute(query, (idOrdenCompra, idMateriaPrima, cantidad))
-            
+                cursor.execute(
+                    query, (idOrdenCompra, idMateriaPrima, cantidad))
+
             conexion.commit()
             cursor.close()
         except Exception as ex:
             raise Exception(ex)
         return
-        
-    
-    def insertar_compra(self, tipo_usuario,folio, fecha, proveedor, listaMaterias):
-        try:            
+
+    def insertar_compra(self, tipo_usuario, folio, fecha, listaMaterias):
+        try:
+            query = 'INSERT INTO Compra (folio, fechaCompra) \
+                    values (%s,%s);'
+            query2 = 'INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad) \
+                    values (%s,%s,%s);'
+            conexion = obtener_conexion(tipo_usuario)
+            with conexion.cursor() as cursor:
+                cursor.execute(query, (folio, fecha))
+            valCompraStockMateria = []
+            idOrdenCompra = conexion.insert_id()
+            for materia in listaMaterias:
+                print(materia)
+                
+                list1 = (idOrdenCompra, int(materia['id']), int(materia['cantidad']))
+                valCompraStockMateria.append(list1)
+                
+            with conexion.cursor() as cursor2:
+                cursor2.executemany(query2, valCompraStockMateria)
+            conexion.commit()
+
+            cursor.close()
+            cursor2.close()
+        except Exception as ex:
+            raise Exception(ex)
+
+        return
+
+    def insertar_arribo(self, tipo_usuario, folio, fecha, proveedor, listaMaterias):
+        try:
             query = 'INSERT INTO Compra (folio, idProveedor, fechaCompra) \
                     values (%s,%s,%s);'
-                    
+
             query2 = 'INSERT INTO CompraStockMateria (idOrdenCompra, idMateriaPrima, Cantidad, costo) \
                     values (%s,%s,%s,%s);'
-                    
+
             query3 = 'INSERT INTO StockMateriaPrima (cantidad, idMateriaPrima, idOrdenCompra) \
                     values (%s,%s,%s);'
-            
-            conexion = obtener_conexion(tipo_usuario)            
-        
-            
+
+            conexion = obtener_conexion(tipo_usuario)
+
             with conexion.cursor() as cursor:
                 cursor.execute(query, (folio, proveedor, fecha))
-            valCompraStockMateria=[]    
-            valStockMateria=[]
+            valCompraStockMateria = []
+            valStockMateria = []
             idOrdenCompra = conexion.insert_id()
-            
-            
+
             for materia in listaMaterias:
-                print (materia)
-                list1=(idOrdenCompra, int(materia['id']), int(materia['cantidad']), materia['costo'])
+                print(materia)
+                list1 = (idOrdenCompra, int(materia['id']), int(
+                    materia['cantidad']), materia['costo'])
                 valCompraStockMateria.append(list1)
-                print("aqui estan los val de compraStockMateria .  . . . . .. . . . ")
-                print("aqui estan los val de compraStockMateria .  . . . . .. . . . ")
-                print("aqui estan los val de compraStockMateria .  . . . . .. . . . ")
-                print("aqui estan los val de compraStockMateria .  . . . . .. . . . ")
-                print("aqui estan los val de compraStockMateria .  . . . . .. . . . ")
-                print(valCompraStockMateria)
                 
+                print(valCompraStockMateria)
+
                 for i in range(int(materia['cantidad'])):
-                    
-                    list2=(int(materia['cant']), int(materia['id']), idOrdenCompra)
+
+                    list2 = (int(materia['cant']), int(
+                        materia['id']), idOrdenCompra)
                     print("aqui estan los val de StockMateria .  . . . . .. . . . ")
                     print("aqui estan los val de StockMateria .  . . . . .. . . . ")
                     print("aqui estan los val de StockMateria .  . . . . .. . . . ")
@@ -217,18 +241,16 @@ class Compras():
                     print("aqui estan los val de StockMateria .  . . . . .. . . . ")
                     valStockMateria.append(list2)
                     print(valStockMateria)
-            
+
             with conexion.cursor() as cursor2:
-                cursor2.executemany(query2,valCompraStockMateria)
-                
+                cursor2.executemany(query2, valCompraStockMateria)
+
             with conexion.cursor() as cursor3:
                 cursor3.executemany(query3, valStockMateria)
             conexion.commit()
-            
-            
+
             cursor.close()
-            
+
         except Exception as ex:
             raise Exception(ex)
         return
-    
