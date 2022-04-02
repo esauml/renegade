@@ -157,3 +157,18 @@ class QueriesCarrito():
             cursor.close()
         except Exception as ex:
             raise Exception(ex)
+    
+    def eliminar_producto_de_carrito(self, USER_TYPE, id_carrito, id_producto):
+        try:
+            query = 'DELETE FROM ProductoCarrito \
+                WHERE idCarrito=%s and idProducto=%s;'
+            conexion = obtener_conexion(USER_TYPE)
+
+            with conexion.cursor() as cursor:
+                cursor.execute(
+                    query, (id_carrito, id_producto))
+
+            conexion.commit()
+            cursor.close()
+        except Exception as ex:
+            raise Exception(ex)
